@@ -1,0 +1,162 @@
+/* Reset & Fonts */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f6fa;
+  color: #333;
+}
+
+/* AUTH CONTAINER */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  perspective: 1000px;
+}
+
+.auth-card {
+  width: 360px;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* Flip the card */
+.auth-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.auth-face {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.auth-back {
+  transform: rotateY(180deg);
+}
+
+/* Inputs */
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+input:focus {
+  border-color: #0077ff;
+}
+
+/* Password toggle */
+.password-box {
+  position: relative;
+}
+
+.password-box .toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+/* Buttons */
+.auth-btn {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #0077ff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-btn:hover {
+  background: #005fcc;
+}
+
+/* Links */
+.auth-links, .switch {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.switch span {
+  color: #0077ff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+.footer-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-box h3, .footer-box h4 {
+  margin-bottom: 1rem;
+}
+
+.footer-box ul {
+  list-style: none;
+}
+
+.footer-box ul li {
+  margin: 0.5rem 0;
+}
+
+.footer-box a {
+  color: #0077ff;
+  text-decoration: none;
+}
+
+.footer-box a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-wrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .auth-card {
+    width: 90%;
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre Placement Portal</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+
+    
+
+<div class="sidebar">
+  <h3>Modules</h3>
+  <a>Aptitude</a>
+  <a>DSA</a>
+  <a>Development</a>
+  <a>Mock Interview</a>
+  <a>GD / CD</a>
+  <a>Projects</a>
+</div>
+
+<div class="content">
+  <h2>Welcome to PrePlacement AI</h2>
+
+  <div class="cards">
+    <div class="card">📊 Aptitude Practice</div>
+    <div class="card">💻 DSA Roadmap</div>
+    <div class="card">🌐 Development Path</div>
+    <div class="card">🎤 Mock Interviews</div>
+    <div class="card">🗣 GD / CD Topics</div>
+  </div>
+</div>
+
+<!-- Chatbot -->
+<button id="chatToggle">💬</button>
+<div id="chatbot">
+  <div class="chat-header">AI Guide <span onclick="toggleChat()">✖</span></div>
+  <div id="chat-body"></div>
+  <input id="chat-input" placeholder="Ask me...">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="js/chatbot.js"></script>
+</body>
+</html>

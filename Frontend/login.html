@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | AIPlacement</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet"> 
+
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+
+  
+
+<div class="auth-container">
+  <div class="auth-card" id="authCard">
+
+    <!-- LOGIN -->
+    <div class="auth-face auth-front">
+      <h2>Welcome Back 👋</h2>
+      <p class="sub">Login to continue your preparation</p>
+
+      <input type="text" placeholder="Username or Email" />
+
+      <div class="password-box">
+        <input type="password" id="loginPwd" placeholder="Password" />
+        <span onclick="togglePassword('loginPwd')">👁️</span>
+      </div>
+
+      <div class="auth-links">
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button class="auth-btn">Login</button>
+
+      <p class="switch">
+        New here? <span onclick="toggleCard()">Create account</span>
+      </p>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-face auth-back">
+      <h2>Create Account 🚀</h2>
+      <p class="sub">Start your placement journey</p>
+
+      <input type="text" placeholder="Username" />
+      <input type="email" placeholder="Email" />
+
+      <div class="password-box">
+        <input type="password" id="regPwd" placeholder="Password" />
+        <span onclick="togglePassword('regPwd')">👁️</span>
+      </div>
+
+      <button class="auth-btn">Register</button>
+
+      <p class="switch">
+        Already have an account? <span onclick="toggleCard()">Login</span>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleCard() {
+    document.getElementById("authCard").classList.toggle("flipped");
+  }
+
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+
+    
+  }
+</script>
+
+<!-- FOOTER DIV -->
+<div class="footer">
+
+  <div class="footer-wrapper">
+
+    <!-- Column 1 -->
+    <div class="footer-box">
+      <h3>AIPlacement</h3>
+      <p>
+        Placement Preparation Portal that helps engineering students
+        prepare aptitude, technical MCQs, and interview skills
+        from a single platform.
+      </p>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="footer-box">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="aptitude.html">Aptitude</a></li>
+        <li><a href="technical.html">Technical MCQs</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="footer-box">
+      <h4>Contact</h4>
+      <p>Email:</p>
+      <a href="mailto:support@aiplacement.com">
+        support@aiplacement.com
+      </a>
+      <p class="note">For academic & learning use</p>
+    </div>
+
+    <!-- Column 4 -->
+    <div class="footer-box">
+      <h4>Project Links</h4>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Line -->
+  <div class="footer-bottom">
+    © 2026 Placement Preparation Portal. All rights reserved.
+  </div>
+
+</div>
