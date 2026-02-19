@@ -1,162 +1,123 @@
-/* Reset & Fonts */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pre Placement Portal</title>
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f5f6fa;
-  color: #333;
-}
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-/* AUTH CONTAINER */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  perspective: 1000px;
-}
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    
 
-.auth-card {
-  width: 360px;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-}
+<!-- LANDING PAGE -->
+<section class="landing" id="landing">
 
-/* Flip the card */
-.auth-card.flipped {
-  transform: rotateY(180deg);
-}
+    <nav>
+        <h1><span>AI</span>Placement</h1>
 
-.auth-face {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  backface-visibility: hidden;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
+        <div class="nav-links">
+    <a href="#modules">Modules</a>
+    <a href="#articles">Articles</a>
+    <a href="#success">Success</a>
+    <a href="login.html" class="nav-btn">Login / Register</a>
+  </div>
 
-.auth-back {
-  transform: rotateY(180deg);
-}
 
-/* Inputs */
-input[type="text"], input[type="email"], input[type="password"] {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  font-size: 1rem;
-  transition: border 0.3s;
-}
+<button onclick="window.location.href='login.html'">
 
-input:focus {
-  border-color: #0077ff;
-}
+  Login / Register
+</button>
 
-/* Password toggle */
-.password-box {
-  position: relative;
-}
 
-.password-box .toggle-eye {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 1.1rem;
-}
 
-/* Buttons */
-.auth-btn {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  border: none;
-  border-radius: 8px;
-  background: #0077ff;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+    </nav>
 
-.auth-btn:hover {
-  background: #005fcc;
-}
+    <div class="hero">
+        <h2>Future-Ready Placement Preparation</h2>
+        <p>AI-powered practice for Aptitude, Reasoning & Technical interviews</p>
+        &nbsp;
+        &nbsp;
+        <a href="login.html" class="primary-btn" >    Get started</a>
+  
 
-/* Links */
-.auth-links, .switch {
-  text-align: center;
-  margin-top: 0.5rem;
-}
+    </div>
 
-.switch span {
-  color: #0077ff;
-  cursor: pointer;
-  font-weight: 600;
-}
+    <!-- FEATURE SHOWCASE -->
+    <div class="features">
+        <div class="feature-card">
+            <h3>🧠 Aptitude AI</h3>
+            <p>Smart questions based on your weak areas</p>
+        </div>
+        <div class="feature-card">
+            <h3>💻 Technical Tests</h3>
+            <p>DSA, Core CS & coding rounds</p>
+        </div>
+        <div class="feature-card">
+            <h3>📊 Performance</h3>
+            <p>Detailed analytics & progress tracking</p>
+        </div>
+        <div class="feature-card">
+            <h3>🎯 Mock Interviews</h3>
+            <p>Company-specific mock tests</p>
+        </div>
+    </div>
 
-/* Footer */
-.footer {
-  background: #1e1e1e;
-  color: #fff;
-  padding: 2rem 1rem 1rem 1rem;
-}
+</section>
 
-.footer-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 2rem;
-}
 
-.footer-box h3, .footer-box h4 {
-  margin-bottom: 1rem;
-}
 
-.footer-box ul {
-  list-style: none;
-}
 
-.footer-box ul li {
-  margin: 0.5rem 0;
-}
+<!-- module cardd   -->
 
-.footer-box a {
-  color: #0077ff;
-  text-decoration: none;
-}
+<section class="modules">
+  <h2>Explore Preparation Modules</h2>
 
-.footer-box a:hover {
-  text-decoration: underline;
-}
+  <div class="module-grid">
 
-.footer-bottom {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
-  color: #aaa;
-}
+    <div class="module-card" onclick="openPage('aptitude.html')">
+      <img src="https://img.icons8.com/color/96/brain.png"/>
+      <h3>Aptitude</h3>
+      <p>Quant, Logical & Verbal practice</p>
+    </div>
 
-/* Responsive */
-@media (max-width: 768px) {
-  .footer-wrapper {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .auth-card {
-    width: 90%;
-  }
-}
+    <div class="module-card" onclick="openPage('dsa.html')">
+      <img src="https://img.icons8.com/color/96/code.png"/>
+      <h3>DSA</h3>
+      <p>Arrays, Trees, Graphs & more</p>
+    </div>
+
+    <div class="module-card" onclick="openPage('interview.html')">
+      <img src="https://img.icons8.com/color/96/conference-call.png"/>
+      <h3>Mock Interview</h3>
+      <p>HR + Technical rounds</p>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="articles">
+  <h2>Placement Articles & Guides</h2>
+
+  <div class="article-list">
+
+    <div class="article" onclick="openPage('article1.html')">
+      <h3>How to Crack Campus Placements in 90 Days</h3>
+      <p>Step-by-step preparation strategy</p>
+    </div>
+
+    <div class="article" onclick="openPage('article2.html')">
+      <h3>Top Mistakes Students Make</h3>
+      <p>Avoid these during preparation</p>
+    </div>
+
+  </div>
+</section>
+</body>
+</html>  
+
+
