@@ -166,7 +166,7 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://user:password@localhost/placement_portal
 |--------|----------------|
 | Member 1 | Frontend design (HTML/CSS) |
 | Member 2 | JavaScript (quiz logic, validation) |
-| Member 3 | Backend (Flask routing, authentication) |
+| Member 3 | Backend (Flask routing, authentication,PYTHON) |
 | Member 4 | Database (models, queries, migrations) |
 | Member 5 | Documentation, PPT, diagrams, testing |
 
