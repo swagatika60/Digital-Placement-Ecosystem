@@ -8,7 +8,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def home():
     """Home page route."""
-    return render_template('index.html')
+    return render_template('register.html')
 
 
 @main.route('/dashboard')
