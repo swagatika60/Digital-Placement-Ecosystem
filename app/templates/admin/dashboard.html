@@ -1,155 +1,120 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Placement Preparation Portal{% endblock %}
+{% block title %}Admin Dashboard - System Terminal{% endblock %}
 
 {% block content %}
-<div class="dashboard">
-    <div class="container">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-            <h1>Welcome back, {{ current_user.name }}! 👋</h1>
-            <p>Track your progress and continue your placement preparation journey.</p>
-        </div>
+<div class="container">
+    <div class="resources-header" style="margin-top: 2rem;">
+        <h1>Control Panel</h1>
+        <p>Welcome, <span style="color: var(--primary-color);">{{ current_user.name }}</span>. System Status: <span style="color: var(--success-color);">Operational</span></p>
+    </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon blue">📝</div>
-                <div class="stat-value">{{ quizzes_taken | default(0) }}</div>
-                <div class="stat-label">Quizzes Taken</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon green">📊</div>
-                <div class="stat-value">{{ average_score | default(0) }}%</div>
-                <div class="stat-label">Average Score</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon purple">🎯</div>
-                <div class="stat-value">{{ questions_attempted | default(0) }}</div>
-                <div class="stat-label">Questions Attempted</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon orange">🏆</div>
-                <div class="stat-value">{{ best_score | default(0) }}%</div>
-                <div class="stat-label">Best Score</div>
-            </div>
+    <div class="stats-grid" style="margin-bottom: 3rem;">
+        <div class="stat-card">
+            <span class="stat-label">Active Candidates</span>
+            <div class="stat-value">{{ users_count }}</div>
+            <div style="font-size: 0.75rem; color: var(--success-color); margin-top: 0.5rem;">↑ User growth stable</div>
         </div>
-
-        <!-- Quick Links -->
-        <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Quick Links</h3>
-        <div class="quick-links">
-            <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
-                <div class="quick-link-icon">📊</div>
-                <div class="quick-link-content">
-                    <h4>Aptitude Tests</h4>
-                    <p>Practice quantitative, logical & verbal</p>
-                </div>
-            </a>
-            <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
-                <div class="quick-link-icon">💻</div>
-                <div class="quick-link-content">
-                    <h4>Technical MCQs</h4>
-                    <p>C, Python, DBMS, OS & more</p>
-                </div>
-            </a>
-            <a href="{{ url_for('main.resources') }}" class="quick-link-card">
-                <div class="quick-link-icon">📚</div>
-                <div class="quick-link-content">
-                    <h4>Study Resources</h4>
-                    <p>Interview tips & HR questions</p>
-                </div>
-            </a>
-            <a href="{{ url_for('main.resources') }}" class="quick-link-card">
-                <div class="quick-link-icon">🎯</div>
-                <div class="quick-link-content">
-                    <h4>Coding Practice</h4>
-                    <p>Links to coding platforms</p>
-                </div>
-            </a>
+        <div class="stat-card">
+            <span class="stat-label">Question Bank</span>
+            <div class="stat-value">{{ questions_count }}</div>
+            <div style="font-size: 0.75rem; color: var(--primary-color); margin-top: 0.5rem;">{{ categories_count }} Active Categories</div>
         </div>
+        <div class="stat-card">
+            <span class="stat-label">Total Engagements</span>
+            <div class="stat-value">{{ quiz_results_count }}</div>
+            <div style="font-size: 0.75rem; color: var(--secondary-color); margin-top: 0.5rem;">Quizzes completed</div>
+        </div>
+    </div>
 
-        <!-- Recent Activity -->
-        <div class="recent-activity">
-            <h3>Recent Activity</h3>
-            {% if recent_quizzes %}
-                <ul class="activity-list">
-                    {% for quiz in recent_quizzes %}
-                    <li class="activity-item">
-                        <div class="activity-info">
-                            <div class="activity-icon" style="background: rgba(102, 126, 234, 0.1); color: var(--primary-color);">📝</div>
-                            <div>
-                                <strong>{{ quiz.category }}</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">{{ quiz.date }}</p>
-                            </div>
+    <h3 style="margin-bottom: 1.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light);">Command Center</h3>
+    <div class="admin-actions" style="margin-bottom: 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+        
+        <a href="{{ url_for('admin.create_question') }}" class="admin-action-card" style="text-decoration: none;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="admin-action-icon" style="background: rgba(0, 210, 255, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color); min-width: 40px; height: 40px;">+</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 1rem;">Add Question</h4>
+                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Create new quiz items</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('admin.list_questions') }}" class="admin-action-card" style="text-decoration: none;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="admin-action-icon" style="background: rgba(168, 85, 247, 0.1); color: var(--secondary-color); border: 1px solid var(--secondary-color); min-width: 40px; height: 40px;">Q</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 1rem;">Manage Bank</h4>
+                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Edit or delete content</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('admin.list_users') }}" class="admin-action-card" style="text-decoration: none;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="admin-action-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-color); border: 1px solid var(--accent-color); min-width: 40px; height: 40px;">U</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 1rem;">Users</h4>
+                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Candidate directory</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('admin.list_resources') }}" class="admin-action-card" style="text-decoration: none;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="admin-action-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--warning-color); border: 1px solid var(--warning-color); min-width: 40px; height: 40px;">R</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 1rem;">Vault</h4>
+                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Study materials</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+        
+        <div class="card" style="padding: 1.5rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--primary-color);">Candidate Registry</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {% for user in recent_users %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div style="width: 32px; height: 32px; background: var(--bg-hover); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid var(--border-color);">
+                            {{ user.name[0] }}
                         </div>
-                        <span class="activity-score">{{ quiz.score }}%</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div style="text-align: center; padding: 2rem; color: var(--text-light);">
-                    <p>No recent activity. Start a quiz to track your progress!</p>
-                    <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-outline" style="margin-top: 1rem;">Start Practicing</a>
+                        <div>
+                            <div style="font-size: 0.9rem; font-weight: 600;">{{ user.name }}</div>
+                            <div style="font-size: 0.7rem; color: var(--text-light);">Joined: {{ user.created_at.strftime('%d %b %Y') }}</div>
+                        </div>
+                    </div>
+                    <span style="font-size: 0.7rem; font-family: monospace; color: var(--text-light);">ID: {{ user.id }}</span>
                 </div>
-            {% endif %}
+                {% else %}
+                <p style="text-align: center; color: var(--text-light);">Empty Registry</p>
+                {% endfor %}
+            </div>
         </div>
 
-        <!-- Progress Section -->
-        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Category Progress -->
-            <div class="card">
-                <h3 style="margin-bottom: 1.5rem;">Category Progress</h3>
-                {% for category in category_progress | default([]) %}
-                <div style="margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span>{{ category.name }}</span>
-                        <span style="color: var(--primary-color); font-weight: 600;">{{ category.progress }}%</span>
+        <div class="card" style="padding: 1.5rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--secondary-color);">Performance Stream</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {% for result in recent_results %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 600;">{{ result.user.name if result.user else 'Unknown' }}</div>
+                        <div style="font-size: 0.7rem; color: var(--text-light);">Accuracy: {{ result.percentage }}%</div>
                     </div>
-                    <div style="background: var(--light-bg); border-radius: 10px; height: 10px; overflow: hidden;">
-                        <div style="background: var(--primary-gradient); height: 100%; width: {{ category.progress }}%; border-radius: 10px; transition: width 0.5s ease;"></div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--success-color);">{{ result.score }}/{{ result.total_questions }}</div>
+                        <div style="font-size: 0.65rem; color: var(--text-light); text-transform: uppercase;">Points</div>
                     </div>
                 </div>
                 {% else %}
-                <div style="text-align: center; color: var(--text-light);">
-                    <p>Start quizzes to see your progress!</p>
-                </div>
+                <p style="text-align: center; color: var(--text-light);">No data streams yet</p>
                 {% endfor %}
             </div>
-
-            <!-- Recommendations -->
-            <div class="card">
-                <h3 style="margin-bottom: 1.5rem;">Recommended for You</h3>
-                <ul style="list-style: none;">
-                    <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">📊</span>
-                            <div>
-                                <strong>Quantitative Aptitude</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Improve your numerical skills</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">🐍</span>
-                            <div>
-                                <strong>Python Basics</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Master Python fundamentals</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li style="padding: 1rem 0;">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">🗄️</span>
-                            <div>
-                                <strong>DBMS Concepts</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Database management essentials</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
