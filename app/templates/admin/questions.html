@@ -4,69 +4,103 @@
 
 {% block content %}
 <div class="container">
-    <div class="admin-header">
+    <div class="resources-header" style="margin-top: 2rem;">
         <h1>Manage Questions</h1>
-        <p>View and manage quiz questions</p>
+        <p>View, filter, and manage quiz questions in the database.</p>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        
         <div style="display: flex; gap: 1rem; align-items: center;">
-            <form method="GET" style="display: flex; gap: 0.5rem;">
-                <select name="category_id" class="form-control" style="width: 200px;" onchange="this.form.submit()">
+            <form method="GET" style="display: flex; gap: 0.5rem; align-items: center;">
+                <label for="category_filter" style="color: var(--text-light); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Filter:</label>
+                <select id="category_filter" name="category_id" class="form-control" style="width: auto; padding: 0.5rem 1rem;" onchange="this.form.submit()">
                     <option value="">All Categories</option>
                     {% for cat in categories %}
-                    <option value="{{ cat.id }}" {% if request.args.get('category_id') == cat.id|string %}selected{% endif %}>{{ cat.name }}</option>
+                        <option value="{{ cat.id }}" {% if request.args.get('category_id') == cat.id|string %}selected{% endif %}>{{ cat.name }}</option>
                     {% endfor %}
                 </select>
             </form>
         </div>
-        <a href="{{ url_for('admin.create_question') }}" class="btn btn-primary">Add New Question</a>
+
+        <a href="{{ url_for('admin.create_question') }}" class="btn btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.2rem; font-weight: bold;">+</span> Add New Question
+        </a>
     </div>
 
-    <div class="card">
+    <div class="card" style="padding: 0;">
         {% for question in questions %}
-        <div style="padding: 1.5rem; border-bottom: 1px solid var(--light-bg); {% if loop.last %}border-bottom: none;{% endif %}">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-                <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                        <span style="padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; {% if question.difficulty == 'easy' %}background: rgba(40, 167, 69, 0.1); color: var(--success-color);{% elif question.difficulty == 'medium' %}background: rgba(255, 193, 7, 0.1); color: #ffc107;{% else %}background: rgba(220, 53, 69, 0.1); color: var(--danger-color);{% endif %}">
-                            {{ question.difficulty|title }}
+        <div style="padding: 2rem; border-bottom: 1px solid var(--border-color); transition: background 0.2s; {% if loop.last %}border-bottom: none;{% endif %}">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap;">
+                
+                <div style="flex: 1; min-width: 300px;">
+                    
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="resource-badge" style="position: static; font-size: 0.7rem; background: var(--bg-dark);">
+                            {{ question.category.name if question.category else 'Unknown' }}
                         </span>
-                        <span style="color: var(--text-light); font-size: 0.85rem;">{{ question.category.name if question.category else 'Unknown' }}</span>
+                        
+                        <span style="padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+                            {% if question.difficulty == 'easy' %}background: rgba(16, 185, 129, 0.1); color: var(--success-color);
+                            {% elif question.difficulty == 'medium' %}background: rgba(245, 158, 11, 0.1); color: var(--warning-color);
+                            {% else %}background: rgba(239, 68, 68, 0.1); color: var(--danger-color);{% endif %}">
+                            {{ question.difficulty }}
+                        </span>
                     </div>
-                    <p style="margin-bottom: 0.75rem; font-weight: 500;">{{ question.question_text }}</p>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; font-size: 0.9rem; color: var(--text-light);">
-                        <div>A. {{ question.option_a }}</div>
-                        <div>B. {{ question.option_b }}</div>
-                        <div>C. {{ question.option_c }}</div>
-                        <div>D. {{ question.option_d }}</div>
+
+                    <h3 style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 500; color: var(--text-main); line-height: 1.5;">
+                        <span style="color: var(--primary-color); margin-right: 0.5rem;">Q:</span>{{ question.question_text }}
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem; padding: 1rem; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: var(--border-radius);">
+                        <div style="{% if question.correct_answer == 'A' %}color: var(--success-color); font-weight: 600;{% endif %}">A. {{ question.option_a }}</div>
+                        <div style="{% if question.correct_answer == 'B' %}color: var(--success-color); font-weight: 600;{% endif %}">B. {{ question.option_b }}</div>
+                        <div style="{% if question.correct_answer == 'C' %}color: var(--success-color); font-weight: 600;{% endif %}">C. {{ question.option_c }}</div>
+                        <div style="{% if question.correct_answer == 'D' %}color: var(--success-color); font-weight: 600;{% endif %}">D. {{ question.option_d }}</div>
                     </div>
-                    <div style="margin-top: 0.5rem; font-size: 0.85rem;">
-                        <strong>Correct:</strong> <span style="color: var(--success-color);">{{ question.correct_answer }}</span>
+
+                    <div style="font-size: 0.85rem; color: var(--text-light);">
+                        <strong>Correct Answer:</strong> <span style="color: var(--success-color); font-weight: bold; border: 1px solid var(--success-color); padding: 0.1rem 0.5rem; margin-left: 0.5rem;">{{ question.correct_answer }}</span>
                     </div>
                 </div>
+
                 <div style="display: flex; gap: 0.5rem; flex-shrink: 0;">
-                    <a href="{{ url_for('admin.edit_question', question_id=question.id) }}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                    <a href="{{ url_for('admin.edit_question', question_id=question.id) }}" class="btn btn-secondary btn-small" style="padding: 0.5rem 1rem;">
                         Edit
                     </a>
-                    <form action="{{ url_for('admin.delete_question', question_id=question.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this question?');">
+                    <form action="{{ url_for('admin.delete_question', question_id=question.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this question forever?');">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                        <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                        <button type="submit" class="btn btn-outline btn-small" style="border-color: var(--danger-color); color: var(--danger-color); padding: 0.5rem 1rem;">
                             Delete
                         </button>
                     </form>
                 </div>
+
             </div>
         </div>
         {% else %}
-        <div style="padding: 3rem; text-align: center; color: var(--text-light);">
-            No questions found. <a href="{{ url_for('admin.create_question') }}">Add your first question</a>
+        
+        <div style="padding: 4rem 2rem; text-align: center; color: var(--text-light);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="1" style="margin-bottom: 1rem; opacity: 0.5;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M8 12h8"></path>
+            </svg>
+            <h3 style="margin-bottom: 0.5rem; color: var(--text-main);">No Questions Found</h3>
+            <p style="margin-bottom: 1.5rem;">There are no questions in this category yet.</p>
+            <a href="{{ url_for('admin.create_question') }}" class="btn btn-primary">Add Your First Question</a>
         </div>
         {% endfor %}
     </div>
 
-    <div style="margin-top: 1.5rem;">
-        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
     </div>
 </div>
+
+<style>
+    /* Hover effect for rows */
+    .card > div:hover {
+        background: rgba(255, 255, 255, 0.02);
+    }
+</style>
 {% endblock %}
