@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Placement Preparation Portal{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="{{ url_for('main.home') }}" class="nav-logo">
@@ -25,10 +24,14 @@
                 <li><a href="{{ url_for('main.home') }}" class="nav-link">Home</a></li>
                 <li><a href="{{ url_for('quiz.list_categories') }}" class="nav-link">Practice</a></li>
                 <li><a href="{{ url_for('main.resources') }}" class="nav-link">Resources</a></li>
+                
                 {% if current_user.is_authenticated %}
-                    {% if current_user.role == 'admin' %}
-                    <li><a href="{{ url_for('admin.dashboard') }}" class="nav-link">Admin</a></li>
-                    {% endif %}
+                    <li>
+                        <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: var(--primary-color); font-weight: 700;">
+                            ⚙️ Admin Panel
+                        </a>
+                    </li>
+                    
                     <li><a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a></li>
                     <li><a href="{{ url_for('auth.logout') }}" class="nav-link nav-btn logout-btn">Logout</a></li>
                 {% else %}
@@ -39,7 +42,6 @@
         </div>
     </nav>
 
-    <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="flash-container">
@@ -53,12 +55,10 @@
         {% endif %}
     {% endwith %}
 
-    <!-- Main Content -->
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-content">
