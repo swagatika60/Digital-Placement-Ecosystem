@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource.title }} - Placement Preparation Portal{% endblock %}
+
+{% block content %}
+<style>
+    .reading-container {
+        max-width: 900px;
+        margin: 4rem auto;
+        padding: 0 1.5rem;
+    }
+
+    /* Back Button Styling */
+    .back-nav {
+        margin-bottom: 2rem;
+    }
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-light);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+    .btn-back:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(-4px);
+    }
+
+    /* The Main Article Card */
+    .article-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 3rem 4rem;
+        box-shadow: var(--card-shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Top glowing accent line */
+    .article-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--primary-gradient);
+    }
+
+    .article-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--white);
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .article-description {
+        font-size: 1.15rem;
+        color: var(--primary-color);
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-weight: 500;
+    }
+
+    /* The actual text content */
+    .article-body {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        line-height: 1.8;
+        white-space: pre-wrap; /* This ensures bullet points and line breaks show up correctly! */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .article-card {
+            padding: 2rem 1.5rem;
+        }
+        .article-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="reading-container">
+    
+    <div class="back-nav">
+        <a href="{{ url_for('main.resources') }}" class="btn-back">
+            &larr; Back to Resources
+        </a>
+    </div>
+
+    <article class="article-card">
+        <h1 class="article-title">{{ resource.title }}</h1>
+        <p class="article-description">{{ resource.description }}</p>
+        
+        <div class="article-body">{{ resource.content }}</div>
+    </article>
+
+</div>
+{% endblock %}
