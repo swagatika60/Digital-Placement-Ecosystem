@@ -308,7 +308,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .resource-card:hover .resource-badge {
     background: var(--primary-gradient);
-    color: white;
+    color: rgb(15, 107, 192);
 }
 
 /* ==================== */
@@ -414,7 +414,10 @@ h1, h2, h3, h4, h5, h6 {
 /* Upgraded Buttons */
 /* ==================== */
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     padding: 0.8rem 2.5rem;
     border-radius: 50px;
     text-decoration: none;
@@ -692,6 +695,54 @@ select.form-control {
 @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
 /* ==================== */
+/* HOMEPAGE ROADMAP BANNER */
+/* ==================== */
+.roadmap-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    margin: 40px 0; /* Add margin to separate it */
+}
+
+.roadmap-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.roadmap-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.roadmap-content h2 {
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.roadmap-content p {
+    font-size: 1.15rem;
+    color: var(--text-light);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+/* ==================== */
 /* Footer */
 /* ==================== */
 .footer { background: rgba(0, 0, 0, 0.4); border-top: 1px solid var(--glass-border); color: var(--text-light); padding: 3rem 0 1rem; margin-top: 4rem; }
@@ -715,6 +766,7 @@ select.form-control {
     .nav-toggle.active span:nth-child(2) { opacity: 0; }
     .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
     .hero h1 { font-size: 2.2rem; }
+    .roadmap-content h2 { font-size: 2rem; }
     .quiz-header { flex-direction: column; text-align: center; }
     .quiz-info { width: 100%; justify-content: space-around; }
     .flash-container { left: 20px; right: 20px; }
