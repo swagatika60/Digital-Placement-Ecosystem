@@ -21,7 +21,7 @@ def admin_required(f):
 @admin.route('/dashboard')
 @admin.route('/')
 @login_required
-@admin_required
+# @admin_required
 def dashboard():
     """Admin dashboard."""
     users_count = User.query.count()
@@ -41,6 +41,21 @@ def dashboard():
                            quiz_results_count=quiz_results_count,
                            recent_users=recent_users,
                            recent_results=recent_results)
+
+
+# ==========================================================
+# 🛑 TEMPORARY CHEAT CODE: UPGRADE ACCOUNT TO ADMIN 🛑
+# ==========================================================
+@admin.route('/make-me-admin')
+@login_required
+def make_me_admin():
+    """Temporary route to upgrade a student to an admin."""
+    current_user.role = 'admin'
+    db.session.commit()
+    
+    flash('Success! You are now an Admin. The Admin button should now appear in the menu.', 'success')
+    return redirect(url_for('main.home'))
+# ==========================================================
 
 
 # ============ User Management ============
