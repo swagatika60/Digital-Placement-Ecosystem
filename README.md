@@ -27,8 +27,8 @@ A centralized web-based platform for engineering students to prepare for campus 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/placement-portal.git
-cd placement-portal
+git clone https://github.com/yourusername/Digital-Placement-Ecosystem.git
+cd Digital-Placement-EcoSystem
 
 # Create virtual environment
 python3 -m venv venv
