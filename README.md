@@ -63,7 +63,7 @@ Open your browser and visit: **http://localhost:5001**
 ## Project Structure
 
 ```
-placement-portal/
+Digital-Placement-Ecosystem/
 ├── run.py                 # Application entry point
 ├── config.py              # Configuration settings
 ├── requirements.txt       # Python dependencies
