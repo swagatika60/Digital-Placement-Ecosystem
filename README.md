@@ -18,7 +18,7 @@ A centralized web-based platform for engineering students to prepare for campus 
 
 ## Quick Start
 
-### Prerequisites
+### Prerequisites:
 
 - Python 3.10 or higher
 - pip (Python package manager)
