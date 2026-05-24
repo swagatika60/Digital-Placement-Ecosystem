@@ -4,7 +4,6 @@ Seed Data Script for Placement Preparation Portal
 Run this script after initializing the database:
     python seed_data.py
 """
-
 from app import create_app, db
 from app.models import User, Category, Question, Resource
 from datetime import datetime
