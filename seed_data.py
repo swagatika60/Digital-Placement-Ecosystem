@@ -12,13 +12,14 @@ from datetime import datetime
 def create_admin_user():
     admin = User.query.filter_by(email='admin@college.edu').first()
     if admin:
+        
         return admin
 
     admin = User(
         username='Admin User',
         email='admin@college.edu',
         role='admin',
-        college='Placement Portal'
+        college='Digital Placement EcoSystem'
     )
     admin.set_password('admin123')
     db.session.add(admin)
