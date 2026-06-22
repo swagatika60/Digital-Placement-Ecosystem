@@ -199,7 +199,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Flask-Login](https://flask-login.readthedocs.io/) - Authentication
 - [WTForms](https://wtforms.readthedocs.io/) - Form validation
 - [Google Fonts](https://fonts.google.com/) - Inter font
-
 ---
 
 Made with for engineering students preparing for placements
