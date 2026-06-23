@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
     {% block extra_css %}{% endblock %}
 </head>
- <button id="backToTop" onclick="scrollToTop()">↑ Top</button>
 <body>
     <nav class="navbar">
         <div class="nav-container">
@@ -87,6 +86,7 @@
         </div>
     </footer>
 
+   <button id="backToTop" onclick="scrollToTop()">↑ Top</button>
     <script>
 window.onscroll = function() {
     const btn = document.getElementById("backToTop");
@@ -118,5 +118,8 @@ function scrollToTop() {
         }, 5000);
     </script>
     {% block extra_js %}{% endblock %}
+
+
+    
 </body>
 </html>
