@@ -1,4 +1,4 @@
-# Digital-Placement-Ecosystem
+# Digital-Placement-Ecosystem :
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0-000000?logo=flask)](https://flask.palletsprojects.com/)
@@ -199,7 +199,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Flask-Login](https://flask-login.readthedocs.io/) - Authentication
 - [WTForms](https://wtforms.readthedocs.io/) - Form validation
 - [Google Fonts](https://fonts.google.com/) - Inter font
-
 ---
 
 Made with for engineering students preparing for placements
