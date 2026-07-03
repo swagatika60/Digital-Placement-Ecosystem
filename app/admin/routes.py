@@ -32,10 +32,10 @@ def dashboard():
     recent_results = QuizResult.query.order_by(QuizResult.taken_at.desc()).limit(5).all()
 
     return render_template('admin/dashboard.html',
-                           users_count=users_count, categories_count=categories_count,
-                           questions_count=questions_count, resources_count=resources_count,
-                           quiz_results_count=quiz_results_count, recent_users=recent_users,
-                           recent_results=recent_results)
+                           users_count = users_count, categories_count = categories_count,
+                           questions_count = questions_count, resources_count = resources_count,
+                           quiz_results_count = quiz_results_count, recent_users = recent_users,
+                           recent_results = recent_results)
 
 # ============ Cheat Code ============
 @admin.route('/make-me-admin')
