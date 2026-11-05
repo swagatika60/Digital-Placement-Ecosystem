@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Study Plan - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
+    <div class="section-title">
+        <h2>📅 Study Plan</h2>
+        <p>Set daily goals, track your streak, and plan your preparation.</p>
+    </div>
+
+    <!-- Streak Card -->
+    <div class="card" style="margin-bottom: 2rem; padding: 2rem; text-align: center;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap;">
+            <div>
+                <div style="font-size: 3rem;">🔥</div>
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--warning-color);">{{ streak.current_streak }}</div>
+                <div style="color: var(--text-light); font-size: 0.9rem;">Day Streak</div>
+            </div>
+            <div style="width: 1px; height: 60px; background: var(--glass-border);"></div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">{{ streak.longest_streak }}</div>
+                <div style="color: var(--text-light); font-size: 0.85rem;">Longest Streak</div>
+            </div>
+            <div style="width: 1px; height: 60px; background: var(--glass-border);"></div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 700; color: var(--success-color);">{{ streak.total_study_days }}</div>
+                <div style="color: var(--text-light); font-size: 0.85rem;">Total Study Days</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Goal -->
+    <div class="card" style="margin-bottom: 2rem; padding: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">🎯 Today's Goal</h3>
+        <form action="{{ url_for('main.update_goal') }}" method="POST" style="margin-bottom: 1rem;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.85rem;">Target Questions</label>
+                    <input type="number" name="target_questions" class="form-control" value="{{ today_goal.target_questions if today_goal else 10 }}" min="1" max="100">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label style="font-size: 0.85rem;">Target Minutes</label>
+                    <input type="number" name="target_minutes" class="form-control" value="{{ today_goal.target_minutes if today_goal else 30 }}" min="5" max="480">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Update Goal</button>
+        </form>
+
+        {% if today_goal %}
+        <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                <span>Questions: {{ today_goal.completed_questions }} / {{ today_goal.target_questions }}</span>
+                <span>{{ ((today_goal.completed_questions / today_goal.target_questions * 100) if today_goal.target_questions > 0 else 0) | round(0) }}%</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); border-radius: 20px; height: 10px; overflow: hidden;">
+                <div style="height: 100%; border-radius: 20px; background: var(--primary-gradient); width: {{ ((today_goal.completed_questions / today_goal.target_questions * 100) if today_goal.target_questions > 0 else 0) }}%; transition: width 0.5s ease;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.9rem;">
+                <span>Time: {{ today_goal.completed_minutes }} / {{ today_goal.target_minutes }} min</span>
+                <span>{{ ((today_goal.completed_minutes / today_goal.target_minutes * 100) if today_goal.target_minutes > 0 else 0) | round(0) }}%</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); border-radius: 20px; height: 10px; overflow: hidden;">
+                <div style="height: 100%; border-radius: 20px; background: linear-gradient(135deg, #06b6d4, #14b8a6); width: {{ ((today_goal.completed_minutes / today_goal.target_minutes * 100) if today_goal.target_minutes > 0 else 0) }}%; transition: width 0.5s ease;"></div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Weekly Calendar -->
+    <div class="card" style="margin-bottom: 2rem; padding: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">📆 This Week</h3>
+        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
+            {% for day in week_days %}
+            <div style="text-align: center; padding: 0.75rem 0.25rem; border-radius: 10px; background: {% if day.is_today %}rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.4){% elif day.studied %}rgba(0,230,118,0.1){% else %}rgba(255,255,255,0.03){% endif %};">
+                <div style="font-size: 0.7rem; color: var(--text-light); text-transform: uppercase;">{{ day.name }}</div>
+                <div style="font-size: 1.2rem; font-weight: 700; margin: 0.25rem 0;">{{ day.num }}</div>
+                {% if day.studied %}
+                <div style="font-size: 1rem;">✅</div>
+                {% elif day.is_today %}
+                <div style="font-size: 1rem;">📍</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Topic Priority -->
+    <div class="card" style="padding: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">⭐ Topic Priorities</h3>
+        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem;">Mark categories as priority to focus your preparation. Weakened areas (below 50%) are auto-suggested.</p>
+
+        {% if weak_categories %}
+        <div style="margin-bottom: 1rem;">
+            <h4 style="color: var(--warning-color); font-size: 0.9rem; margin-bottom: 0.5rem;">⚠️ Suggested Priority (Weak Areas)</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                {% for cat in weak_categories %}
+                <span style="padding: 0.3rem 0.8rem; border-radius: 20px; background: rgba(255,145,0,0.12); color: var(--warning-color); border: 1px solid rgba(255,145,0,0.3); font-size: 0.85rem;">
+                    {{ cat.name }} ({{ cat.avg_score }}%)
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {% for cat in all_categories %}
+            <form action="{{ url_for('main.toggle_priority', category_id=cat.id) }}" method="POST" style="display: inline;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" style="padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid {% if cat.id in priority_ids %}var(--primary-color){% else %}var(--glass-border){% endif %}; background: {% if cat.id in priority_ids %}rgba(168,85,247,0.15){% else %}rgba(255,255,255,0.03){% endif %}; color: {% if cat.id in priority_ids %}var(--primary-color){% else %}var(--text-light){% endif %}; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">
+                    {% if cat.id in priority_ids %}⭐{% endif %} {{ cat.name }}
+                </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

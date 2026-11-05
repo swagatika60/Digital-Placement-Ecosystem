@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1877 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (TCS NQT Preparation Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Test Pattern and Section-Wise Strategy) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Test Pattern \(NQT\)) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Numerical Ability: 20 Qs, aptitude, percentages, ratios.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Reasoning Ability: puzzles, series, coding-decoding.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Verbal Ability: grammar, reading comprehension.) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Programming Logic \(pseudo-code based\).) Tj
+/F5 11 Tf 1 0 0 1 54 607 Tm (- Optional: Coding round \(2 problems\).) Tj
+/F6 14 Tf 1 0 0 1 54 577 Tm (2. Numerical Ability Tips) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Master percentages, profit-loss, time-work, speed-distance.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- Learn shortcut methods for average and ratio problems.) Tj
+/F5 11 Tf 1 0 0 1 54 532 Tm (- Practice 10-15 questions daily with a timer.) Tj
+/F6 14 Tf 1 0 0 1 54 502 Tm (3. Reasoning Tips) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- Number/letter series, analogies, syllogisms.) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- Blood relations, directions, seating arrangement.) Tj
+/F6 14 Tf 1 0 0 1 54 442 Tm (4. Verbal Tips) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Vocabulary \(synonyms, antonyms\), sentence correction.) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Read one editorial daily for RC speed.) Tj
+/F6 14 Tf 1 0 0 1 54 382 Tm (5. Programming Logic) Tj
+/F5 11 Tf 1 0 0 1 54 367 Tm (- Understand C/Java/Python code snippets \(output, errors\).) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- Know loops, conditionals, arrays, basic OOP.) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Practice pseudo-code MCQs from previous papers.) Tj
+/F6 14 Tf 1 0 0 1 54 307 Tm (6. General Advice) Tj
+/F5 11 Tf 1 0 0 1 54 292 Tm (- No negative marking in most sections.) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- Attempt all questions; manage time per section.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002180 00000 n 
+0000002250 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2325
+%%EOF

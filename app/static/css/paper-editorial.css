@@ -1,0 +1,591 @@
+/* =========================================================
+   PAPER & WIREFRAME EDITORIAL — design system
+   A tactile "creative architect's desk" aesthetic overlaid
+   on the existing app (loaded after style.css to win the
+   cascade on shared components).
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. Tokens
+   --------------------------------------------------------- */
+:root {
+  /* Paper surfaces */
+  --pp-paper: #fbf9f5; /* aged parchment, page bg */
+  --pp-paper-2: #f4f0ea; /* deeper paper */
+  --pp-sheet: #fffdf9; /* raised card / sheet surface */
+  --pp-sheet-2: #f7f2ea;
+
+  /* Ink */
+  --pp-ink: #111111;
+  --pp-ink-soft: #3f3d38;
+  --pp-ink-faint: #6f6b61;
+
+  /* Accents */
+  --pp-red: #e63946; /* marker underline / target dot */
+  --pp-blue: #457b9d; /* blueprint blue */
+  --pp-red-soft: rgba(230, 57, 70, 0.1);
+  --pp-blue-soft: rgba(69, 123, 157, 0.12);
+
+  /* Editorial borders + hard offsets */
+  --pp-border: 2px solid var(--pp-ink);
+  --pp-border-thin: 1px solid #d8d2c6;
+  --pp-shadow: 4px 4px 0px var(--pp-ink);
+  --pp-shadow-lg: 8px 8px 0px var(--pp-ink);
+
+  /* Type */
+  --pp-serif: "Fraunces", "Georgia", "Times New Roman", serif;
+  --pp-sans: "Space Grotesk", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --pp-mono: "JetBrains Mono", "Courier New", monospace;
+}
+
+/* ---------------------------------------------------------
+   2. Global surface + type
+   --------------------------------------------------------- */
+html[data-theme="light"] body,
+body.dark-mode,
+html.dark body {
+  background-color: var(--pp-paper) !important;
+  background-image: none !important;
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-sans);
+  line-height: 1.65;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(69, 123, 157, 0.06) 0,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 88% 78%,
+      rgba(230, 57, 70, 0.05) 0,
+      transparent 42%
+    ),
+    var(--pp-paper) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--pp-serif);
+  color: var(--pp-ink);
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  font-weight: 700;
+}
+.hero h1,
+.section-title h2,
+.cta-section h2 {
+  font-family: var(--pp-serif);
+}
+
+/* Drop a faint "draft" grid over the whole page, like blueprint grid */
+.main-content {
+  background-image:
+    linear-gradient(rgba(17, 17, 17, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------------------------------------------------------
+   3. Editorial labels / step counters
+   --------------------------------------------------------- */
+.pp-label,
+.stat-label,
+.quiz-info-label,
+.role-badge,
+.section-title small,
+.resource-badge {
+  font-family: var(--pp-mono) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--pp-ink-soft);
+}
+
+/* ---------------------------------------------------------
+   4. Paper cards (sheet look + hard offset shadow)
+   --------------------------------------------------------- */
+.card,
+.form-card,
+.feature-card,
+.stat-card,
+.quiz-card,
+.quick-link-card,
+.recent-activity,
+.category-card,
+.question-palette,
+.result-card,
+.attempt-card,
+.quiz-info-card,
+.admin-stat-card,
+.admin-action-card,
+.resource-card,
+.history-card,
+.question-card,
+.skeleton-card,
+.empty-state {
+  background: var(--pp-sheet) !important;
+  border: var(--pp-border) !important;
+  border-radius: 6px !important;
+  box-shadow: var(--pp-shadow);
+  color: var(--pp-ink);
+}
+.card:hover,
+.feature-card:hover,
+.category-card:hover,
+.quick-link-card:hover,
+.admin-action-card:hover,
+.resource-card:hover,
+.history-card:hover,
+.stat-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--pp-ink) !important;
+}
+
+/* Inner card text: flip light-grey to ink */
+.card p,
+.feature-card p,
+.category-card p,
+.resource-card p,
+.card,
+.feature-card,
+.category-card {
+  color: var(--pp-ink-soft);
+}
+.card h3,
+.feature-card h3,
+.category-card h3,
+.resource-card h4 {
+  color: var(--pp-ink);
+}
+
+/* Blueprint-style corner ticks on cards */
+.card,
+.feature-card,
+.stat-card,
+.category-card,
+.resource-card {
+  position: relative;
+}
+.card::after,
+.feature-card::after,
+.stat-card::after,
+.category-card::after,
+.resource-card::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: -4px;
+  bottom: -4px;
+  border-right: 2px solid var(--pp-blue);
+  border-bottom: 2px solid var(--pp-blue);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   5. Buttons — ink stamps / solid blocks
+   --------------------------------------------------------- */
+.btn {
+  font-family: var(--pp-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  border-radius: 2px !important;
+  border: var(--pp-border) !important;
+  box-shadow: 3px 3px 0px var(--pp-ink);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
+}
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--pp-ink);
+}
+.btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--pp-ink);
+}
+.btn-primary,
+.btn-success {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+  border-color: var(--pp-ink) !important;
+}
+.btn-secondary,
+.btn-outline {
+  background: var(--pp-sheet) !important;
+  color: var(--pp-ink) !important;
+}
+.btn-outline {
+  border-style: dashed;
+}
+.btn-white {
+  background: #fffdf9 !important;
+  color: var(--pp-ink) !important;
+}
+.btn-danger {
+  background: var(--pp-red) !important;
+  border-color: var(--pp-red) !important;
+  color: #fff !important;
+}
+
+/* ---------------------------------------------------------
+   6. Navigation — ruled paper header
+   --------------------------------------------------------- */
+.navbar {
+  background: var(--pp-paper) !important;
+  border-bottom: var(--pp-border) !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 3px 0 rgba(17, 17, 17, 0.06);
+  height: auto;
+}
+.nav-container {
+  padding: 0.8rem 2rem;
+}
+.logo-text {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+  border-radius: 4px;
+  font-family: var(--pp-serif);
+  box-shadow: 2px 2px 0 var(--pp-red);
+}
+.logo-text,
+.logo-label span {
+  color: var(--pp-ink);
+}
+
+.nav-link {
+  color: var(--pp-ink-soft) !important;
+  border-radius: 3px;
+  font-family: var(--pp-sans);
+  font-weight: 600;
+}
+.nav-link:hover {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+}
+.nav-link-accent {
+  color: var(--pp-red) !important;
+  border: 1px solid var(--pp-red);
+}
+.nav-link-accent:hover {
+  background: var(--pp-red) !important;
+  color: #fff !important;
+}
+.nav-divider {
+  background: var(--pp-ink) !important;
+  width: 1px;
+}
+
+/* user chip / login / register / admin buttons */
+.nav-user-chip {
+  background: var(--pp-sheet) !important;
+  border: 1px solid var(--pp-ink) !important;
+  border-radius: 4px;
+}
+.nav-user-name {
+  color: var(--pp-ink) !important;
+}
+.role-admin {
+  background: var(--pp-red-soft);
+  color: var(--pp-red);
+  border: 1px solid var(--pp-red);
+}
+.role-student {
+  background: var(--pp-blue-soft);
+  color: var(--pp-blue);
+  border: 1px solid var(--pp-blue);
+}
+
+.login-btn,
+.register-btn,
+.logout-btn,
+.nav-btn {
+  border: 1px solid var(--pp-ink) !important;
+  border-radius: 3px !important;
+  background: transparent !important;
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-mono);
+}
+.register-btn,
+.nav-btn[style*="radial"],
+.nav-btn[style*="linear"] {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+}
+
+/* mobile menu panel */
+@media (max-width: 768px) {
+  .nav-menu {
+    background: var(--pp-paper) !important;
+    border-bottom: var(--pp-border);
+  }
+}
+
+/* ---------------------------------------------------------
+   7. Footer
+   --------------------------------------------------------- */
+.footer {
+  background: var(--pp-paper-2) !important;
+  border-top: var(--pp-border) !important;
+  color: var(--pp-ink-soft);
+}
+.footer-section h3,
+.footer-section h4 {
+  color: var(--pp-ink);
+  font-family: var(--pp-serif);
+}
+.footer-section ul li a {
+  color: var(--pp-ink-soft);
+}
+.footer-section ul li a:hover {
+  color: var(--pp-red);
+}
+.footer-bottom {
+  border-top: 1px solid #d8d2c6;
+}
+
+/* ---------------------------------------------------------
+   8. Forms — ink-lined paper inputs
+   --------------------------------------------------------- */
+.form-control,
+.resource-search {
+  background: var(--pp-sheet) !important;
+  border: 2px solid var(--pp-ink) !important;
+  border-radius: 3px !important;
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-sans);
+}
+.form-control:focus,
+.resource-search:focus {
+  border-color: var(--pp-blue) !important;
+  box-shadow: 3px 3px 0 var(--pp-blue-soft) !important;
+}
+.form-control::placeholder {
+  color: var(--pp-ink-faint);
+}
+.form-group label {
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.form-error {
+  background: var(--pp-red-soft);
+  border: 1px solid var(--pp-red);
+  color: var(--pp-red);
+}
+
+/* ---------------------------------------------------------
+   9. Tables — ledger / index cards
+   --------------------------------------------------------- */
+.admin-table,
+.leaderboard-table {
+  border: var(--pp-border);
+  border-radius: 4px;
+  color: var(--pp-ink);
+  background: var(--pp-sheet);
+}
+.admin-table th,
+.leaderboard-table th {
+  background: var(--pp-paper-2) !important;
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid var(--pp-ink);
+}
+.admin-table td,
+.leaderboard-table td {
+  border-bottom: 1px solid #ddd6c8;
+}
+.admin-table tr:hover,
+.leaderboard-table tr:hover td {
+  background: rgba(69, 123, 157, 0.06) !important;
+}
+.leaderboard-table tr.my-row td {
+  background: var(--pp-red-soft) !important;
+  border-left: 3px solid var(--pp-red);
+}
+.rank-cell {
+  font-family: var(--pp-serif);
+}
+.score-cell {
+  color: var(--pp-blue);
+}
+
+/* ---------------------------------------------------------
+   10. Flash messages — torn receipt notes
+   --------------------------------------------------------- */
+.flash-message {
+  background: var(--pp-sheet) !important;
+  border: var(--pp-border) !important;
+  border-radius: 3px !important;
+  color: var(--pp-ink) !important;
+  box-shadow: var(--pp-shadow);
+  font-family: var(--pp-sans);
+}
+.flash-success {
+  border-left: 6px solid var(--pp-blue) !important;
+}
+.flash-error,
+.flash-danger {
+  border-left: 6px solid var(--pp-red) !important;
+}
+.flash-warning {
+  border-left: 6px solid var(--pp-blue) !important;
+}
+.flash-info {
+  border-left: 6px solid var(--pp-blue) !important;
+}
+
+/* ---------------------------------------------------------
+   11. Quiz interface
+   --------------------------------------------------------- */
+.quiz-header {
+  background: var(--pp-sheet) !important;
+  border: var(--pp-border) !important;
+  border-radius: 4px;
+}
+.quiz-info-value {
+  color: var(--pp-blue) !important;
+  font-family: var(--pp-serif);
+}
+.quiz-timer {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+  border: none !important;
+  border-radius: 2px;
+  font-family: var(--pp-mono);
+}
+.question-text,
+.question-number {
+  color: var(--pp-ink) !important;
+}
+.question-number {
+  background: var(--pp-paper-2) !important;
+  border: 1px solid var(--pp-ink);
+  font-family: var(--pp-mono);
+}
+.option-label {
+  background: var(--pp-sheet) !important;
+  border: 2px solid var(--pp-ink) !important;
+  border-radius: 3px !important;
+  color: var(--pp-ink-soft);
+}
+.option-label:hover {
+  border-color: var(--pp-blue) !important;
+  background: var(--pp-blue-soft) !important;
+}
+.option-input:checked + .option-label {
+  border-color: var(--pp-ink) !important;
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+}
+.option-marker {
+  border: 2px solid var(--pp-ink);
+  border-radius: 2px;
+}
+.option-input:checked + .option-label .option-marker {
+  background: var(--pp-red);
+  border-color: var(--pp-red);
+  color: #fff;
+}
+
+.score-display,
+.stat-number {
+  color: var(--pp-ink) !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--pp-ink) !important;
+  font-family: var(--pp-serif);
+}
+.stat-value {
+  color: var(--pp-ink) !important;
+  font-family: var(--pp-serif);
+}
+.result-stat.correct,
+.history-score .percentage.high {
+  background: var(--pp-blue-soft);
+  color: var(--pp-blue);
+}
+.result-stat.wrong,
+.history-score .percentage.low {
+  background: var(--pp-red-soft);
+  color: var(--pp-red);
+}
+
+/* ---------------------------------------------------------
+   12. Heroes / banners / CTA
+   --------------------------------------------------------- */
+.hero h1 {
+  background: none !important;
+  -webkit-text-fill-color: var(--pp-ink) !important;
+  color: var(--pp-ink) !important;
+}
+.hero p,
+.section-title p {
+  color: var(--pp-ink-soft);
+}
+.roadmap-banner {
+  background: var(--pp-ink) !important;
+  border: none;
+  border-radius: 6px;
+  box-shadow: var(--pp-shadow-lg);
+}
+.roadmap-content h2,
+.roadmap-content p {
+  color: #fffdf9 !important;
+}
+.cta-section h2 {
+  color: var(--pp-ink) !important;
+}
+.cta-section p {
+  color: var(--pp-ink-soft) !important;
+}
+
+/* ---------------------------------------------------------
+   13. Misc shared bits
+   --------------------------------------------------------- */
+.role-banner {
+  background: var(--pp-blue-soft) !important;
+  border: 1px solid var(--pp-blue) !important;
+  color: var(--pp-ink) !important;
+  border-radius: 3px;
+}
+.role-banner-admin {
+  background: var(--pp-red-soft) !important;
+  border-color: var(--pp-red) !important;
+}
+.activity-item {
+  border-bottom: 1px dashed var(--pp-ink);
+}
+
+#backToTop {
+  background: var(--pp-ink) !important;
+  color: #fffdf9 !important;
+  border-radius: 3px;
+  font-family: var(--pp-mono);
+  box-shadow: 3px 3px 0 var(--pp-red);
+}
+#soundToggle,
+#themeToggle {
+  background: var(--pp-sheet) !important;
+  border: 1px solid var(--pp-ink);
+  border-radius: 3px;
+}
+
+/* selection */
+::selection {
+  background: var(--pp-red);
+  color: #fff;
+}
+
+/* subtle paper grain overlay via body::before is skipped for perf */

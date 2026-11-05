@@ -5,151 +5,333 @@
 {% block content %}
 <div class="dashboard">
     <div class="container">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-            <h1>Welcome back, {{ current_user.name }}! 👋</h1>
-            <p>Track your progress and continue your placement preparation journey.</p>
-        </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon blue">📝</div>
-                <div class="stat-value">{{ quizzes_taken | default(0) }}</div>
-                <div class="stat-label">Quizzes Taken</div>
+        <!-- ============ SKELETON SCREEN ============ -->
+        <div class="skeleton-screen" id="skeletonDashboard">
+            <!-- Header skeleton -->
+            <div style="margin-bottom: 1.5rem;">
+                <div class="skeleton skeleton-heading" style="width: 320px; height: 28px; margin-bottom: 10px;"></div>
+                <div class="skeleton skeleton-text" style="width: 420px;"></div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon green">📊</div>
-                <div class="stat-value">{{ average_score | default(0) }}%</div>
-                <div class="stat-label">Average Score</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon purple">🎯</div>
-                <div class="stat-value">{{ questions_attempted | default(0) }}</div>
-                <div class="stat-label">Questions Attempted</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon orange">🏆</div>
-                <div class="stat-value">{{ best_score | default(0) }}%</div>
-                <div class="stat-label">Best Score</div>
-            </div>
-        </div>
 
-        <!-- Quick Links -->
-        <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Quick Links</h3>
-        <div class="quick-links">
-            <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
-                <div class="quick-link-icon">📊</div>
-                <div class="quick-link-content">
-                    <h4>Aptitude Tests</h4>
-                    <p>Practice quantitative, logical & verbal</p>
-                </div>
-            </a>
-            <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
-                <div class="quick-link-icon">💻</div>
-                <div class="quick-link-content">
-                    <h4>Technical MCQs</h4>
-                    <p>C, Python, DBMS, OS & more</p>
-                </div>
-            </a>
-            <a href="{{ url_for('main.resources') }}" class="quick-link-card">
-                <div class="quick-link-icon">📚</div>
-                <div class="quick-link-content">
-                    <h4>Study Resources</h4>
-                    <p>Interview tips & HR questions</p>
-                </div>
-            </a>
-            <a href="{{ url_for('main.resources') }}" class="quick-link-card">
-                <div class="quick-link-icon">🎯</div>
-                <div class="quick-link-content">
-                    <h4>Coding Practice</h4>
-                    <p>Links to coding platforms</p>
-                </div>
-            </a>
-        </div>
+            <!-- Banner skeleton -->
+            <div class="skeleton skeleton-rect" style="height: 56px; margin-bottom: 1.5rem;"></div>
 
-        <!-- Recent Activity -->
-        <div class="recent-activity">
-            <h3>Recent Activity</h3>
-            {% if recent_quizzes %}
-                <ul class="activity-list">
-                    {% for quiz in recent_quizzes %}
-                    <li class="activity-item">
-                        <div class="activity-info">
-                            <div class="activity-icon" style="background: rgba(102, 126, 234, 0.1); color: var(--primary-color);">📝</div>
-                            <div>
-                                <strong>{{ quiz.category }}</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">{{ quiz.date }}</p>
-                            </div>
-                        </div>
-                        <span class="activity-score">{{ quiz.score }}%</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <div style="text-align: center; padding: 2rem; color: var(--text-light);">
-                    <p>No recent activity. Start a quiz to track your progress!</p>
-                    <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-outline" style="margin-top: 1rem;">Start Practicing</a>
-                </div>
-            {% endif %}
-        </div>
-
-        <!-- Progress Section -->
-        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Category Progress -->
-            <div class="card">
-                <h3 style="margin-bottom: 1.5rem;">Category Progress</h3>
-                {% for category in category_progress | default([]) %}
-                <div style="margin-bottom: 1rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span>{{ category.name }}</span>
-                        <span style="color: var(--primary-color); font-weight: 600;">{{ category.progress }}%</span>
-                    </div>
-                    <div style="background: var(--light-bg); border-radius: 10px; height: 10px; overflow: hidden;">
-                        <div style="background: var(--primary-gradient); height: 100%; width: {{ category.progress }}%; border-radius: 10px; transition: width 0.5s ease;"></div>
-                    </div>
-                </div>
-                {% else %}
-                <div style="text-align: center; color: var(--text-light);">
-                    <p>Start quizzes to see your progress!</p>
+            <!-- Stats grid skeleton -->
+            <div class="stats-grid" style="margin-bottom: 2rem;">
+                {% for _ in range(4) %}
+                <div class="skeleton-card skeleton-stat">
+                    <div class="skeleton skeleton-circle" style="width: 48px; height: 48px;"></div>
+                    <div class="skeleton skeleton-heading" style="width: 80px; height: 32px; margin: 0;"></div>
+                    <div class="skeleton skeleton-text xshort" style="margin: 0;"></div>
                 </div>
                 {% endfor %}
             </div>
 
-            <!-- Recommendations -->
-            <div class="card">
-                <h3 style="margin-bottom: 1.5rem;">Recommended for You</h3>
-                <ul style="list-style: none;">
-                    <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">📊</span>
-                            <div>
-                                <strong>Quantitative Aptitude</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Improve your numerical skills</p>
+            <!-- Chart skeleton -->
+            <div class="skeleton-card" style="margin-bottom: 2rem; padding: 1.5rem;">
+                <div class="skeleton skeleton-text medium" style="height: 18px; margin-bottom: 1.5rem;"></div>
+                <div class="skeleton skeleton-rect" style="height: 220px;"></div>
+            </div>
+
+            <!-- Quick links skeleton -->
+            <div class="skeleton skeleton-text medium" style="height: 22px; margin-bottom: 1.5rem;"></div>
+            <div class="quick-links" style="margin-bottom: 2rem;">
+                {% for _ in range(4) %}
+                <div class="skeleton-card" style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem;">
+                    <div class="skeleton skeleton-circle" style="width: 48px; height: 48px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div class="skeleton skeleton-text" style="width: 70%; height: 16px;"></div>
+                        <div class="skeleton skeleton-text short" style="height: 12px;"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Recent activity skeleton -->
+            <div class="skeleton-card" style="padding: 1.5rem;">
+                <div class="skeleton skeleton-text" style="width: 160px; height: 18px; margin-bottom: 1.25rem;"></div>
+                {% for _ in range(4) %}
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-circle" style="width: 36px; height: 36px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div class="skeleton skeleton-text" style="width: 65%; height: 14px;"></div>
+                        <div class="skeleton skeleton-text xshort" style="height: 11px;"></div>
+                    </div>
+                    <div class="skeleton skeleton-text xshort" style="width: 50px; height: 16px;"></div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Progress section skeleton -->
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="skeleton-card" style="padding: 1.5rem;">
+                    <div class="skeleton skeleton-text" style="width: 160px; height: 18px; margin-bottom: 1.5rem;"></div>
+                    {% for _ in range(3) %}
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <div class="skeleton skeleton-text" style="width: 120px; height: 13px; margin: 0;"></div>
+                            <div class="skeleton skeleton-text xshort" style="width: 40px; height: 13px; margin: 0;"></div>
+                        </div>
+                        <div class="skeleton skeleton-rect" style="height: 8px;"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="skeleton-card" style="padding: 1.5rem;">
+                    <div class="skeleton skeleton-text" style="width: 180px; height: 18px; margin-bottom: 1.5rem;"></div>
+                    {% for _ in range(3) %}
+                    <div class="skeleton-row">
+                        <div class="skeleton skeleton-circle" style="width: 32px; height: 32px; flex-shrink: 0;"></div>
+                        <div style="flex: 1;">
+                            <div class="skeleton skeleton-text" style="width: 75%; height: 14px;"></div>
+                            <div class="skeleton skeleton-text short" style="height: 11px;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ REAL CONTENT ============ -->
+        <div class="real-content" id="realDashboard">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Welcome back, {{ current_user.name }}! 👋</h1>
+                <p>Track your progress and continue your placement preparation journey.</p>
+            </div>
+
+            <!-- Role-aware banner -->
+            {% if current_user.role == 'admin' %}
+            <div class="role-banner role-banner-admin" style="margin-bottom: 1.5rem;">
+                <span>🛡️ You are signed in as <strong>Administrator</strong> ({{ current_user.email }})</span>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary" style="margin-left: auto;">Open Admin Panel →</a>
+            </div>
+            {% else %}
+            <div class="role-banner" style="margin-bottom: 1.5rem;">
+                <span>🎓 Signed in as <strong>Student</strong> ({{ current_user.email }})</span>
+                <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-outline" style="margin-left: auto;">Start Practicing →</a>
+            </div>
+            {% endif %}
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📝</div>
+                    <div class="stat-value">{{ quizzes_taken | default(0) }}</div>
+                    <div class="stat-label">Quizzes Taken</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">📊</div>
+                    <div class="stat-value">{{ average_score | default(0) }}%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">🎯</div>
+                    <div class="stat-value">{{ questions_attempted | default(0) }}</div>
+                    <div class="stat-label">Questions Attempted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">🏆</div>
+                    <div class="stat-value">{{ best_score | default(0) }}%</div>
+                    <div class="stat-label">Best Score</div>
+                </div>
+            </div>
+
+            <!-- Score Trend Chart -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">📈 Score Trend (Last {{ trend | length }} Attempts)</h3>
+                {% if trend | length > 1 %}
+                <div style="position: relative; height: 280px;">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+                {% else %}
+                <div style="text-align: center; color: var(--text-light); padding: 1rem;">
+                    <p>Take at least two quizzes to see your score trend.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Quick Links -->
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Quick Links</h3>
+            <div class="quick-links">
+                <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
+                    <div class="quick-link-icon">📊</div>
+                    <div class="quick-link-content">
+                        <h4>Aptitude Tests</h4>
+                        <p>Practice quantitative, logical & verbal</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('quiz.list_categories') }}" class="quick-link-card">
+                    <div class="quick-link-icon">💻</div>
+                    <div class="quick-link-content">
+                        <h4>Technical MCQs</h4>
+                        <p>C, Python, DBMS, OS & more</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('main.resources') }}" class="quick-link-card">
+                    <div class="quick-link-icon">📚</div>
+                    <div class="quick-link-content">
+                        <h4>Study Resources</h4>
+                        <p>Interview tips & HR questions</p>
+                    </div>
+                </a>
+                <a href="{{ url_for('main.resources') }}" class="quick-link-card">
+                    <div class="quick-link-icon">🎯</div>
+                    <div class="quick-link-content">
+                        <h4>Coding Practice</h4>
+                        <p>Links to coding platforms</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                {% if recent_quizzes %}
+                    <ul class="activity-list">
+                        {% for quiz in recent_quizzes %}
+                        <li class="activity-item">
+                            <div class="activity-info">
+                                <div class="activity-icon" style="background: rgba(102, 126, 234, 0.1); color: var(--primary-color);">📝</div>
+                                <div>
+                                    <strong>{{ quiz.category }}</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-light);">{{ quiz.date }}</p>
+                                </div>
                             </div>
-                        </a>
-                    </li>
-                    <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">🐍</span>
-                            <div>
-                                <strong>Python Basics</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Master Python fundamentals</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li style="padding: 1rem 0;">
-                        <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
-                            <span style="font-size: 1.5rem;">🗄️</span>
-                            <div>
-                                <strong>DBMS Concepts</strong>
-                                <p style="font-size: 0.85rem; color: var(--text-light);">Database management essentials</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                            <span class="activity-score">{{ quiz.score }}%</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div style="text-align: center; padding: 2rem; color: var(--text-light);">
+                        <p>No recent activity. Start a quiz to track your progress!</p>
+                        <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-outline" style="margin-top: 1rem;">Start Practicing</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Progress Section -->
+            <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Category Progress -->
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Category Progress</h3>
+                    {% for category in category_progress | default([]) %}
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>{{ category.name }}</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">{{ category.progress }}%</span>
+                        </div>
+                        <div style="background: var(--light-bg); border-radius: 10px; height: 10px; overflow: hidden;">
+                            <div style="background: var(--primary-gradient); height: 100%; width: {{ category.progress }}%; border-radius: 10px; transition: width 0.5s ease;"></div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div style="text-align: center; color: var(--text-light);">
+                        <p>Start quizzes to see your progress!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Recommendations -->
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem;">Recommended for You</h3>
+                    <ul style="list-style: none;">
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
+                            <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1.5rem;">📊</span>
+                                <div>
+                                    <strong>Quantitative Aptitude</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-light);">Improve your numerical skills</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li style="padding: 1rem 0; border-bottom: 1px solid var(--light-bg);">
+                            <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1.5rem;">🐍</span>
+                                <div>
+                                    <strong>Python Basics</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-light);">Master Python fundamentals</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li style="padding: 1rem 0;">
+                            <a href="#" style="text-decoration: none; color: var(--text-dark); display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1.5rem;">🗄️</span>
+                                <div>
+                                    <strong>DBMS Concepts</strong>
+                                    <p style="font-size: 0.85rem; color: var(--text-light);">Database management essentials</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Skeleton reveal logic
+(function() {
+    var skeleton = document.getElementById('skeletonDashboard');
+    var real = document.getElementById('realDashboard');
+    if (!skeleton || !real) return;
+
+    // Show skeleton for a minimum time, then reveal real content
+    var minDelay = 600; // ms
+    var startTime = Date.now();
+
+    function reveal() {
+        skeleton.classList.add('hidden');
+        real.classList.add('visible');
+    }
+
+    // Wait for both: min delay + DOM ready
+    if (document.readyState === 'complete') {
+        var elapsed = Date.now() - startTime;
+        var remaining = Math.max(0, minDelay - elapsed);
+        setTimeout(reveal, remaining);
+    } else {
+        window.addEventListener('load', function() {
+            var elapsed = Date.now() - startTime;
+            var remaining = Math.max(0, minDelay - elapsed);
+            setTimeout(reveal, remaining);
+        });
+    }
+})();
+</script>
+
+{% if trend | length > 1 %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+const trendData = {{ trend | tojson }};
+const ctx = document.getElementById('scoreChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: trendData.map(t => t.label),
+        datasets: [{
+            label: 'Score %',
+            data: trendData.map(t => t.score),
+            borderColor: '#a855f7',
+            backgroundColor: 'rgba(168, 85, 247, 0.15)',
+            fill: true,
+            tension: 0.3,
+            pointBackgroundColor: '#06b6d4'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.06)' } },
+            x: { grid: { display: false } }
+        },
+        plugins: { legend: { display: false } }
+    }
+});
+</script>
+{% endif %}
 {% endblock %}

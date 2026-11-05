@@ -1,0 +1,59 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1614 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Infosys Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Test Pattern and Preparation Tips) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Online Test) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Mathematical Ability: quants, data interpretation.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Logical Reasoning: series, puzzles, arrangements.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Verbal Ability: grammar and comprehension.) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Technical/Pseudo-code section for some roles.) Tj
+/F6 14 Tf 1 0 0 1 54 592 Tm (2. Mathematical Ability) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Percentages, averages, ratios, simple/compound interest.) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Time and work, pipes, speed and distance.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- Practice previous year papers to spot patterns.) Tj
+/F6 14 Tf 1 0 0 1 54 517 Tm (3. Logical Reasoning) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Coding-decoding, number series, odd one out.) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- Venn diagrams, syllogisms, direction sense.) Tj
+/F6 14 Tf 1 0 0 1 54 457 Tm (4. Verbal Ability) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- Synonyms/antonyms, sentence completion, para jumbles.) Tj
+/F6 14 Tf 1 0 0 1 54 412 Tm (5. Technical Round) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- Core subjects: DBMS, OS, OOP, basic data structures.) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- Be ready with 2-3 strong projects from your resume.) Tj
+/F6 14 Tf 1 0 0 1 54 352 Tm (6. HR Round) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Questions on gap years, relocation, and why Infosys.) Tj
+/F5 11 Tf 1 0 0 1 54 322 Tm (- Prepare STAR stories for teamwork and leadership.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001917 00000 n 
+0000001987 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2062
+%%EOF

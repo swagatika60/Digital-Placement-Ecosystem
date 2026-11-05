@@ -1,0 +1,56 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1414 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Cognizant \(CTS\) Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Test Pattern and Preparation Tips) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Online Test \(CTS GenC\)) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Quantitative Aptitude: numbers, ratios, averages.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Logical Reasoning: series, puzzles, arrangements.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Verbal Ability: grammar, vocabulary, comprehension.) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Coding \(for GenC Next / tech roles\).) Tj
+/F6 14 Tf 1 0 0 1 54 592 Tm (2. Quantitative Aptitude) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Percentages, profit-loss, time-work, boats-streams.) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Data interpretation and basic geometry.) Tj
+/F6 14 Tf 1 0 0 1 54 532 Tm (3. Logical Reasoning) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- Coding-decoding, odd one out, direction sense.) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Syllogisms and logical deduction.) Tj
+/F6 14 Tf 1 0 0 1 54 472 Tm (4. Verbal Ability) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- Error spotting, sentence improvement, fill-in-blanks.) Tj
+/F6 14 Tf 1 0 0 1 54 427 Tm (5. Technical & HR Rounds) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Core CS fundamentals: DBMS, OS, OOP, basics of web.) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- Projects from resume, internships, and certifications.) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- HR: why Cognizant, career goals, and strengths.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001717 00000 n 
+0000001787 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1862
+%%EOF

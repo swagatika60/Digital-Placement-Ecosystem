@@ -1,0 +1,207 @@
+{% extends "base.html" %} {% block title %}Coding Lab — Placement Portal{%
+endblock %} {% block content %}
+<div class="container" style="padding: 2.5rem 0 4rem">
+  <div class="section-title reveal" style="max-width: 780px">
+    <h2
+      style="
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-family: &quot;Fraunces&quot;, serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.4rem;
+      "
+    >
+      Coding Lab
+    </h2>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      "
+    >
+      <span
+        style="
+          color: #e63946;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-weight: 700;
+        "
+        >LAB</span
+      >
+      <span
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.8rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #111;
+        "
+        >University practical programs · step-through graphics</span
+      >
+    </div>
+    <p style="color: var(--text-light); font-size: 0.98rem; line-height: 1.6">
+      Standard lab programs you'll be asked to implement and explain in a viva —
+      each with a live step-through visualizer so you can watch the algorithm
+      work, not just read it.
+    </p>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2rem;
+    "
+  >
+    {% for lab in labs %}
+    <article
+      class="paper-card"
+      style="
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <span
+          class="cmd-key"
+          style="
+            border-color: #111;
+            background: #f4f0ea;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-weight: 700;
+          "
+          >LAB {{ "%02d"|format(loop.index) }}</span
+        >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.7rem;
+            color: #457b9d;
+            font-weight: 700;
+          "
+          >{{ lab.topic_name or lab.name }}</span
+        >
+      </div>
+      <h3
+        style="
+          font-family: &quot;Fraunces&quot;, serif;
+          font-weight: 900;
+          font-size: 1.3rem;
+          margin: 0;
+          letter-spacing: -0.01em;
+        "
+      >
+        {{ lab.name }}
+      </h3>
+      <p
+        style="
+          font-size: 0.88rem;
+          color: var(--text-light);
+          margin: 0;
+          line-height: 1.55;
+        "
+      >
+        {{ lab.program }}
+      </p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.4rem">
+        {% for t in lab.complexity_tags %}
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.7rem;
+            border: 1.5px solid #111;
+            padding: 0.15rem 0.5rem;
+            background: #fbf9f5;
+          "
+          >{{ t }}</span
+        >
+        {% endfor %}
+      </div>
+      <div style="display: flex; gap: 0.6rem; margin-top: auto">
+        <a
+          href="{{ url_for('workspace.lab_visualize', slug=lab.slug) }}"
+          class="btn btn-primary btn-ripple"
+          style="
+            padding: 0.5rem 1rem;
+            font-size: 0.82rem;
+            font-family: &quot;Space Grotesk&quot;, sans-serif;
+            font-weight: 700;
+          "
+          >▶ Visualize</a
+        >
+        <a
+          href="{{ url_for('dsa.topic_practice', slug=lab.topic_slug) }}"
+          class="btn"
+          style="
+            padding: 0.5rem 1rem;
+            font-size: 0.82rem;
+            border: 2px solid #111;
+            border-radius: 0;
+            color: #111;
+            font-weight: 700;
+          "
+          >Practice →</a
+        >
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div
+    class="paper-card"
+    style="
+      margin-top: 2.4rem;
+      padding: 1.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    "
+  >
+    <div style="max-width: 520px">
+      <div
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #e63946;
+          font-weight: 700;
+          margin-bottom: 0.3rem;
+        "
+      >
+        Complexity verification
+      </div>
+      <p style="margin: 0; font-size: 0.9rem; line-height: 1.55; color: #111">
+        Every lab ships with sorted complexity tags (e.g.
+        <code>O(n log n)</code>) so you can state time/space bounds during the
+        viva — and the visualizer animates the exact comparison/swap steps that
+        justify them.
+      </p>
+    </div>
+    <a
+      href="{{ url_for('dsa.visualizer') }}"
+      class="btn"
+      style="
+        padding: 0.6rem 1.2rem;
+        border: 2px solid #111;
+        border-radius: 0;
+        font-weight: 700;
+        color: #111;
+      "
+      >Open algorithm library →</a
+    >
+  </div>
+</div>
+{% endblock %}

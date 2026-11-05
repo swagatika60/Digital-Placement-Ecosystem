@@ -1,188 +1,285 @@
-{% extends "base.html" %}
-
-{% block title %}Quiz - {{ category.title() }} - Placement Preparation Portal{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="quiz-container">
-        <!-- Quiz Header -->
-        <div class="quiz-header">
-            <div class="quiz-info">
-                <div class="quiz-info-item">
-                    <div class="quiz-info-label">Category</div>
-                    <div class="quiz-info-value">{{ category.title() }}</div>
-                </div>
-                <div class="quiz-info-item">
-                    <div class="quiz-info-label">Question</div>
-                    <div class="quiz-info-value"><span id="currentQuestion">1</span>/{{ total_questions }}</div>
-                </div>
-            </div>
-            <div class="quiz-timer">
-                ⏱️ <span id="timer">30:00</span>
-            </div>
+{% extends "base.html" %} {% block title %}{{ category.name }} - Full Length
+Test{% endblock %} {% block content %}
+<div class="container quiz-container">
+  <div class="quiz-header">
+    <div class="quiz-info">
+      <div class="quiz-info-item">
+        <div class="quiz-info-label">Category</div>
+        <div class="quiz-info-value">{{ category.name }}</div>
+      </div>
+      <div class="quiz-info-item">
+        <div class="quiz-info-label">Question</div>
+        <div class="quiz-info-value">
+          <span id="currentQuestion">1</span>/{{ total_questions }}
         </div>
-
-        <!-- Question Palette -->
-        <div class="question-palette">
-            <h4>Question Navigator</h4>
-            <div class="palette-grid">
-                {% for i in range(1, total_questions + 1) %}
-                <button type="button" class="palette-item {% if i == 1 %}current{% endif %} unanswered" data-question="{{ i }}" onclick="goToQuestion({{ i }})">
-                    {{ i }}
-                </button>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Quiz Form -->
-        <form id="quizForm" action="{{ url_for('quiz.submit_quiz') }}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="category" value="{{ category }}">
-            <input type="hidden" name="time_taken" id="timeTaken" value="">
-
-            {% for question in questions %}
-            <div class="quiz-card question-wrapper" id="question-{{ loop.index }}" {% if loop.index != 1 %}style="display: none;"{% endif %}>
-                <span class="question-number">Question {{ loop.index }}</span>
-                <p class="question-text">{{ question.text }}</p>
-
-                <ul class="options-list">
-                    <li class="option-item">
-                        <input type="radio" class="option-input" name="answer_{{ question.id }}" id="q{{ question.id }}_a" value="A" onchange="markAnswered({{ loop.index }})">
-                        <label class="option-label" for="q{{ question.id }}_a">
-                            <span class="option-marker">A</span>
-                            <span class="option-text">{{ question.option_a }}</span>
-                        </label>
-                    </li>
-                    <li class="option-item">
-                        <input type="radio" class="option-input" name="answer_{{ question.id }}" id="q{{ question.id }}_b" value="B" onchange="markAnswered({{ loop.index }})">
-                        <label class="option-label" for="q{{ question.id }}_b">
-                            <span class="option-marker">B</span>
-                            <span class="option-text">{{ question.option_b }}</span>
-                        </label>
-                    </li>
-                    <li class="option-item">
-                        <input type="radio" class="option-input" name="answer_{{ question.id }}" id="q{{ question.id }}_c" value="C" onchange="markAnswered({{ loop.index }})">
-                        <label class="option-label" for="q{{ question.id }}_c">
-                            <span class="option-marker">C</span>
-                            <span class="option-text">{{ question.option_c }}</span>
-                        </label>
-                    </li>
-                    <li class="option-item">
-                        <input type="radio" class="option-input" name="answer_{{ question.id }}" id="q{{ question.id }}_d" value="D" onchange="markAnswered({{ loop.index }})">
-                        <label class="option-label" for="q{{ question.id }}_d">
-                            <span class="option-marker">D</span>
-                            <span class="option-text">{{ question.option_d }}</span>
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            {% endfor %}
-
-            <!-- Navigation Buttons -->
-            <div class="quiz-navigation">
-                <button type="button" class="btn btn-outline" id="prevBtn" onclick="navigate(-1)" style="display: none;">
-                    ← Previous
-                </button>
-                <button type="button" class="btn btn-primary" id="nextBtn" onclick="navigate(1)">
-                    Next →
-                </button>
-                <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
-                    Submit Quiz
-                </button>
-            </div>
-        </form>
+      </div>
     </div>
+    <div class="quiz-timer" id="quizTimer">⏱ Time left: --:--</div>
+  </div>
+
+  <!-- Question Navigator Palette -->
+  <div class="question-palette">
+    <h4>Question Navigator</h4>
+    <div class="palette-grid">
+      {% for i in range(1, total_questions + 1) %}
+      <button
+        type="button"
+        class="palette-item {% if i == 1 %}current{% endif %} unanswered"
+        data-question="{{ i }}"
+        onclick="goToQuestion({{ i }})"
+        aria-label="Go to question {{ i }}"
+      >
+        {{ i }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Quiz Form: all questions in one form, one visible at a time -->
+  <form
+    action="{{ url_for('quiz.full_quiz', category_id=category.id) }}"
+    method="POST"
+    id="quizForm"
+    data-quiz-key="{{ category.id }}"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+    {% for question in questions %}
+    <div
+      class="question-card question-wrapper"
+      id="question-{{ loop.index }}"
+      {%
+      if
+      loop.index
+      !="1"
+      %}style="display: none;"
+      {%
+      endif
+      %}
+    >
+      <span class="question-number">Question {{ loop.index }}</span>
+      <h3 class="question-text">{{ question.question_text }}</h3>
+
+      <div class="options-list">
+        <label class="option-item">
+          <input
+            type="radio"
+            name="question_{{ question.id }}"
+            value="A"
+            onchange="markAnswered({{ loop.index }})"
+          />
+          <span class="option-label">A</span>
+          <span class="option-text">{{ question.option_a }}</span>
+        </label>
+        <label class="option-item">
+          <input
+            type="radio"
+            name="question_{{ question.id }}"
+            value="B"
+            onchange="markAnswered({{ loop.index }})"
+          />
+          <span class="option-label">B</span>
+          <span class="option-text">{{ question.option_b }}</span>
+        </label>
+        <label class="option-item">
+          <input
+            type="radio"
+            name="question_{{ question.id }}"
+            value="C"
+            onchange="markAnswered({{ loop.index }})"
+          />
+          <span class="option-label">C</span>
+          <span class="option-text">{{ question.option_c }}</span>
+        </label>
+        <label class="option-item">
+          <input
+            type="radio"
+            name="question_{{ question.id }}"
+            value="D"
+            onchange="markAnswered({{ loop.index }})"
+          />
+          <span class="option-label">D</span>
+          <span class="option-text">{{ question.option_d }}</span>
+        </label>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Navigation Buttons -->
+    <div class="quiz-navigation">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        id="prevBtn"
+        onclick="navigate(-1)"
+        style="display: none"
+      >
+        ← Previous
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="nextBtn"
+        onclick="navigate(1)"
+      >
+        Next →
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success"
+        id="submitBtn"
+        style="display: none"
+      >
+        Submit Quiz
+      </button>
+    </div>
+  </form>
 </div>
 
 <script>
-let currentQuestion = 1;
-const totalQuestions = {{ total_questions }};
-let timeLeft = 30 * 60; // 30 minutes in seconds
-const timerElement = document.getElementById('timer');
+  // ====== QUIZ OPTION MICRO-INTERACTIONS ======
+  (function() {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
 
-// Timer functionality
-const timerInterval = setInterval(function() {
-    if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        document.getElementById('timeTaken').value = '30:00';
-        document.getElementById('quizForm').submit();
-    } else {
-        timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        document.getElementById('timeTaken').value = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-}, 1000);
+      // --- Ripple effect on option click ---
+      document.querySelectorAll('.option-item').forEach(function(item) {
+          item.addEventListener('click', function(e) {
+              item.querySelectorAll('.option-ripple').forEach(function(r) { r.remove(); });
 
-// Navigation functions
-function navigate(direction) {
-    const newQuestion = currentQuestion + direction;
+              var ripple = document.createElement('span');
+              ripple.classList.add('option-ripple');
+              var rect = item.getBoundingClientRect();
+              var size = Math.max(rect.width, rect.height);
+              ripple.style.width = ripple.style.height = size + 'px';
+              ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+              ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+              item.appendChild(ripple);
+              ripple.addEventListener('animationend', function() { ripple.remove(); });
 
-    if (newQuestion >= 1 && newQuestion <= totalQuestions) {
-        showQuestion(newQuestion);
-    }
-}
+              // Confetti burst
+              spawnConfetti(e.clientX - rect.left, e.clientY - rect.top, item);
 
-function goToQuestion(questionNum) {
-    if (questionNum >= 1 && questionNum <= totalQuestions) {
-        showQuestion(questionNum);
-    }
-}
+              // Sound effect
+              if (window.QuizSounds) QuizSounds.select();
 
-function showQuestion(questionNum) {
-    // Hide current question
-    document.getElementById(`question-${currentQuestion}`).style.display = 'none';
+              // Haptic feedback
+              if (navigator.vibrate) navigator.vibrate(10);
+          });
+      });
 
-    // Remove current class from palette
-    document.querySelector(`.palette-item[data-question="${currentQuestion}"]`).classList.remove('current');
+      // Button click sounds on navigation
+      document.querySelectorAll('.quiz-navigation .btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+              if (window.QuizSounds) QuizSounds.click();
+          });
+      });
 
-    // Update current question
-    currentQuestion = questionNum;
+      function spawnConfetti(x, y, container) {
+          var colors = ['#a855f7', '#06b6d4', '#00e676', '#ff9100', '#ff1744', '#ffd700'];
+          for (var i = 0; i < 8; i++) {
+              var p = document.createElement('span');
+              p.classList.add('confetti-particle');
+              var angle = (Math.PI * 2 / 8) * i + (Math.random() - 0.5) * 0.5;
+              var dist = 30 + Math.random() * 40;
+              p.style.left = x + 'px';
+              p.style.top = y + 'px';
+              p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+              p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+              p.style.background = colors[Math.floor(Math.random() * colors.length)];
+              container.appendChild(p);
+              p.addEventListener('animationend', function() { p.remove(); });
+          }
+      }
+  })();
 
-    // Show new question
-    document.getElementById(`question-${currentQuestion}`).style.display = 'block';
+  // ====== PALETTE + NAVIGATION ======
+  var currentQuestion = 1;
+  var totalQuestions = {{ total_questions }};
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Add current class to palette
-    document.querySelector(`.palette-item[data-question="${currentQuestion}"]`).classList.add('current');
+  function navigate(direction) {
+      var target = currentQuestion + direction;
+      if (target >= 1 && target <= totalQuestions) showQuestion(target);
+  }
 
-    // Update question counter
-    document.getElementById('currentQuestion').textContent = currentQuestion;
+  function goToQuestion(num) {
+      if (num >= 1 && num <= totalQuestions) showQuestion(num);
+  }
 
-    // Update navigation buttons
-    updateNavigationButtons();
-}
+  function showQuestion(num) {
+      document.getElementById('question-' + currentQuestion).style.display = 'none';
+      document.querySelector('.palette-item[data-question="' + currentQuestion + '"]').classList.remove('current');
 
-function updateNavigationButtons() {
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const submitBtn = document.getElementById('submitBtn');
+      currentQuestion = num;
 
-    // Show/hide previous button
-    prevBtn.style.display = currentQuestion > 1 ? 'inline-block' : 'none';
+      var card = document.getElementById('question-' + currentQuestion);
+      card.style.display = 'block';
+      if (!prefersReduced) {
+          card.classList.remove('card-enter');
+          void card.offsetWidth; // force reflow
+          card.classList.add('card-enter');
+      }
 
-    // Show next or submit button
-    if (currentQuestion === totalQuestions) {
-        nextBtn.style.display = 'none';
-        submitBtn.style.display = 'inline-block';
-    } else {
-        nextBtn.style.display = 'inline-block';
-        submitBtn.style.display = 'none';
-    }
-}
+      document.querySelector('.palette-item[data-question="' + currentQuestion + '"]').classList.add('current');
+      document.getElementById('currentQuestion').textContent = currentQuestion;
 
-function markAnswered(questionNum) {
-    const paletteItem = document.querySelector(`.palette-item[data-question="${questionNum}"]`);
-    paletteItem.classList.remove('unanswered');
-    paletteItem.classList.add('answered');
-}
+      document.getElementById('prevBtn').style.display = currentQuestion > 1 ? 'inline-block' : 'none';
+      var last = currentQuestion === totalQuestions;
+      document.getElementById('nextBtn').style.display = last ? 'none' : 'inline-block';
+      document.getElementById('submitBtn').style.display = last ? 'inline-block' : 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-// Confirm before leaving page
-window.addEventListener('beforeunload', function(e) {
-    if (document.querySelectorAll('.option-input:checked').length > 0) {
-        e.preventDefault();
-        e.returnValue = '';
-    }
-});
+  function markAnswered(questionNum) {
+      var item = document.querySelector('.palette-item[data-question="' + questionNum + '"]');
+      item.classList.remove('unanswered');
+      item.classList.add('answered');
+      if (!prefersReduced) {
+          item.classList.remove('answered-bounce');
+          void item.offsetWidth;
+          item.classList.add('answered-bounce');
+          item.addEventListener('animationend', function handler() {
+              item.classList.remove('answered-bounce');
+              item.removeEventListener('animationend', handler);
+          });
+      }
+  }
+
+  // ====== DRIFT-PROOF COUNTDOWN ======
+  (function () {
+      var total = {{ time_left | default(0) }};
+      var timerEl = document.getElementById('quizTimer');
+      var form = document.getElementById('quizForm');
+      if (!timerEl || !form || total <= 0) return;
+
+      var endTime = Date.now() + total * 1000;
+
+      function fmt(secs) {
+          var m = String(Math.floor(secs / 60)).padStart(2, '0');
+          var s = String(secs % 60).padStart(2, '0');
+          return m + ':' + s;
+      }
+
+      function tick() {
+          var remaining = Math.max(0, Math.round((endTime - Date.now()) / 1000));
+          timerEl.textContent = '⏱ Time left: ' + fmt(remaining);
+          timerEl.classList.toggle('timer-warning', remaining <= 30);
+          if (remaining <= 0) {
+              form.submit();
+              return;
+          }
+          setTimeout(tick, 500);
+      }
+      tick();
+  })();
+
+  // Confirm before leaving with unsaved answers
+  window.addEventListener('beforeunload', function (e) {
+      if (document.querySelectorAll('input[type="radio"]:checked').length > 0) {
+          e.preventDefault();
+          e.returnValue = '';
+      }
+  });
 </script>
 {% endblock %}

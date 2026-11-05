@@ -5,3 +5,13 @@ Flask-WTF==1.2.1
 WTForms==3.1.1
 Werkzeug==3.0.1
 email-validator==2.1.0
+
+
+# --- AI + Ingestion pipeline ---
+google-genai>=1.0.0
+requests>=2.32.0
+beautifulsoup4>=4.12.3
+trafilatura>=1.12.0
+lxml_html_clean>=0.4.0
+youtube-transcript-api>=0.6.2
+pypdf>=4.3.0

@@ -1,120 +1,397 @@
-{% extends "base.html" %}
-
-{% block title %}Admin Dashboard - System Terminal{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Admin Dashboard - System Terminal{%
+endblock %} {% block content %}
 <div class="container">
-    <div class="resources-header" style="margin-top: 2rem;">
-        <h1>Control Panel</h1>
-        <p>Welcome, <span style="color: var(--primary-color);">{{ current_user.name }}</span>. System Status: <span style="color: var(--success-color);">Operational</span></p>
+  <div class="resources-header" style="margin-top: 2rem">
+    <h1>Control Panel</h1>
+    <p>
+      Welcome,
+      <span style="color: var(--primary-color)">{{ current_user.name }}</span>.
+      System Status:
+      <span style="color: var(--success-color)">Operational</span>
+    </p>
+  </div>
+
+  <div class="stats-grid" style="margin-bottom: 3rem">
+    <div class="stat-card">
+      <span class="stat-label">Active Candidates</span>
+      <div class="stat-value">{{ users_count }}</div>
+      <div
+        style="
+          font-size: 0.75rem;
+          color: var(--success-color);
+          margin-top: 0.5rem;
+        "
+      >
+        ↑ User growth stable
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Question Bank</span>
+      <div class="stat-value">{{ questions_count }}</div>
+      <div
+        style="
+          font-size: 0.75rem;
+          color: var(--primary-color);
+          margin-top: 0.5rem;
+        "
+      >
+        {{ categories_count }} Active Categories
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Total Engagements</span>
+      <div class="stat-value">{{ quiz_results_count }}</div>
+      <div
+        style="
+          font-size: 0.75rem;
+          color: var(--secondary-color);
+          margin-top: 0.5rem;
+        "
+      >
+        Quizzes completed
+      </div>
+    </div>
+  </div>
+
+  <h3
+    style="
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-light);
+    "
+  >
+    Command Center
+  </h3>
+  <div
+    class="admin-actions"
+    style="
+      margin-bottom: 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    "
+  >
+    <a
+      href="{{ url_for('admin.create_question') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          +
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Add Question</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Create new quiz items
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.list_questions') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          Q
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Manage Bank</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Edit or delete content
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.list_users') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          U
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Users</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Candidate directory
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.list_resources') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid var(--warning-color);
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          R
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Resources</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Study materials
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.import_questions') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+            border: 1px solid #06b6d4;
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          ⬆
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Import</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Bulk upload questions
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.analytics') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(168, 85, 247, 0.1);
+            color: #c084fc;
+            border: 1px solid #c084fc;
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          📊
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Analytics</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Charts and metrics
+          </p>
+        </div>
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('admin.export_questions', format='csv') }}"
+      class="admin-action-card"
+      style="text-decoration: none"
+    >
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div
+          class="admin-action-icon"
+          style="
+            background: rgba(0, 230, 118, 0.1);
+            color: #4ade80;
+            border: 1px solid #4ade80;
+            min-width: 40px;
+            height: 40px;
+          "
+        >
+          ⬇
+        </div>
+        <div>
+          <h4 style="margin: 0; font-size: 1rem">Export</h4>
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-light)">
+            Download question bank
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    "
+  >
+    <div class="card" style="padding: 1.5rem">
+      <h3
+        style="
+          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
+          color: var(--primary-color);
+        "
+      >
+        Candidate Registry
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        {% for user in recent_users %}
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+          "
+        >
+          <div style="display: flex; gap: 1rem; align-items: center">
+            <div
+              style="
+                width: 32px;
+                height: 32px;
+                background: var(--bg-hover);
+                color: var(--primary-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                border: 1px solid var(--border-color);
+              "
+            >
+              {{ user.name[0] }}
+            </div>
+            <div>
+              <div style="font-size: 0.9rem; font-weight: 600">
+                {{ user.name }}
+              </div>
+              <div style="font-size: 0.7rem; color: var(--text-light)">
+                Joined: {{ user.created_at.strftime('%d %b %Y') }}
+              </div>
+            </div>
+          </div>
+          <span
+            style="
+              font-size: 0.7rem;
+              font-family: monospace;
+              color: var(--text-light);
+            "
+            >ID: {{ user.id }}</span
+          >
+        </div>
+        {% else %}
+        <p style="text-align: center; color: var(--text-light)">
+          Empty Registry
+        </p>
+        {% endfor %}
+      </div>
     </div>
 
-    <div class="stats-grid" style="margin-bottom: 3rem;">
-        <div class="stat-card">
-            <span class="stat-label">Active Candidates</span>
-            <div class="stat-value">{{ users_count }}</div>
-            <div style="font-size: 0.75rem; color: var(--success-color); margin-top: 0.5rem;">↑ User growth stable</div>
+    <div class="card" style="padding: 1.5rem">
+      <h3
+        style="
+          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
+          color: var(--secondary-color);
+        "
+      >
+        Performance Stream
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        {% for result in recent_results %}
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+          "
+        >
+          <div>
+            <div style="font-size: 0.9rem; font-weight: 600">
+              {{ result.user.name if result.user else 'Unknown' }}
+            </div>
+            <div style="font-size: 0.7rem; color: var(--text-light)">
+              Accuracy: {{ result.percentage }}%
+            </div>
+          </div>
+          <div style="text-align: right">
+            <div
+              style="
+                font-size: 0.8rem;
+                font-weight: 700;
+                color: var(--success-color);
+              "
+            >
+              {{ result.score }}/{{ result.total_questions }}
+            </div>
+            <div
+              style="
+                font-size: 0.65rem;
+                color: var(--text-light);
+                text-transform: uppercase;
+              "
+            >
+              Points
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-            <span class="stat-label">Question Bank</span>
-            <div class="stat-value">{{ questions_count }}</div>
-            <div style="font-size: 0.75rem; color: var(--primary-color); margin-top: 0.5rem;">{{ categories_count }} Active Categories</div>
-        </div>
-        <div class="stat-card">
-            <span class="stat-label">Total Engagements</span>
-            <div class="stat-value">{{ quiz_results_count }}</div>
-            <div style="font-size: 0.75rem; color: var(--secondary-color); margin-top: 0.5rem;">Quizzes completed</div>
-        </div>
+        {% else %}
+        <p style="text-align: center; color: var(--text-light)">
+          No data streams yet
+        </p>
+        {% endfor %}
+      </div>
     </div>
-
-    <h3 style="margin-bottom: 1.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light);">Command Center</h3>
-    <div class="admin-actions" style="margin-bottom: 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
-        
-        <a href="{{ url_for('admin.create_question') }}" class="admin-action-card" style="text-decoration: none;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="admin-action-icon" style="background: rgba(0, 210, 255, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color); min-width: 40px; height: 40px;">+</div>
-                <div>
-                    <h4 style="margin: 0; font-size: 1rem;">Add Question</h4>
-                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Create new quiz items</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{ url_for('admin.list_questions') }}" class="admin-action-card" style="text-decoration: none;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="admin-action-icon" style="background: rgba(168, 85, 247, 0.1); color: var(--secondary-color); border: 1px solid var(--secondary-color); min-width: 40px; height: 40px;">Q</div>
-                <div>
-                    <h4 style="margin: 0; font-size: 1rem;">Manage Bank</h4>
-                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Edit or delete content</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{ url_for('admin.list_users') }}" class="admin-action-card" style="text-decoration: none;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="admin-action-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-color); border: 1px solid var(--accent-color); min-width: 40px; height: 40px;">U</div>
-                <div>
-                    <h4 style="margin: 0; font-size: 1rem;">Users</h4>
-                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Candidate directory</p>
-                </div>
-            </div>
-        </a>
-
-        <a href="{{ url_for('admin.list_resources') }}" class="admin-action-card" style="text-decoration: none;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div class="admin-action-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--warning-color); border: 1px solid var(--warning-color); min-width: 40px; height: 40px;">R</div>
-                <div>
-                    <h4 style="margin: 0; font-size: 1rem;">Vault</h4>
-                    <p style="margin: 0; font-size: 0.75rem; color: var(--text-light);">Study materials</p>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
-        
-        <div class="card" style="padding: 1.5rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--primary-color);">Candidate Registry</h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                {% for user in recent_users %}
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
-                    <div style="display: flex; gap: 1rem; align-items: center;">
-                        <div style="width: 32px; height: 32px; background: var(--bg-hover); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid var(--border-color);">
-                            {{ user.name[0] }}
-                        </div>
-                        <div>
-                            <div style="font-size: 0.9rem; font-weight: 600;">{{ user.name }}</div>
-                            <div style="font-size: 0.7rem; color: var(--text-light);">Joined: {{ user.created_at.strftime('%d %b %Y') }}</div>
-                        </div>
-                    </div>
-                    <span style="font-size: 0.7rem; font-family: monospace; color: var(--text-light);">ID: {{ user.id }}</span>
-                </div>
-                {% else %}
-                <p style="text-align: center; color: var(--text-light);">Empty Registry</p>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="card" style="padding: 1.5rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--secondary-color);">Performance Stream</h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                {% for result in recent_results %}
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--bg-dark); border: 1px solid var(--border-color);">
-                    <div>
-                        <div style="font-size: 0.9rem; font-weight: 600;">{{ result.user.name if result.user else 'Unknown' }}</div>
-                        <div style="font-size: 0.7rem; color: var(--text-light);">Accuracy: {{ result.percentage }}%</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--success-color);">{{ result.score }}/{{ result.total_questions }}</div>
-                        <div style="font-size: 0.65rem; color: var(--text-light); text-transform: uppercase;">Points</div>
-                    </div>
-                </div>
-                {% else %}
-                <p style="text-align: center; color: var(--text-light);">No data streams yet</p>
-                {% endfor %}
-            </div>
-        </div>
-
-    </div>
+  </div>
 </div>
 {% endblock %}

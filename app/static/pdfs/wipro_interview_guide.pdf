@@ -1,0 +1,59 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1665 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Wipro Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (NLTH / WILP Test Pattern and Preparation) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Online Assessment \(NLTH\)) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Quantitative Aptitude: numbers, percentages, ratios.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Logical Reasoning: series, coding-decoding, puzzles.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Verbal Ability: grammar, vocabulary.) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Written Communication \(essay\) for some roles.) Tj
+/F5 11 Tf 1 0 0 1 54 607 Tm (- Coding section for engineering roles.) Tj
+/F6 14 Tf 1 0 0 1 54 577 Tm (2. Quantitative Aptitude) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Profit/loss, simple & compound interest, time-speed-distance.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- Permutation & combination, probability basics.) Tj
+/F6 14 Tf 1 0 0 1 54 517 Tm (3. Logical Reasoning) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Number/letter series, blood relations, seating arrangements.) Tj
+/F6 14 Tf 1 0 0 1 54 472 Tm (4. Verbal & Written) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- Error spotting, fill in the blanks, comprehension.) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- Write a clear, structured essay \(intro, body, conclusion\).) Tj
+/F6 14 Tf 1 0 0 1 54 412 Tm (5. Technical Interview) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- Fundamentals of C, Java, SQL, and web basics.) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- OS and networking concepts at a beginner level.) Tj
+/F6 14 Tf 1 0 0 1 54 352 Tm (6. HR Round) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Questions about career goals and willingness to relocate.) Tj
+/F5 11 Tf 1 0 0 1 54 322 Tm (- Emphasize communication skills and adaptability.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001968 00000 n 
+0000002038 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2113
+%%EOF
