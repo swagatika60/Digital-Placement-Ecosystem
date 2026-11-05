@@ -1,0 +1,361 @@
+{% extends "base.html" %} {% block title %}Resume Check — Placement Portal{%
+endblock %} {% block content %}
+<div class="container" style="padding: 2.5rem 0 4rem">
+  <div class="section-title reveal" style="max-width: 720px">
+    <h2
+      style="
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-family: &quot;Fraunces&quot;, serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.3rem;
+      "
+    >
+      Resume Check
+    </h2>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      "
+    >
+      <span
+        style="
+          color: #e63946;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-weight: 700;
+        "
+        >▲</span
+      >
+      <span
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.8rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #111;
+        "
+        >Quick resume & README review</span
+      >
+    </div>
+    <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6">
+      Paste your resume bullet points or your project README. This tool runs a
+      fast, rule-based scan and flags the exact things that make reviewers skim
+      past you: vague metrics, thin technical depth, filler words, and missing
+      setup/architecture signals. No AI fluff — just a checklist that catches
+      the usual misses.
+    </p>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+      margin-top: 2rem;
+    "
+    id="sentryWrap"
+  >
+    <div class="paper-card" style="padding: 1.5rem; margin-bottom: 1.4rem">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 0.8rem;
+          margin-bottom: 0.9rem;
+        "
+      >
+        <div
+          style="
+            font-weight: 800;
+            font-family: &quot;Fraunces&quot;, serif;
+            font-size: 1.05rem;
+            color: #111;
+          "
+        >
+          Upload your resume
+        </div>
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #8a857a;
+          "
+        >
+          PDF · TXT · Markdown
+        </span>
+      </div>
+      <div
+        id="sentryDrop"
+        style="
+          border: 2px dashed #111;
+          background: #fffdf8;
+          padding: 1.8rem 1.2rem;
+          text-align: center;
+          cursor: pointer;
+          transition: background 0.15s ease;
+        "
+      >
+        <input
+          type="file"
+          id="sentryFile"
+          accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown"
+          style="display: none"
+        />
+        <div
+          style="
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #111;
+            margin-bottom: 0.3rem;
+          "
+        >
+          Drop your resume here, or click to browse
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-light)">
+          We read the text and run the same audit — nothing is stored.
+        </div>
+        <div
+          id="sentryUploadStatus"
+          style="
+            margin-top: 0.8rem;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.78rem;
+            color: #e63946;
+            min-height: 1.1em;
+          "
+        ></div>
+      </div>
+      <div
+        style="
+          margin-top: 0.7rem;
+          font-size: 0.78rem;
+          color: #8a857a;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+        "
+      >
+        …or paste below instead.
+      </div>
+    </div>
+
+    <div class="paper-card" style="padding: 1.5rem">
+      <div
+        style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem"
+      >
+        <button
+          class="src-toggle active"
+          data-src="resume"
+          style="
+            padding: 0.45rem 1rem;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 2px solid #111;
+            cursor: pointer;
+            background: #111;
+            color: #fbf9f5;
+          "
+        >
+          Resume
+        </button>
+        <button
+          class="src-toggle"
+          data-src="readme"
+          style="
+            padding: 0.45rem 1rem;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 2px solid #111;
+            cursor: pointer;
+            background: #fbf9f5;
+            color: #111;
+          "
+        >
+          README
+        </button>
+      </div>
+      <textarea
+        id="sentryText"
+        rows="12"
+        placeholder="Paste your bullet points or README here… e.g.&#10;&#10;• Improved authentication flow performance&#10;• Built a REST API for the inventory service&#10;• Led a team of 4 to ship the mobile app"
+        style="
+          width: 100%;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.85rem;
+          border: 2px solid #111;
+          padding: 0.9rem;
+          resize: vertical;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      ></textarea>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 1rem;
+          gap: 1rem;
+          flex-wrap: wrap;
+        "
+      >
+        <button
+          id="sentryRun"
+          class="btn btn-primary btn-ripple"
+          style="padding: 0.65rem 1.4rem; font-size: 0.85rem; font-weight: 700"
+        >
+          Run audit
+        </button>
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            color: #8a857a;
+          "
+          >instant · heuristic · no data leaves your browser unless you
+          save</span
+        >
+      </div>
+    </div>
+
+    <div class="paper-card" style="padding: 1.5rem" id="sentryResults">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-bottom: 1rem;
+        "
+      >
+        <div>
+          <div
+            style="
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 0.7rem;
+              letter-spacing: 0.12em;
+              text-transform: uppercase;
+              color: #e63946;
+              font-weight: 700;
+            "
+          >
+            readiness score
+          </div>
+          <div
+            id="sentryScore"
+            style="
+              font-family: &quot;Fraunces&quot;, serif;
+              font-weight: 900;
+              font-size: 2.8rem;
+              line-height: 1;
+              color: #111;
+            "
+          >
+            —
+          </div>
+        </div>
+        <div
+          style="
+            font-size: 0.85rem;
+            color: var(--text-light);
+            max-width: 360px;
+            text-align: right;
+            line-height: 1.5;
+          "
+        >
+          The score is a blunt read on how recruiter-scanable your copy is. 80+
+          is solid; below 60 means a reviewer will likely bounce.
+        </div>
+      </div>
+      <div
+        style="
+          border: 2px solid #111;
+          height: 12px;
+          background: #f4f0ea;
+          margin-bottom: 1.2rem;
+        "
+      >
+        <div
+          id="sentryBar"
+          style="
+            height: 100%;
+            width: 0;
+            background: #111;
+            transition: width 0.4s ease;
+          "
+        ></div>
+      </div>
+      <div
+        id="sentryFindings"
+        style="display: flex; flex-direction: column; gap: 0.7rem"
+      >
+        <p
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.8rem;
+            color: #8a857a;
+          "
+        >
+          Run an audit to see findings.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {% if findings %}
+  <div class="paper-card" style="margin-top: 2rem; padding: 1.5rem">
+    <div
+      style="
+        font-family: &quot;JetBrains Mono&quot;, monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #e63946;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+      "
+    >
+      Last saved audit ({{ (audit.created_at.strftime('%b %d') if audit and
+      audit.created_at else '') }}) · score {{ audit.score if audit else '—' }}
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.6rem">
+      {% for f in findings %}
+      <div
+        style="display:flex;gap:.7rem;align-items:flex-start;border-left:3px solid {{ '#e63946' if f.severity == 'high' else ('#f59e0b' if f.severity == 'medium' else '#457b9d') }};padding-left:.7rem;"
+      >
+        <span
+          style="font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;text-transform:uppercase;color:{{ '#e63946' if f.severity == 'high' else ('#f59e0b' if f.severity == 'medium' else '#457b9d') }};"
+          >{{ f.severity }}</span
+        >
+        <div>
+          <div style="font-weight: 700; font-size: 0.88rem; color: #111">
+            {{ f.title }}
+          </div>
+          <div
+            style="
+              font-size: 0.82rem;
+              color: var(--text-light);
+              line-height: 1.5;
+            "
+          >
+            {{ f.note }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='js/scope-sentry.js') }}?v=1"></script>
+{% endblock %}

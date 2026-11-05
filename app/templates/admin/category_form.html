@@ -34,7 +34,7 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-success btn-block">{% if category %}Update Category{% else %}Create Category{% endif %}</button>
+                    <button type="submit" class="btn btn-primary btn-block">{% if category %}Update Category{% else %}Create Category{% endif %}</button>
                     <a href="{{ url_for('admin.list_categories') }}" class="btn btn-outline" style="text-decoration: none; text-align: center;">Cancel</a>
                 </div>
             </form>

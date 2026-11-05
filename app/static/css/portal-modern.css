@@ -1,0 +1,269 @@
+/* ============================================================
+   Placement Portal — Portal Modernization layer
+   Global command palette + quiz-engine affordances.
+   Loaded after paper-editorial.css so it wins the cascade.
+   ============================================================ */
+
+/* ---------- Global command palette ---------- */
+
+.cmd-palette {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12vh 1rem 2rem;
+  background: rgba(17, 17, 17, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: cmdFade 0.12s ease;
+}
+
+.cmd-palette[hidden] {
+  display: none;
+}
+
+.cmd-shell {
+  width: min(560px, 100%);
+  background: #fbf9f5;
+  border: 2px solid #111111;
+  box-shadow: 6px 6px 0 #111111;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  overflow: hidden;
+}
+
+.cmd-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px dashed #111111;
+}
+
+.cmd-prefix {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e63946;
+  user-select: none;
+}
+
+.cmd-input-row input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #111111;
+  padding: 0.15rem 0;
+}
+.cmd-input-row input::placeholder {
+  color: #8a857a;
+}
+
+.cmd-hint {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a857a;
+}
+
+.cmd-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  transition: background 0.06s ease;
+}
+.cmd-item.active {
+  background: #111111;
+  color: #fbf9f5;
+}
+
+.cmd-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 0.35rem;
+  border: 2px solid #111111;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #111111;
+  background: #f4f0ea;
+}
+.cmd-item.active .cmd-key {
+  border-color: #fbf9f5;
+  color: #111111;
+}
+
+.cmd-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+
+.cmd-desc {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: #8a857a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.cmd-item.active .cmd-desc {
+  color: #c9c2b5;
+}
+
+.cmd-empty {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #8a857a;
+}
+
+.cmd-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-top: 2px dashed #111111;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a857a;
+}
+.cmd-footer span::before {
+  content: "· ";
+  color: #e63946;
+}
+
+@keyframes cmdFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.cmd-palette-open {
+  overflow: hidden;
+}
+
+/* ---------- Keyboard hint chip (quiz pages) ---------- */
+
+.key-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.75rem 0 1.25rem;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.68rem;
+}
+.key-hints .hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 2px solid #111111;
+  padding: 0.22rem 0.5rem;
+  background: #f4f0ea;
+  color: #111111;
+}
+.key-hints .hint b {
+  color: #e63946;
+  font-weight: 700;
+}
+
+/* ---------- Inline bookmark flag pulse ---------- */
+
+.question-card.flag-pulse,
+.question-wrapper.flag-pulse {
+  animation: flagPulse 0.7s ease;
+}
+@keyframes flagPulse {
+  0% {
+    box-shadow: 6px 6px 0 #111111;
+  }
+  30% {
+    box-shadow:
+      6px 6px 0 #e63946,
+      0 0 0 3px rgba(230, 57, 70, 0.25);
+  }
+  100% {
+    box-shadow: 6px 6px 0 #111111;
+  }
+}
+
+/* ---------- Submit-all-answered state (fallback) ---------- */
+.btn-success.all-answered {
+  box-shadow: 4px 4px 0 #e63946;
+  border-color: #e63946;
+}
+
+/* ---------- Weakness Auditor drill cards ---------- */
+.drill-card {
+  background: #fbf9f5;
+  border: 2px solid #111111;
+  box-shadow: 4px 4px 0 #111111;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+}
+.drill-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 #111111;
+}
+.drill-receipt {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e63946;
+  font-weight: 700;
+}
+.drill-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+.drill-meta {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.7rem;
+  color: #8a857a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.drill-note {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin: 0;
+  flex: 1;
+}
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 0.42rem 0.8rem;
+  align-self: flex-start;
+}

@@ -1,0 +1,421 @@
+{% extends "base.html" %} {% block title %}{{ algo.name }} - Algorithm
+Visualizer{% endblock %} {% block content %}
+<div class="container" style="padding: 2rem 0 3rem">
+  <nav
+    style="margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-light)"
+  >
+    <a
+      href="{{ url_for('dsa.topics') }}"
+      style="color: var(--primary-color); text-decoration: none"
+      >DSA</a
+    >
+    <span style="margin: 0 0.4rem">›</span>
+    <a
+      href="{{ url_for('dsa.visualizer') }}"
+      style="color: var(--primary-color); text-decoration: none"
+      >Visualizer</a
+    >
+    <span style="margin: 0 0.4rem">›</span>
+    <span>{{ algo.name }}</span>
+  </nav>
+
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    "
+  >
+    <h1 style="margin: 0; font-size: 1.6rem">{{ algo.name }}</h1>
+    <div style="display: flex; gap: 0.5rem">
+      <span
+        style="
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+          font-size: 0.7rem;
+          font-family: monospace;
+          background: rgba(0, 230, 118, 0.1);
+          color: var(--success-color);
+        "
+        >Best {{ algo.best_time }}</span
+      >
+      <span
+        style="
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+          font-size: 0.7rem;
+          font-family: monospace;
+          background: rgba(255, 145, 0, 0.1);
+          color: var(--warning-color);
+        "
+        >Worst {{ algo.worst_time }}</span
+      >
+      <span
+        style="
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+          font-size: 0.7rem;
+          font-family: monospace;
+          background: rgba(168, 85, 247, 0.1);
+          color: var(--primary-color);
+        "
+        >Space {{ algo.space }}</span
+      >
+    </div>
+  </div>
+  <p style="color: var(--text-light); margin-bottom: 2rem">
+    {{ algo.description }}
+  </p>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    "
+  >
+    <!-- Left: Visualization -->
+    <div>
+      <!-- Array Display -->
+      <div class="card" style="padding: 1.5rem; min-height: 250px">
+        <div
+          id="stepLabel"
+          style="
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            min-height: 1.5rem;
+          "
+        ></div>
+        <div
+          id="arrayDisplay"
+          style="
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 180px;
+            padding: 1rem 0;
+          "
+        ></div>
+        <div
+          id="passLabel"
+          style="
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+          "
+        ></div>
+      </div>
+
+      <!-- Controls -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          margin-top: 1.25rem;
+          flex-wrap: wrap;
+        "
+      >
+        <button
+          onclick="viz.first()"
+          class="btn btn-secondary"
+          style="padding: 0.5rem 0.8rem; font-size: 0.9rem"
+          title="First step"
+        >
+          ⏮
+        </button>
+        <button
+          onclick="viz.prev()"
+          class="btn btn-secondary"
+          style="padding: 0.5rem 0.8rem; font-size: 0.9rem"
+          title="Previous step"
+        >
+          ◀
+        </button>
+        <button
+          onclick="viz.togglePlay()"
+          id="playBtn"
+          class="btn btn-primary"
+          style="padding: 0.5rem 1.5rem; font-size: 1rem"
+          title="Play/Pause"
+        >
+          ▶ Play
+        </button>
+        <button
+          onclick="viz.next()"
+          class="btn btn-secondary"
+          style="padding: 0.5rem 0.8rem; font-size: 0.9rem"
+          title="Next step"
+        >
+          ▶
+        </button>
+        <button
+          onclick="viz.last()"
+          class="btn btn-secondary"
+          style="padding: 0.5rem 0.8rem; font-size: 0.9rem"
+          title="Last step"
+        >
+          ⏭
+        </button>
+      </div>
+
+      <!-- Speed + Progress -->
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5rem;
+          margin-top: 1rem;
+        "
+      >
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <span style="font-size: 0.8rem; color: var(--text-light)"
+            >Speed:</span
+          >
+          <button
+            onclick="viz.setSpeed(1500)"
+            class="btn btn-secondary speed-btn"
+            style="padding: 0.25rem 0.5rem; font-size: 0.75rem"
+          >
+            0.5x
+          </button>
+          <button
+            onclick="viz.setSpeed(800)"
+            class="btn btn-primary speed-btn"
+            style="padding: 0.25rem 0.5rem; font-size: 0.75rem"
+          >
+            1x
+          </button>
+          <button
+            onclick="viz.setSpeed(400)"
+            class="btn btn-secondary speed-btn"
+            style="padding: 0.25rem 0.5rem; font-size: 0.75rem"
+          >
+            2x
+          </button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <span style="font-size: 0.8rem; color: var(--text-light)">Step:</span>
+          <span id="stepCounter" style="font-size: 0.85rem; font-weight: 600"
+            >0 / 0</span
+          >
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 20px;
+          height: 4px;
+          margin-top: 1rem;
+          overflow: hidden;
+        "
+      >
+        <div
+          id="progressBar"
+          style="
+            height: 100%;
+            border-radius: 20px;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.3s;
+          "
+        ></div>
+      </div>
+    </div>
+
+    <!-- Right: Code with line highlighting -->
+    <div>
+      <div
+        style="
+          border-radius: 12px;
+          overflow: hidden;
+          border: 1px solid var(--glass-border);
+        "
+      >
+        <div
+          style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          "
+        >
+          <div
+            style="
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #ff5f57;
+            "
+          ></div>
+          <div
+            style="
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #febc2e;
+            "
+          ></div>
+          <div
+            style="
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #28c840;
+            "
+          ></div>
+          <span
+            style="
+              margin-left: 0.5rem;
+              font-size: 0.75rem;
+              color: var(--text-light);
+            "
+            >{{ algo.name | lower | replace(' ', '_') }}.py</span
+          >
+        </div>
+        <div
+          id="codeDisplay"
+          style="
+            background: #0d1117;
+            padding: 1rem;
+            font-family: &quot;Fira Code&quot;, monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            overflow-x: auto;
+          "
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+      var steps = {{ steps | tojson }};
+      var codeLines = {{ code_lines | tojson }};
+      var currentStep = 0;
+      var playing = false;
+      var interval = null;
+      var speed = 800;
+
+      function renderArray(step) {
+          var arr = step.array || [];
+          var highlight = step.highlight || [];
+          var swapped = step.swapped || [];
+          var sorted = step.sorted || [];
+          var container = document.getElementById('arrayDisplay');
+          if (!container) return;
+
+          var maxVal = Math.max.apply(null, arr.concat([1]));
+          var html = '';
+          arr.forEach(function(val, i) {
+              var height = (val / maxVal) * 140 + 20;
+              var color = 'rgba(168,85,247,0.6)';
+              var border = '1px solid rgba(168,85,247,0.3)';
+              var glow = '';
+
+              if (sorted.indexOf(i) !== -1) {
+                  color = 'rgba(0,230,118,0.7)';
+                  border = '1px solid rgba(0,230,118,0.5)';
+                  glow = 'box-shadow: 0 0 12px rgba(0,230,118,0.3);';
+              } else if (swapped.indexOf(i) !== -1) {
+                  color = 'rgba(255,145,0,0.8)';
+                  border = '2px solid rgba(255,145,0,0.6)';
+                  glow = 'box-shadow: 0 0 15px rgba(255,145,0,0.4);';
+              } else if (highlight.indexOf(i) !== -1) {
+                  color = 'rgba(6,182,212,0.8)';
+                  border = '2px solid rgba(6,182,212,0.6)';
+                  glow = 'box-shadow: 0 0 12px rgba(6,182,212,0.3);';
+              }
+
+              html += '<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.3s;">';
+              html += '<span style="font-size: 0.7rem; font-weight: 700; color: var(--text-main);">' + val + '</span>';
+              html += '<div style="width: 36px; height: ' + height + 'px; background: ' + color + '; border: ' + border + '; border-radius: 4px 4px 0 0; transition: all 0.4s ease; ' + glow + '"></div>';
+              html += '<span style="font-size: 0.6rem; color: var(--text-light);">' + i + '</span>';
+              html += '</div>';
+          });
+          container.innerHTML = html;
+          document.getElementById('stepLabel').textContent = step.label || '';
+          document.getElementById('passLabel').textContent = step.pass !== undefined ? 'Pass ' + step.pass : '';
+      }
+
+      function renderCode(lineNum) {
+          var container = document.getElementById('codeDisplay');
+          if (!container || !codeLines.length) return;
+          var html = '';
+          codeLines.forEach(function(cl, i) {
+              var isActive = cl.line === lineNum;
+              var bgColor = isActive ? 'rgba(168,85,247,0.15)' : 'transparent';
+              var leftBorder = isActive ? '3px solid #a855f7' : '3px solid transparent';
+              html += '<div style="padding: 0 0.75rem; background: ' + bgColor + '; border-left: ' + leftBorder + '; transition: all 0.3s; white-space: pre;">';
+              html += '<span style="display: inline-block; width: 25px; color: rgba(255,255,255,0.2); user-select: none;">' + (i + 1) + '</span>';
+              html += '<span style="color: ' + (isActive ? '#e6edf3' : '#8b949e') + ';">' + escapeHtml(cl.code) + '</span>';
+              html += '</div>';
+          });
+          container.innerHTML = html;
+      }
+
+      function escapeHtml(s) {
+          return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      function showStep(idx) {
+          if (idx < 0 || idx >= steps.length) return;
+          currentStep = idx;
+          var step = steps[idx];
+          renderArray(step);
+          renderCode(step.line !== undefined ? step.line : -1);
+          document.getElementById('stepCounter').textContent = (idx + 1) + ' / ' + steps.length;
+          document.getElementById('progressBar').style.width = ((idx + 1) / steps.length * 100) + '%';
+      }
+
+      var viz = {
+          next: function() { if (currentStep < steps.length - 1) showStep(currentStep + 1); else this.stop(); },
+          prev: function() { if (currentStep > 0) showStep(currentStep - 1); },
+          first: function() { this.stop(); showStep(0); },
+          last: function() { this.stop(); showStep(steps.length - 1); },
+          togglePlay: function() {
+              if (playing) { this.stop(); } else { this.play(); }
+          },
+          play: function() {
+              playing = true;
+              document.getElementById('playBtn').textContent = '⏸ Pause';
+              document.getElementById('playBtn').classList.remove('btn-primary');
+              document.getElementById('playBtn').classList.add('btn-danger');
+              if (currentStep >= steps.length - 1) showStep(0);
+              interval = setInterval(function() {
+                  if (currentStep < steps.length - 1) { viz.next(); } else { viz.stop(); }
+              }, speed);
+          },
+          stop: function() {
+              playing = false;
+              if (interval) clearInterval(interval);
+              interval = null;
+              document.getElementById('playBtn').textContent = '▶ Play';
+              document.getElementById('playBtn').classList.remove('btn-danger');
+              document.getElementById('playBtn').classList.add('btn-primary');
+          },
+          setSpeed: function(ms) {
+              speed = ms;
+              if (playing) { this.stop(); this.play(); }
+              document.querySelectorAll('.speed-btn').forEach(function(b) { b.classList.remove('btn-primary'); b.classList.add('btn-secondary'); });
+          }
+      };
+      window.viz = viz;
+
+      showStep(0);
+  })();
+</script>
+{% endblock %}

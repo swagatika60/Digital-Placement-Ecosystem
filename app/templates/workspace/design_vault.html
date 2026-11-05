@@ -1,0 +1,198 @@
+{% extends "base.html" %} {% block title %}System Design — Placement Portal{%
+endblock %} {% block content %}
+<div class="container" style="padding: 2.5rem 0 4rem">
+  <div class="section-title reveal" style="max-width: 760px">
+    <h2
+      style="
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-family: &quot;Fraunces&quot;, serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.4rem;
+      "
+    >
+      System Design
+    </h2>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      "
+    >
+      <span class="cmd-prefix" style="color: #e63946; font-size: 1.4rem"
+        >✎</span
+      >
+      <span
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.8rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #111;
+        "
+        >Architecture blueprints · practical scaling scenarios</span
+      >
+    </div>
+    <p style="color: var(--text-light); font-size: 0.98rem; line-height: 1.6">
+      Real engineering tags mapped to the interview scenarios that actually show
+      up. Each card is a condensed blueprint you can read in under two minutes —
+      the point, the failure mode, and the moves.
+    </p>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2rem;
+    "
+  >
+    {% for item in vault %}
+    <article
+      class="paper-card"
+      style="
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+        "
+      >
+        <span
+          class="cmd-key"
+          style="
+            border-color: #111;
+            background: #f4f0ea;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-weight: 700;
+          "
+          >{{ "%02d"|format(loop.index) }}</span
+        >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            color: #e63946;
+            font-weight: 700;
+          "
+          >{{ item.tag }}</span
+        >
+      </div>
+      <h3
+        style="
+          font-family: &quot;Fraunces&quot;, serif;
+          font-weight: 900;
+          font-size: 1.35rem;
+          margin: 0;
+          letter-spacing: -0.01em;
+        "
+      >
+        {{ item.title }}
+      </h3>
+      <p
+        style="
+          font-size: 0.9rem;
+          color: var(--text-light);
+          margin: 0;
+          line-height: 1.5;
+        "
+      >
+        {{ item.blurb }}
+      </p>
+      <div
+        style="
+          font-size: 0.82rem;
+          border-left: 3px solid #e63946;
+          padding-left: 0.7rem;
+          line-height: 1.5;
+        "
+      >
+        <strong
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: #111;
+          "
+          >SCENARIO</strong
+        >
+        ·
+        <span style="color: #111">{{ item.scenario }}</span>
+      </div>
+      <ul
+        style="
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        "
+      >
+        {% for line in item.blueprint %}
+        <li
+          style="
+            font-size: 0.85rem;
+            color: var(--text-main);
+            line-height: 1.45;
+            display: flex;
+            gap: 0.5rem;
+          "
+        >
+          <span
+            style="
+              color: #457b9d;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+            "
+            >▹</span
+          >{{ line }}
+        </li>
+        {% endfor %}
+      </ul>
+      <div
+        style="
+          border-top: 2px dashed #111;
+          padding-top: 0.8rem;
+          margin-top: auto;
+        "
+      >
+        <div
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #8a857a;
+            margin-bottom: 0.4rem;
+          "
+        >
+          Probe questions
+        </div>
+        {% for q in item.questions %}
+        <p
+          style="
+            font-size: 0.82rem;
+            margin: 0 0 0.4rem;
+            line-height: 1.45;
+            color: #111;
+          "
+        >
+          “{{ q }}”
+        </p>
+        {% endfor %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

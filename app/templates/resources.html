@@ -4,202 +4,381 @@
 
 {% block content %}
 <div class="container">
-    <div class="section-title" style="margin-top: 2rem;">
-        <h2>Study Resources</h2>
-        <p>Comprehensive resources to help you ace your placements</p>
-    </div>
 
-    <div class="resources-section">
-        <h2>💡 Interview Tips</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-icon tips">🎯</div>
-                <h4>Technical Interview Preparation</h4>
-                <p>Essential tips for cracking technical interviews including coding rounds and system design.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='technical-prep') }}" class="resource-link">Read More →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon tips">👔</div>
-                <h4>Dress Code & Body Language</h4>
-                <p>Learn about professional attire and positive body language for interviews.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='dress-code') }}" class="resource-link">Read More →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon tips">🗣️</div>
-                <h4>Communication Skills</h4>
-                <p>Improve your communication skills to express your thoughts clearly and confidently.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='communication-skills') }}" class="resource-link">Read More →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon tips">🤝</div>
-                <h4>Common Interview Mistakes</h4>
-                <p>Avoid these common mistakes that candidates make during interviews.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='interview-mistakes') }}" class="resource-link">Read More →</a>
+    <!-- ============ SKELETON SCREEN ============ -->
+    <div class="skeleton-screen" id="skeletonResources">
+        <div class="section-title" style="margin-top: 2rem;">
+            <div class="skeleton skeleton-heading" style="width: 280px; height: 32px; margin: 0 auto 12px;"></div>
+            <div class="skeleton skeleton-text medium" style="width: 380px; margin: 0 auto;"></div>
+        </div>
+
+        <!-- Search skeleton -->
+        <div class="skeleton skeleton-rect" style="height: 48px; margin: 1.5rem 0;"></div>
+
+        <!-- Resource grid skeletons (3 sections) -->
+        {% for section in range(3) %}
+        <div style="margin-bottom: 2rem;">
+            <div class="skeleton skeleton-text" style="width: 180px; height: 20px; margin-bottom: 1rem;"></div>
+            <div class="resources-grid">
+                {% for _ in range(4) %}
+                <div class="skeleton-card" style="padding: 1.5rem;">
+                    <div class="skeleton skeleton-circle" style="width: 48px; height: 48px; margin-bottom: 1rem;"></div>
+                    <div class="skeleton skeleton-text" style="width: 75%; height: 16px;"></div>
+                    <div class="skeleton skeleton-text medium" style="height: 12px;"></div>
+                    <div class="skeleton skeleton-text short" style="height: 12px; margin-bottom: 0;"></div>
+                    <div style="margin-top: 1rem;">
+                        <div class="skeleton skeleton-text xshort" style="height: 13px; margin: 0;"></div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
+        {% endfor %}
     </div>
 
-    <div class="resources-section">
-        <h2>👥 HR Interview Questions</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-icon hr">🙋</div>
-                <h4>Tell Me About Yourself</h4>
-                <p>How to craft a perfect introduction that highlights your strengths and achievements.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='tell-me-about-yourself') }}" class="resource-link">View Sample Answers →</a>
+    <!-- ============ REAL CONTENT ============ -->
+    <div class="real-content" id="realResources">
+        <div class="section-title" style="margin-top: 2rem;">
+            <h2>Study Resources</h2>
+            <p>Comprehensive resources to help you ace your placements</p>
+        </div>
+
+        <div style="margin: 1.5rem 0;">
+            <input type="text" id="resourceSearch" class="resource-search"
+                   placeholder="🔍 Search resources, guides, and links…">
+        </div>
+
+        <div class="resources-section">
+            <h2>📦 All Resources</h2>
+            <p style="color: var(--text-light); margin-bottom: 1.25rem;">Study materials added by the team</p>
+            {% if resources_by_type %}
+                {% for rtype, items in resources_by_type.items() %}
+                <h3 style="margin: 1.25rem 0 0.75rem; font-size: 1.05rem;">🗂 {{ rtype|replace('_', ' ')|title }}</h3>
+                <div class="resources-grid">
+                    {% for resource in items %}
+                    <div class="resource-card">
+                        <div class="resource-icon notes">📄</div>
+                        <h4>{{ resource.title }}</h4>
+                        <p>{{ resource.description or 'No description provided' }}</p>
+                        {% if resource.link %}
+                        <a href="{{ resource.link }}" target="_blank" rel="noopener" class="resource-link">Open Link →</a>
+                        {% else %}
+                        <span class="resource-link" style="color: var(--text-light); cursor: default;">Content available in portal</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            {% else %}
+            <div style="text-align: center; color: var(--text-light); padding: 1.5rem; background: rgba(255,255,255,0.02); border-radius: 12px;">
+                No resources added yet — check back soon!
             </div>
-            <div class="resource-card">
-                <div class="resource-icon hr">💪</div>
-                <h4>Strengths & Weaknesses</h4>
-                <p>Answer the tricky question about your strengths and weaknesses professionally.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='strengths-weaknesses') }}" class="resource-link">View Sample Answers →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon hr">🎯</div>
-                <h4>Why Should We Hire You?</h4>
-                <p>Craft a compelling answer that sets you apart from other candidates.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='why-hire-you') }}" class="resource-link">View Sample Answers →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon hr">🚀</div>
-                <h4>Where Do You See Yourself?</h4>
-                <p>Answer career goal questions with ambition and realistic expectations.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='where-do-you-see-yourself') }}" class="resource-link">View Sample Answers →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon hr">🏢</div>
-                <h4>Why This Company?</h4>
-                <p>Research-based strategies to answer why you want to join a specific company.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='why-this-company') }}" class="resource-link">View Sample Answers →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon hr">💰</div>
-                <h4>Salary Expectations</h4>
-                <p>Negotiate salary professionally without underselling yourself.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='salary-expectations') }}" class="resource-link">View Sample Answers →</a>
+            {% endif %}
+        </div>
+
+        <div class="resources-section">
+            <h2>💡 Interview Tips</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon tips">🎯</div>
+                    <h4>Technical Interview Preparation</h4>
+                    <p>Essential tips for cracking technical interviews including coding rounds and system design.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='technical-prep') }}" class="resource-link">Read More →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">👔</div>
+                    <h4>Dress Code & Body Language</h4>
+                    <p>Learn about professional attire and positive body language for interviews.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='dress-code') }}" class="resource-link">Read More →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🗣️</div>
+                    <h4>Communication Skills</h4>
+                    <p>Improve your communication skills to express your thoughts clearly and confidently.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='communication-skills') }}" class="resource-link">Read More →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🤝</div>
+                    <h4>Common Interview Mistakes</h4>
+                    <p>Avoid these common mistakes that candidates make during interviews.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='interview-mistakes') }}" class="resource-link">Read More →</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="resources-section">
-        <h2>🗺️ Career Roadmaps</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-badge" style="position: absolute; top: 1.5rem; right: 1.5rem; font-size: 0.7rem; padding: 0.3rem 0.6rem; border-radius: 20px; background: rgba(0,210,255,0.1); color: var(--primary-color); border: 1px solid rgba(0,210,255,0.3); text-transform: uppercase; font-weight: 600;">External</div>
-                <div class="resource-icon">🗺️</div>
-                <h4>Developer Roadmaps</h4>
-                <p>Step-by-step guides and paths to learn different technologies, frameworks, and roles.</p>
-                <a href="https://roadmap.sh/" target="_blank" class="resource-link">Visit roadmap.sh →</a>
+        <div class="resources-section">
+            <h2>👥 HR Interview Questions</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon hr">🙋</div>
+                    <h4>Tell Me About Yourself</h4>
+                    <p>How to craft a perfect introduction that highlights your strengths and achievements.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='tell-me-about-yourself') }}" class="resource-link">View Sample Answers →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">💪</div>
+                    <h4>Strengths & Weaknesses</h4>
+                    <p>Answer the tricky question about your strengths and weaknesses professionally.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='strengths-weaknesses') }}" class="resource-link">View Sample Answers →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">🎯</div>
+                    <h4>Why Should We Hire You?</h4>
+                    <p>Craft a compelling answer that sets you apart from other candidates.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='why-hire-you') }}" class="resource-link">View Sample Answers →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">🚀</div>
+                    <h4>Where Do You See Yourself?</h4>
+                    <p>Answer career goal questions with ambition and realistic expectations.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='where-do-you-see-yourself') }}" class="resource-link">View Sample Answers →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">🏢</div>
+                    <h4>Why This Company?</h4>
+                    <p>Research-based strategies to answer why you want to join a specific company.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='why-this-company') }}" class="resource-link">View Sample Answers →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">💰</div>
+                    <h4>Salary Expectations</h4>
+                    <p>Negotiate salary professionally without underselling yourself.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='salary-expectations') }}" class="resource-link">View Sample Answers →</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="resources-section">
-        <h2>💻 Coding Practice Platforms</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-icon coding">🟠</div>
-                <h4>LeetCode</h4>
-                <p>Practice coding problems with varying difficulty levels. Essential for FAANG interviews.</p>
-                <a href="https://leetcode.com" target="_blank" class="resource-link">Visit Website →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon coding">🔵</div>
-                <h4>HackerRank</h4>
-                <p>Solve coding challenges and participate in contests to improve your skills.</p>
-                <a href="https://hackerrank.com" target="_blank" class="resource-link">Visit Website →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon coding">🟢</div>
-                <h4>CodeChef</h4>
-                <p>Indian platform with monthly contests and practice problems for all levels.</p>
-                <a href="https://codechef.com" target="_blank" class="resource-link">Visit Website →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon coding">🟣</div>
-                <h4>GeeksforGeeks</h4>
-                <p>Comprehensive resource for DSA, interview questions, and programming tutorials.</p>
-                <a href="https://geeksforgeeks.org" target="_blank" class="resource-link">Visit Website →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon coding">🔵</div>
-                <h4>Codeforces</h4>
-                <p>Competitive programming platform with regular contests and strong community.</p>
-                <a href="https://codeforces.com" target="_blank" class="resource-link">Visit Website →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon coding">🟡</div>
-                <h4>InterviewBit</h4>
-                <p>Structured interview preparation with company-specific tracks.</p>
-                <a href="https://interviewbit.com" target="_blank" class="resource-link">Visit Website →</a>
+        <div class="resources-section">
+            <h2>🗺️ Career Roadmaps</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-badge">External</div>
+                    <div class="resource-icon">🗺️</div>
+                    <h4>Developer Roadmaps</h4>
+                    <p>Step-by-step guides and paths to learn different technologies, frameworks, and roles.</p>
+                    <a href="https://roadmap.sh/" target="_blank" class="resource-link">Visit roadmap.sh →</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="resources-section">
-        <h2>📚 Study Notes & Cheat Sheets</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>Data Structures Cheat Sheet</h4>
-                <p>Quick reference for all major data structures with time complexities.</p>
-                <a href="{{ url_for('main.download_pdf', filename='dsa.pdf') }}" class="resource-link">Download PDF →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>DBMS and SQL Cheat Sheet</h4>
-                <p>Essential SQL commands and queries for interviews.</p>
-                <a href="{{ url_for('main.download_pdf', filename='DBMS and SQL Questions and Answers.pdf') }}" class="resource-link">Download PDF →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>OS Concepts Summary</h4>
-                <p>Key operating system concepts explained concisely.</p>
-                <a href="{{ url_for('main.download_pdf', filename='os_notes.pdf') }}" class="resource-link">Download PDF →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>Networking Basics</h4>
-                <p>Computer networking fundamentals and protocols overview.</p>
-                <a href="{{ url_for('main.download_pdf', filename='networking_notes.pdf') }}" class="resource-link">Download PDF →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>Python Interview Guide</h4>
-                <p>Common Python interview questions with detailed answers.</p>
-                <a href="{{ url_for('main.download_pdf', filename='python_notes.pdf') }}" class="resource-link">Download PDF →</a>
-            </div>
-            <div class="resource-card">
-                <div class="resource-icon notes">📄</div>
-                <h4>System Design Primer</h4>
-                <p>Basics of system design for technical interviews.</p>
-                <a href="{{ url_for('main.download_pdf', filename='system_design_notes.pdf') }}" class="resource-link">Download PDF →</a>
+        <div class="resources-section">
+            <h2>💻 Coding Practice Platforms</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon coding">🟠</div>
+                    <h4>LeetCode</h4>
+                    <p>Practice coding problems with varying difficulty levels. Essential for FAANG interviews.</p>
+                    <a href="https://leetcode.com" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon coding">🔵</div>
+                    <h4>HackerRank</h4>
+                    <p>Solve coding challenges and participate in contests to improve your skills.</p>
+                    <a href="https://hackerrank.com" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon coding">🟢</div>
+                    <h4>CodeChef</h4>
+                    <p>Indian platform with monthly contests and practice problems for all levels.</p>
+                    <a href="https://codechef.com" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon coding">🟣</div>
+                    <h4>GeeksforGeeks</h4>
+                    <p>Comprehensive resource for DSA, interview questions, and programming tutorials.</p>
+                    <a href="https://geeksforgeeks.org" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon coding">🔵</div>
+                    <h4>Codeforces</h4>
+                    <p>Competitive programming platform with regular contests and strong community.</p>
+                    <a href="https://codeforces.com" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon coding">🟡</div>
+                    <h4>InterviewBit</h4>
+                    <p>Structured interview preparation with company-specific tracks.</p>
+                    <a href="https://interviewbit.com" target="_blank" class="resource-link">Visit Website →</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="resources-section">
-        <h2>📋 Resume Building</h2>
-        <div class="resources-grid">
-            <div class="resource-card">
-                <div class="resource-icon tips">📝</div>
-                <h4>Resume Templates</h4>
-                <p>Professional resume templates designed for freshers and experienced candidates.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='resume-templates') }}" class="resource-link">Read Guidelines →</a>
+        <div class="resources-section">
+            <h2>🏢 Company-Wise Preparation Guides</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon tips">🅰️</div>
+                    <h4>Amazon Interview Guide</h4>
+                    <p>Leadership principles, coding rounds, and STAR behavioral prep for Amazon.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='amazon_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🔍</div>
+                    <h4>Google Interview Guide</h4>
+                    <p>Google coding rounds, Googleyness, and system design preparation.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='google_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🪟</div>
+                    <h4>Microsoft Interview Guide</h4>
+                    <p>Microsoft loop, growth mindset, Azure fundamentals, and ASK round.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='microsoft_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🔵</div>
+                    <h4>TCS NQT Guide</h4>
+                    <p>TCS National Qualifier Test pattern: numeric, reasoning, verbal, and pseudo-code.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='tcs_nqt_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🟣</div>
+                    <h4>Infosys Guide</h4>
+                    <p>Infosys test pattern: mathematical ability, logical reasoning, and verbal.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='infosys_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🔴</div>
+                    <h4>Wipro Guide</h4>
+                    <p>Wipro NLTH/WILP pattern: aptitude, reasoning, written communication, and coding.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='wipro_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🏢</div>
+                    <h4>Accenture Guide</h4>
+                    <p>Accenture assessment: cognitive ability, pseudo-code, cloud, and networking.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='accenture_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🌐</div>
+                    <h4>Cognizant (CTS) Guide</h4>
+                    <p>Cognizant GenC pattern: quants, reasoning, verbal, and technical rounds.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='cognizant_interview_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon hr">🙋</div>
+                    <h4>HR Interview Questions</h4>
+                    <p>50+ most-asked HR questions with structured sample answers.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='hr_interview_questions.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📐</div>
+                    <h4>Aptitude Formula Sheet</h4>
+                    <p>One-page quick revision of all placement aptitude formulas.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='aptitude_formulas.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">📝</div>
+                    <h4>Resume Building Guide</h4>
+                    <p>Structure, ATS tips, impact bullets, and common resume mistakes.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='resume_building_guide.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
             </div>
-            <div class="resource-card">
-                <div class="resource-icon tips">✅</div>
-                <h4>Resume Checklist</h4>
-                <p>Essential elements every placement resume should include.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='resume-checklist') }}" class="resource-link">View Checklist →</a>
+        </div>
+
+        <div class="resources-section">
+            <h2>📚 Study Notes & Cheat Sheets</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>Data Structures Cheat Sheet</h4>
+                    <p>Quick reference for all major data structures with time complexities.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='Data Structure and Algorithms.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>DBMS and SQL Cheat Sheet</h4>
+                    <p>Essential SQL commands and queries for interviews.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='DBMS and SQL Questions and Answers.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>OS Concepts Summary</h4>
+                    <p>Key operating system concepts explained concisely.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='os_notes.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>Networking Basics</h4>
+                    <p>Computer networking fundamentals and protocols overview.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='networking_notes.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>Python Interview Guide</h4>
+                    <p>Common Python interview questions with detailed answers.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='python_notes.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon notes">📄</div>
+                    <h4>System Design Primer</h4>
+                    <p>Basics of system design for technical interviews.</p>
+                    <a href="{{ url_for('main.download_pdf', filename='system_design_notes.pdf') }}" class="resource-link">Download PDF →</a>
+                </div>
             </div>
-            <div class="resource-card">
-                <div class="resource-icon tips">🎨</div>
-                <h4>ATS-Friendly Format</h4>
-                <p>How to format your resume to pass Applicant Tracking Systems.</p>
-                <a href="{{ url_for('main.view_topic', topic_id='ats-format') }}" class="resource-link">Learn More →</a>
+        </div>
+
+        <div class="resources-section">
+            <h2>📋 Resume Building</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon tips">📝</div>
+                    <h4>Resume Templates</h4>
+                    <p>Professional resume templates designed for freshers and experienced candidates.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='resume-templates') }}" class="resource-link">Read Guidelines →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">✅</div>
+                    <h4>Resume Checklist</h4>
+                    <p>Essential elements every placement resume should include.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='resume-checklist') }}" class="resource-link">View Checklist →</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon tips">🎨</div>
+                    <h4>ATS-Friendly Format</h4>
+                    <p>How to format your resume to pass Applicant Tracking Systems.</p>
+                    <a href="{{ url_for('main.view_topic', topic_id='ats-format') }}" class="resource-link">Learn More →</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+// Skeleton reveal
+(function() {
+    var skeleton = document.getElementById('skeletonResources');
+    var real = document.getElementById('realResources');
+    if (!skeleton || !real) return;
+
+    var startTime = Date.now();
+    var minDelay = 500;
+
+    function reveal() {
+        skeleton.classList.add('hidden');
+        real.classList.add('visible');
+    }
+
+    if (document.readyState === 'complete') {
+        var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+        setTimeout(reveal, remaining);
+    } else {
+        window.addEventListener('load', function() {
+            var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+            setTimeout(reveal, remaining);
+        });
+    }
+})();
+
+// Live search across all resource cards
+var searchInput = document.getElementById('resourceSearch');
+if (searchInput) {
+    searchInput.addEventListener('input', function () {
+        var q = this.value.toLowerCase().trim();
+        document.querySelectorAll('.resource-card').forEach(function(card) {
+            var text = (card.textContent || '').toLowerCase();
+            card.style.display = (!q || text.includes(q)) ? '' : 'none';
+        });
+    });
+}
+</script>
 {% endblock %}

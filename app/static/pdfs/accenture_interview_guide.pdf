@@ -1,0 +1,57 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1506 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Accenture Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Assessment Pattern and Preparation Tips) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Online Assessment) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Cognitive Ability: quants, reasoning, verbal.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Pseudo-code section \(programming logic\).) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Cloud & Networking fundamentals \(newer rounds\).) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Coding \(2 problems\) for technology roles.) Tj
+/F6 14 Tf 1 0 0 1 54 592 Tm (2. Cognitive Ability) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Percentages, averages, time & work, speed & distance.) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Logical puzzles and series completion.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- English grammar and reading comprehension.) Tj
+/F6 14 Tf 1 0 0 1 54 517 Tm (3. Pseudo-code Section) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Predict output of C/Java/C++ snippets.) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- Understand loops, recursion, arrays, pointers basics.) Tj
+/F6 14 Tf 1 0 0 1 54 457 Tm (4. Cloud & Networking Basics) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- Know cloud models: IaaS, PaaS, SaaS, public/private/hybrid.) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Basic networking: IP, DNS, HTTP/HTTPS, load balancers.) Tj
+/F6 14 Tf 1 0 0 1 54 397 Tm (5. Communication & HR) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- Accenture values innovation, inclusion, and integrity.) Tj
+/F5 11 Tf 1 0 0 1 54 367 Tm (- Be ready with examples of teamwork and leadership.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000001809 00000 n 
+0000001879 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+1954
+%%EOF

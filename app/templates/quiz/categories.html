@@ -4,45 +4,117 @@
 
 {% block content %}
 <div class="container">
-    <div class="section-title" style="margin-top: 2rem;">
-        <h2>Choose Your Category</h2>
-        <p>Select a category to start practicing and improve your skills</p>
-    </div>
 
-    <!-- Aptitude Section -->
-    <div class="resources-section">
-        <h2>Aptitude</h2>
-        <div class="categories-grid">
-            {% for cat in aptitude_categories %}
-            <div class="category-card">
-                <div class="category-icon" style="font-size: 1.5rem;">{{ cat.name[0] }}</div>
-                <h3>{{ cat.name }}</h3>
-                <p>{{ cat.description or 'Practice questions to improve your skills.' }}</p>
-                <div class="category-meta">
-                    <span>10 Questions per Quiz</span>
+    <!-- ============ SKELETON SCREEN ============ -->
+    <div class="skeleton-screen" id="skeletonCategories">
+        <div class="section-title" style="margin-top: 2rem;">
+            <div class="skeleton skeleton-heading" style="width: 300px; height: 32px; margin: 0 auto 12px;"></div>
+            <div class="skeleton skeleton-text medium" style="width: 360px; margin: 0 auto;"></div>
+        </div>
+
+        <!-- Aptitude skeleton -->
+        <div class="resources-section">
+            <div class="skeleton skeleton-text" style="width: 120px; height: 22px; margin-bottom: 1rem;"></div>
+            <div class="categories-grid">
+                {% for _ in range(4) %}
+                <div class="skeleton-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="skeleton skeleton-circle" style="width: 56px; height: 56px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 70%; height: 18px;"></div>
+                    <div class="skeleton skeleton-text medium" style="height: 12px;"></div>
+                    <div class="skeleton skeleton-text short" style="height: 12px;"></div>
+                    <div class="skeleton skeleton-text xshort" style="height: 12px; margin-bottom: 0;"></div>
+                    <div class="skeleton skeleton-rect" style="height: 38px; margin-top: 8px;"></div>
                 </div>
-                <a href="{{ url_for('quiz.view_category', category_id=cat.id) }}" class="btn btn-success">Start Quiz</a>
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
+
+        <!-- Technical skeleton -->
+        <div class="resources-section" style="margin-top: 2rem;">
+            <div class="skeleton skeleton-text" style="width: 140px; height: 22px; margin-bottom: 1rem;"></div>
+            <div class="categories-grid">
+                {% for _ in range(4) %}
+                <div class="skeleton-card" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 12px;">
+                    <div class="skeleton skeleton-circle" style="width: 56px; height: 56px;"></div>
+                    <div class="skeleton skeleton-text" style="width: 65%; height: 18px;"></div>
+                    <div class="skeleton skeleton-text medium" style="height: 12px;"></div>
+                    <div class="skeleton skeleton-text short" style="height: 12px;"></div>
+                    <div class="skeleton skeleton-text xshort" style="height: 12px; margin-bottom: 0;"></div>
+                    <div class="skeleton skeleton-rect" style="height: 38px; margin-top: 8px;"></div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
-    <!-- Technical Section -->
-    <div class="resources-section">
-        <h2>Technical</h2>
-        <div class="categories-grid">
-            {% for cat in technical_categories %}
-            <div class="category-card">
-                <div class="category-icon" style="font-size: 1.5rem;">{{ cat.name[0] }}</div>
-                <h3>{{ cat.name }}</h3>
-                <p>{{ cat.description or 'Practice questions to improve your skills.' }}</p>
-                <div class="category-meta">
-                    <span>10 Questions per Quiz</span>
+    <!-- ============ REAL CONTENT ============ -->
+    <div class="real-content" id="realCategories">
+        <div class="section-title" style="margin-top: 2rem;">
+            <h2>Choose Your Category</h2>
+            <p>Select a category to start practicing and improve your skills</p>
+        </div>
+
+        <!-- Aptitude Section -->
+        <div class="resources-section">
+            <h2>Aptitude</h2>
+            <div class="categories-grid">
+                {% for cat in aptitude_categories %}
+                <div class="category-card">
+                    <div class="category-icon" style="font-size: 1.5rem;">{{ cat.name[0] }}</div>
+                    <h3>{{ cat.name }}</h3>
+                    <p>{{ cat.description or 'Practice questions to improve your skills.' }}</p>
+                    <div class="category-meta">
+                        <span>10 Questions per Quiz</span>
+                    </div>
+                    <a href="{{ url_for('quiz.view_category', category_id=cat.id) }}" class="btn btn-success">Start Quiz</a>
                 </div>
-                <a href="{{ url_for('quiz.view_category', category_id=cat.id) }}" class="btn btn-success">Start Quiz</a>
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
+
+        <!-- Technical Section -->
+        <div class="resources-section">
+            <h2>Technical</h2>
+            <div class="categories-grid">
+                {% for cat in technical_categories %}
+                <div class="category-card">
+                    <div class="category-icon" style="font-size: 1.5rem;">{{ cat.name[0] }}</div>
+                    <h3>{{ cat.name }}</h3>
+                    <p>{{ cat.description or 'Practice questions to improve your skills.' }}</p>
+                    <div class="category-meta">
+                        <span>10 Questions per Quiz</span>
+                    </div>
+                    <a href="{{ url_for('quiz.view_category', category_id=cat.id) }}" class="btn btn-success">Start Quiz</a>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+(function() {
+    var skeleton = document.getElementById('skeletonCategories');
+    var real = document.getElementById('realCategories');
+    if (!skeleton || !real) return;
+
+    var startTime = Date.now();
+    var minDelay = 450;
+
+    function reveal() {
+        skeleton.classList.add('hidden');
+        real.classList.add('visible');
+    }
+
+    if (document.readyState === 'complete') {
+        var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+        setTimeout(reveal, remaining);
+    } else {
+        window.addEventListener('load', function() {
+            var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+            setTimeout(reveal, remaining);
+        });
+    }
+})();
+</script>
 {% endblock %}

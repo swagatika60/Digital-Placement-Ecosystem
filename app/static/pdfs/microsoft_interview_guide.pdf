@@ -1,0 +1,59 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1707 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Microsoft Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Rounds, Culture, and Preparation Tips) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Interview Rounds) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Screening: coding + behavioral.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Loop: 4-5 rounds \(coding, system design, culture fit\).) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- ASK \(Aptitude, Skills, Knowledge\) manager round at the end.) Tj
+/F6 14 Tf 1 0 0 1 54 607 Tm (2. Coding Preparation) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- Focus on arrays, strings, linked lists, trees, recursion.) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- C#, Java, or Python are all acceptable.) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Write production-quality code: naming, structure, tests.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- Consider edge cases and complexity trade-offs.) Tj
+/F6 14 Tf 1 0 0 1 54 517 Tm (3. Microsoft Culture - Growth Mindset) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Emphasize learning from failures and feedback.) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- One Microsoft: collaboration across teams.) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- Customer obsession and accessibility in design.) Tj
+/F6 14 Tf 1 0 0 1 54 442 Tm (4. Behavioral Questions) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Why Microsoft? \(research products and mission\).) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Tell me about a conflict and how you resolved it.) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- Describe a project where you took initiative.) Tj
+/F6 14 Tf 1 0 0 1 54 367 Tm (5. System Design) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- Design a cloud service, chat application, or distributed cache.) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Know Azure fundamentals: VMs, Blob Storage, Functions, AKS.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002010 00000 n 
+0000002080 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2155
+%%EOF

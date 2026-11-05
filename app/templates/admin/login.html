@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Placement Preparation Portal{% endblock %}
+
+{% block content %}
+<div class="form-container" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="form-card" style="max-width: 440px; margin: 0 auto; padding: 2.5rem 2rem;">
+
+        <!-- ═══ Header ═══ -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <!-- Icon -->
+            <div style="display: flex; justify-content: center; margin-bottom: 1.25rem;">
+                <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #6366f1, #a855f7); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(139, 92, 246, 0.35);">
+                    <svg style="width: 28px; height: 28px; color: white;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Badge -->
+            <div style="margin-bottom: 0.85rem;">
+                <span style="display: inline-block; padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(99, 102, 241, 0.12); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.2);">
+                    🔒 Restricted Access
+                </span>
+            </div>
+
+            <!-- Title -->
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #f3f4f6; margin: 0 0 0.6rem 0; letter-spacing: -0.02em;">
+                Admin Panel
+            </h2>
+
+            <!-- Subtitle -->
+            <p style="font-size: 0.92rem; color: #9ca3af; margin: 0; line-height: 1.5;">
+                Sign in with your administrator credentials<br>to access the management dashboard.
+            </p>
+        </div>
+
+        <!-- ═══ Divider ═══ -->
+        <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent); margin-bottom: 1.75rem;"></div>
+
+        <!-- ═══ Form ═══ -->
+        <form action="{{ url_for('admin.admin_login') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="form-group" style="margin-bottom: 1.1rem;">
+                <label for="email" style="font-weight: 600; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; display: block;">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="admin@college.edu" required autofocus
+                    style="padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.92rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.1rem;">
+                <label for="password" style="font-weight: 600; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; display: block;">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter admin password" required
+                    style="padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.92rem;">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" name="remember" style="width: auto; accent-color: #6366f1;">
+                    <span style="font-weight: normal; font-size: 0.87rem; color: #9ca3af;">Remember me on this device</span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block" style="background: linear-gradient(135deg, #6366f1, #a855f7); border: none; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);">
+                <svg style="width: 1.1rem; height: 1.1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                Sign in to Admin Panel
+            </button>
+        </form>
+
+        <!-- ═══ Footer Links ═══ -->
+        <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.06); text-align: center;">
+            <p style="margin: 0 0 0.5rem 0;">
+                <a href="{{ url_for('auth.login') }}" style="color: #818cf8; text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#818cf8'">← Back to Student Login</a>
+            </p>
+            <p style="margin: 0;">
+                <a href="{{ url_for('main.home') }}" style="color: #6b7280; text-decoration: none; font-size: 0.82rem; transition: color 0.2s;" onmouseover="this.style.color='#9ca3af'" onmouseout="this.style.color='#6b7280'">Back to Home</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

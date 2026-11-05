@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}DSA Practice - Placement Portal{% endblock %}
+{% block content %}
+<div class="container" style="padding: 2rem 0 3rem;">
+    <div class="section-title reveal">
+        <h2>🧩 DSA Practice</h2>
+        <p>Master Data Structures & Algorithms topic by topic</p>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap;">
+        <a href="{{ url_for('dsa.visualizer') }}" class="btn btn-primary btn-ripple" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">▶ Algorithm Visualizer</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
+        {% for ts in topic_stats %}
+        <a href="{{ url_for('dsa.topic_practice', slug=ts.topic.slug) }}"
+           class="magnetic-card reveal stagger-{{ loop.index % 6 + 1 }}"
+           style="display: block; padding: 1.5rem; text-decoration: none; color: var(--text-main); border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); transition: all 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <span style="font-size: 1.8rem;">{{ ts.topic.icon }}</span>
+                <div>
+                    <h3 style="font-size: 1rem; margin: 0;">{{ ts.topic.name }}</h3>
+                    <span style="font-size: 0.75rem; color: var(--text-light);">{{ ts.total }} questions</span>
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.5;">{{ ts.topic.description }}</p>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <span style="padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: rgba(0,230,118,0.12); color: var(--success-color);">Easy {{ ts.easy }}</span>
+                <span style="padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: rgba(255,145,0,0.12); color: var(--warning-color);">Medium {{ ts.medium }}</span>
+                <span style="padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: rgba(255,23,68,0.12); color: var(--danger-color);">Hard {{ ts.hard }}</span>
+            </div>
+            {% if ts.total > 0 %}
+            <div style="background: rgba(255,255,255,0.05); border-radius: 20px; height: 6px; overflow: hidden;">
+                <div style="height: 100%; border-radius: 20px; background: var(--primary-gradient); width: {{ (ts.solved / ts.total * 100) | round(0) }}%; transition: width 0.5s;"></div>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-light); margin-top: 0.4rem;">{{ ts.solved }}/{{ ts.total }} solved</div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

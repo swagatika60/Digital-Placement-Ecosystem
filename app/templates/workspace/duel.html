@@ -1,0 +1,415 @@
+{% extends "base.html" %} {% block title %}Code Duel — 1v1 Algorithm Sprints{%
+endblock %} {% block content %}
+<div class="container" style="padding: 2.5rem 0 4rem">
+  <div class="section-title reveal" style="max-width: 720px">
+    <h2
+      style="
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-family: &quot;Fraunces&quot;, serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.4rem;
+      "
+    >
+      Code Duel
+    </h2>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      "
+    >
+      <span
+        style="
+          color: #e63946;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-weight: 700;
+        "
+        >⚔</span
+      >
+      <span
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.8rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #111;
+        "
+        >1v1 timed algorithm sprints</span
+      >
+    </div>
+    <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6">
+      Challenge a peer to a 15-minute sprint on the same question set. Both of
+      you race the clock, then compare outcomes. Create a room, share the 6-char
+      code, and your opponent joins instantly.
+    </p>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 2rem;
+    "
+    id="duelGrid"
+  >
+    <div class="paper-card" style="padding: 1.5rem">
+      <div
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #e63946;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        "
+      >
+        create a room
+      </div>
+      <form
+        method="post"
+        action="{{ url_for('workspace.duel_create') }}"
+        id="duelCreateForm"
+      >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <label
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.75rem;
+            color: #111;
+            font-weight: 700;
+          "
+          >Topic</label
+        >
+        <select
+          name="topic"
+          id="duelTopic"
+          style="
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #111;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.85rem;
+            background: #fffdf8;
+            color: #111;
+            margin-bottom: 1rem;
+            outline: none;
+          "
+        >
+          <option value="Mixed">Mixed</option>
+          <option value="Arrays">Arrays</option>
+          <option value="Strings">Strings</option>
+          <option value="Trees">Trees</option>
+          <option value="Graphs">Graphs</option>
+          <option value="DP">Dynamic Programming</option>
+        </select>
+        <label
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.75rem;
+            color: #111;
+            font-weight: 700;
+          "
+          >Duration</label
+        >
+        <select
+          name="duration_min"
+          id="duelDuration"
+          style="
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #111;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.85rem;
+            background: #fffdf8;
+            color: #111;
+            margin-bottom: 1.4rem;
+            outline: none;
+          "
+        >
+          <option value="10">10 minutes</option>
+          <option value="15" selected>15 minutes</option>
+          <option value="20">20 minutes</option>
+        </select>
+        <button
+          type="submit"
+          id="duelCreateBtn"
+          class="btn btn-primary btn-ripple"
+          style="
+            width: 100%;
+            padding: 0.7rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+          "
+        >
+          Create duel room
+        </button>
+        <div
+          id="duelCreateStatus"
+          style="
+            margin-top: 0.8rem;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.78rem;
+            color: #e63946;
+            display: none;
+          "
+        ></div>
+      </form>
+    </div>
+
+    <div class="paper-card" style="padding: 1.5rem">
+      <div
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #e63946;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        "
+      >
+        join a room
+      </div>
+      <p
+        style="
+          font-size: 0.85rem;
+          color: var(--text-light);
+          line-height: 1.5;
+          margin-bottom: 1rem;
+        "
+      >
+        Got a 6-character room code from a peer? Enter it to join their duel.
+        The timer starts the moment the second player arrives.
+      </p>
+      <form
+        method="get"
+        action="{{ url_for('workspace.duel_room', code='__CODE__') }}"
+        id="duelJoinForm"
+      >
+        <div style="display: flex; gap: 0.6rem">
+          <input
+            type="text"
+            id="duelCodeInput"
+            placeholder="ABC123"
+            maxlength="6"
+            required
+            style="
+              flex: 1;
+              padding: 0.6rem 0.8rem;
+              border: 2px solid #111;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 1rem;
+              letter-spacing: 0.2em;
+              background: #fffdf8;
+              color: #111;
+              text-transform: uppercase;
+              outline: none;
+            "
+          />
+          <button
+            type="submit"
+            class="btn"
+            style="
+              padding: 0.6rem 1.2rem;
+              border: 2px solid #111;
+              border-radius: 0;
+              font-weight: 700;
+              color: #111;
+            "
+          >
+            Join
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="paper-card" style="margin-top: 2rem; padding: 1.5rem">
+    <div
+      style="
+        font-family: &quot;JetBrains Mono&quot;, monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #e63946;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+      "
+    >
+      how it works
+    </div>
+    <ol
+      style="
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      "
+    >
+      {% for step in ['Create or join a room with a peer code.', 'Both players
+      get the same randomized question set.', 'The countdown runs for both
+      players, synchronized.', 'Finish early — compare your answers and move
+      on.'] %}
+      <li
+        style="
+          display: flex;
+          gap: 0.6rem;
+          align-items: flex-start;
+          font-size: 0.85rem;
+          line-height: 1.5;
+          color: var(--text-main);
+        "
+      >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #e63946;
+            border: 2px solid #e63946;
+            min-width: 1.6rem;
+            height: 1.6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          "
+          >{{ "%02d"|format(loop.index) }}</span
+        >
+        <span>{{ step }}</span>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</div>
+
+<script>
+  (function () {
+    "use strict";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var createForm = document.getElementById("duelCreateForm");
+      var createBtn = document.getElementById("duelCreateBtn");
+      var createStatus = document.getElementById("duelCreateStatus");
+      var topicSel = document.getElementById("duelTopic");
+      var durSel = document.getElementById("duelDuration");
+      var joinForm = document.getElementById("duelJoinForm");
+      var joinInput = document.getElementById("duelCodeInput");
+
+      /* ---------- Create duel room ---------- */
+      if (createForm) {
+        createForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          var topic = topicSel ? topicSel.value || "Mixed" : "Mixed";
+          var duration = durSel ? parseInt(durSel.value, 10) || 15 : 15;
+
+          function setStatus(msg, color) {
+            if (!createStatus) return;
+            createStatus.textContent = msg;
+            createStatus.style.display = "block";
+            if (color) createStatus.style.color = color;
+          }
+          function setBusy(busy) {
+            if (!createBtn) return;
+            createBtn.disabled = busy;
+            createBtn.textContent = busy ? "Creating…" : "Create duel room";
+          }
+
+          setBusy(true);
+          setStatus("", void 0);
+
+          try {
+            var body = new FormData();
+            body.append("topic", topic);
+            body.append("duration_min", String(duration));
+            body.append(
+              "csrf_token",
+              createForm.querySelector('input[name="csrf_token"]')?.value || "",
+            );
+
+            fetch(createForm.getAttribute("action") || "/duel/create", {
+              method: "POST",
+              credentials: "same-origin",
+              headers: { Accept: "application/json" },
+              body: body,
+            })
+              .then(function (res) {
+                // Parse JSON even on errors so we can surface the real cause.
+                return res.text().then(function (text) {
+                  var data = null;
+                  try {
+                    data = text ? JSON.parse(text) : null;
+                  } catch (e) {
+                    /* non-JSON body (e.g. an HTML 500) */
+                  }
+                  if (!res.ok) {
+                    var msg = (data && data.error) || "HTTP " + res.status;
+                    throw new Error(msg);
+                  }
+                  return data;
+                });
+              })
+              .then(function (data) {
+                var code = data && data.room_code;
+                if (!code) throw new Error("No room code in response");
+
+                // Copy the room code to the clipboard with visual feedback.
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard
+                    .writeText(code)
+                    .then(function () {
+                      setStatus(
+                        "Copied " + code + " to clipboard ✓",
+                        "#2bb673",
+                      );
+                    })
+                    .catch(function () {
+                      setStatus("Room code: " + code, "#e63946");
+                    });
+                } else {
+                  setStatus("Room code: " + code, "#e63946");
+                }
+
+                // Transition to the live duel lobby.
+                window.location.href = data.redirect || "/duel/room/" + code;
+              })
+              .catch(function (err) {
+                console.error("[duel] create failed:", err);
+                setBusy(false);
+                setStatus("Could not create room — " + err.message, "#e63946");
+              });
+          } catch (err) {
+            console.error("[duel] create threw:", err);
+            setBusy(false);
+            setStatus("Unexpected error — try again.", "#e63946");
+          }
+        });
+      }
+
+      /* ---------- Join a room (6-char code) ---------- */
+      if (joinForm && joinInput) {
+        joinForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var code = joinInput.value.trim().toUpperCase();
+          if (code.length !== 6) {
+            joinInput.style.borderColor = "#e63946";
+            joinInput.focus();
+            return;
+          }
+          joinInput.style.borderColor = "#111";
+          window.location.href = joinForm
+            .getAttribute("action")
+            .replace("__CODE__", code);
+        });
+      }
+    });
+  })();
+</script>
+{% endblock %}

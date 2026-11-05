@@ -1,0 +1,27 @@
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+venv/
+venv-test/
+.venv/
+
+# --- Environment / secrets ---
+.env
+
+# --- Flask / app data (do not commit local databases) ---
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Logs ---
+*.log
+
+# --- OS / editor cruft ---
+.DS_Store
+.idea/
+.vscode/
+*.swp

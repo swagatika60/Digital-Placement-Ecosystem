@@ -1,0 +1,380 @@
+{% extends "base.html" %} {% block title %}Duel Room {{ room.code }} — Placement
+Portal{% endblock %} {% block content %}
+<div class="container" style="padding: 2rem 0 4rem">
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.6rem;
+    "
+  >
+    <div>
+      <a
+        href="{{ url_for('workspace.duel_lobby') }}"
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.75rem;
+          color: #457b9d;
+          text-decoration: none;
+        "
+        >← Challenge</a
+      >
+      <h2
+        style="
+          font-family: &quot;Fraunces&quot;, serif;
+          font-weight: 900;
+          font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+          margin: 0.3rem 0 0;
+          letter-spacing: -0.02em;
+        "
+      >
+        Duel Room
+        <span style="letter-spacing: 0.15em; color: #e63946"
+          >{{ room.code }}</span
+        >
+      </h2>
+      <div
+        style="
+          margin-top: 0.4rem;
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          align-items: center;
+        "
+      >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            border: 1.5px solid #111;
+            padding: 0.15rem 0.5rem;
+            background: #f4f0ea;
+          "
+          >{{ room.topic }}</span
+        >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            border: 1.5px solid #111;
+            padding: 0.15rem 0.5rem;
+            background: #f4f0ea;
+          "
+          >{{ room.duration_min }} min</span
+        >
+        <span
+          id="duelStatus"
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #457b9d;
+            text-transform: uppercase;
+          "
+          >{{ room.status }}</span
+        >
+      </div>
+    </div>
+    <div class="paper-card" style="padding: 0.9rem 1.4rem; text-align: center">
+      <div
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.65rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #8a857a;
+        "
+      >
+        time remaining
+      </div>
+      <div
+        id="duelTimer"
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-weight: 700;
+          font-size: 2rem;
+          line-height: 1;
+          color: #111;
+        "
+      >
+        --:--
+      </div>
+    </div>
+  </div>
+
+  <div
+    style="display: grid; grid-template-columns: 280px 1fr; gap: 1.4rem"
+    id="duelLayout"
+  >
+    <!-- Question list -->
+    <aside class="paper-card" style="padding: 1rem">
+      <div
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.68rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #e63946;
+          font-weight: 700;
+          margin-bottom: 0.7rem;
+        "
+      >
+        your set
+      </div>
+      <ol
+        style="
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        "
+        id="duelQList"
+      >
+        {% for q in questions %}
+        <li>
+          <button
+            class="duel-q"
+            data-idx="{{ loop.index0 }}"
+            style="
+              width: 100%;
+              text-align: left;
+              padding: 0.5rem 0.7rem;
+              border: 2px solid #111;
+              background: #fbf9f5;
+              color: #111;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 0.78rem;
+              cursor: pointer;
+              display: flex;
+              gap: 0.5rem;
+              align-items: center;
+            "
+          >
+            <span style="color: #8a857a">{{ "%02d"|format(loop.index) }}</span>
+            <span
+              style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              "
+              >{{ q.title }}</span
+            >
+          </button>
+        </li>
+        {% endfor %}
+      </ol>
+      <div
+        style="
+          border-top: 2px dashed #111;
+          margin-top: 0.8rem;
+          padding-top: 0.7rem;
+        "
+      >
+        <div
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            color: #8a857a;
+            margin-bottom: 0.4rem;
+          "
+        >
+          keys
+        </div>
+        <div
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            color: #111;
+            line-height: 1.6;
+          "
+        >
+          <div>
+            <kbd style="border: 1.5px solid #111; padding: 0 0.3rem">J</kbd
+            >/<kbd style="border: 1.5px solid #111; padding: 0 0.3rem">K</kbd>
+            move
+          </div>
+          <div>
+            <kbd style="border: 1.5px solid #111; padding: 0 0.3rem">1–4</kbd>
+            select
+          </div>
+          <div>
+            <kbd style="border: 1.5px solid #111; padding: 0 0.3rem">Enter</kbd>
+            confirm
+          </div>
+          <div>
+            <kbd style="border: 1.5px solid #111; padding: 0 0.3rem">⌘⏎</kbd>
+            submit
+          </div>
+          <div>
+            <kbd style="border: 1.5px solid #111; padding: 0 0.3rem">Space</kbd>
+            flag
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Question view -->
+    <section id="duelQuestionArea">
+      {% for q in questions %}
+      <div
+        class="paper-card duel-qcard"
+        data-idx="{{ loop.index0 }}"
+        style="display: none; padding: 1.6rem"
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+          "
+        >
+          <span
+            class="cmd-key"
+            style="
+              border-color: #111;
+              background: #f4f0ea;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-weight: 700;
+            "
+            >Q {{ "%02d"|format(loop.index) }}</span
+          >
+          <span
+            style="
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 0.72rem;
+              color: #8a857a;
+              border: 1.5px solid #e63946;
+              color: #e63946;
+              padding: 0.15rem 0.55rem;
+              font-weight: 700;
+            "
+            >{{ q.difficulty|upper }}</span
+          >
+        </div>
+        <h3
+          style="
+            font-family: &quot;Fraunces&quot;, serif;
+            font-weight: 900;
+            font-size: 1.25rem;
+            margin: 0 0 0.6rem;
+          "
+        >
+          {{ q.title }}
+        </h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            white-space: pre-wrap;
+          "
+        >
+          {{ q.description }}
+        </p>
+        {% if q.examples %}
+        <div
+          style="
+            background: #f4f0ea;
+            border: 1.5px solid #111;
+            padding: 0.9rem;
+            margin: 1rem 0;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+          "
+        >
+          {{ q.examples }}
+        </div>
+        {% endif %} {% if q.constraints %}
+        <div
+          style="
+            font-size: 0.82rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+          "
+        >
+          Constraints: {{ q.constraints }}
+        </div>
+        {% endif %}
+        <textarea
+          class="duel-answer"
+          data-qid="{{ q.id }}"
+          rows="4"
+          placeholder="Write your answer / approach here…"
+          style="
+            width: 100%;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.85rem;
+            border: 2px solid #111;
+            padding: 0.8rem;
+            resize: vertical;
+            background: #fffdf8;
+            color: #111;
+            outline: none;
+          "
+        ></textarea>
+      </div>
+      {% endfor %}
+      <div id="duelFinished" style="display: none" class="paper-card">
+        <div style="text-align: center; padding: 2rem 1rem">
+          <div
+            style="
+              font-family: &quot;Fraunces&quot;, serif;
+              font-weight: 900;
+              font-size: 1.8rem;
+              color: #111;
+              margin-bottom: 0.5rem;
+            "
+          >
+            Time's up
+          </div>
+          <p
+            style="
+              font-size: 0.9rem;
+              color: var(--text-light);
+              margin-bottom: 1.4rem;
+            "
+          >
+            Your answers are saved locally and scored right here.
+          </p>
+          <button
+            id="duelScoreBtn"
+            class="btn btn-primary btn-ripple"
+            style="padding: 0.7rem 1.6rem; font-weight: 700"
+          >
+            See my score
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div
+    style="
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+    "
+  >
+    <button
+      id="duelSubmitBtn"
+      class="btn btn-primary btn-ripple"
+      style="padding: 0.65rem 1.5rem; font-weight: 700"
+    >
+      Submit answers
+    </button>
+  </div>
+</div>
+
+<script>
+  window.DUEL_ROOM = {{ {'code': room.code, 'status': room.status, 'duration_min': room.duration_min, 'total': questions|length} | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/duel-room.js') }}?v=1"></script>
+{% endblock %}

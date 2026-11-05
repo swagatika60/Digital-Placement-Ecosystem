@@ -1,0 +1,496 @@
+{% extends "base.html" %} {% block title %}Lab Solutions — Placement Portal{%
+endblock %} {% block content %}
+<div class="container" style="padding: 2.5rem 0 4rem">
+  <div class="section-title reveal" style="max-width: 760px">
+    <h2
+      style="
+        font-size: clamp(1.9rem, 4vw, 2.9rem);
+        font-family: &quot;Fraunces&quot;, serif;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.4rem;
+      "
+    >
+      Lab Solutions
+    </h2>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+      "
+    >
+      <span
+        style="
+          color: #e63946;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-weight: 700;
+        "
+        >▤</span
+      >
+      <span
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.8rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #111;
+        "
+        >Peer-sourced lab solutions & viva prep</span
+      >
+    </div>
+    <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6">
+      A shared repository of verified university lab programs — with the viva
+      questions that usually follow. Upload your clean solution, upvote the good
+      ones, and review other approaches before your lab exam.
+    </p>
+  </div>
+
+  <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.6rem">
+    <button
+      id="vaultUploadBtn"
+      class="btn btn-primary btn-ripple"
+      style="padding: 0.6rem 1.3rem; font-weight: 700; font-size: 0.85rem"
+    >
+      + Publish a lab solution
+    </button>
+    <span
+      id="vaultCount"
+      style="
+        font-family: &quot;JetBrains Mono&quot;, monospace;
+        font-size: 0.8rem;
+        color: #8a857a;
+        align-self: center;
+      "
+      >{{ entries|length }} solutions shared</span
+    >
+  </div>
+
+  <!-- Upload form (hidden by default) -->
+  <div id="vaultFormWrap" style="display: none; margin-top: 1.4rem">
+    <form
+      method="post"
+      action="{{ url_for('workspace.vault_upload') }}"
+      class="paper-card"
+      style="
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      "
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <input
+        type="text"
+        name="subject"
+        placeholder="Subject (e.g. Data Structures)"
+        required
+        style="
+          padding: 0.6rem 0.8rem;
+          border: 2px solid #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      />
+      <input
+        type="text"
+        name="lab_no"
+        placeholder="Lab no. (e.g. Lab 04)"
+        style="
+          padding: 0.6rem 0.8rem;
+          border: 2px solid #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      />
+      <input
+        type="text"
+        name="program"
+        placeholder="Program / exercise title"
+        required
+        style="
+          grid-column: 1 / -1;
+          padding: 0.6rem 0.8rem;
+          border: 2px solid #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      />
+      <select
+        name="language"
+        style="
+          padding: 0.6rem 0.8rem;
+          border: 2px solid #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      >
+        <option value="python">Python</option>
+        <option value="java">Java</option>
+        <option value="cpp">C++</option>
+        <option value="c">C</option>
+      </select>
+      <input
+        type="text"
+        name="tags"
+        placeholder="Tags (comma-separated: sorting, trees, recursion)"
+        style="
+          padding: 0.6rem 0.8rem;
+          border: 2px solid #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      />
+      <textarea
+        name="code"
+        rows="10"
+        placeholder="Paste your solution code…"
+        required
+        style="
+          grid-column: 1 / -1;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          border: 2px solid #111;
+          padding: 0.8rem;
+          resize: vertical;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      ></textarea>
+      <textarea
+        name="explanation"
+        rows="4"
+        placeholder="Approach / brief explanation (optional)"
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          border: 2px solid #111;
+          padding: 0.8rem;
+          resize: vertical;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      ></textarea>
+      <textarea
+        name="viva_questions"
+        rows="4"
+        placeholder="Viva questions — one per line (optional)"
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.83rem;
+          border: 2px solid #111;
+          padding: 0.8rem;
+          resize: vertical;
+          background: #fffdf8;
+          color: #111;
+          outline: none;
+        "
+      ></textarea>
+      <div
+        style="
+          grid-column: 1 / -1;
+          display: flex;
+          gap: 0.8rem;
+          justify-content: flex-end;
+        "
+      >
+        <button
+          type="button"
+          id="vaultCancelBtn"
+          class="btn"
+          style="
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #111;
+            border-radius: 0;
+            font-weight: 700;
+            color: #111;
+          "
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-ripple"
+          style="padding: 0.6rem 1.4rem; font-weight: 700"
+        >
+          Publish
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Entries -->
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.4rem;
+      margin-top: 1.8rem;
+    "
+  >
+    {% for e in entries %}
+    <article
+      class="paper-card"
+      style="
+        padding: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.5rem;
+        "
+      >
+        <span
+          class="cmd-key"
+          style="
+            border-color: #111;
+            background: #f4f0ea;
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-weight: 700;
+          "
+          >{{ e.lab_no or 'LAB' }}</span
+        >
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.72rem;
+            color: #457b9d;
+            font-weight: 700;
+            text-transform: uppercase;
+          "
+          >{{ e.subject }} · {{ e.language }}</span
+        >
+      </div>
+      <h3
+        style="
+          font-family: &quot;Fraunces&quot;, serif;
+          font-weight: 900;
+          font-size: 1.15rem;
+          margin: 0;
+        "
+      >
+        {{ e.program }}
+      </h3>
+      <div
+        style="font-size: 0.8rem; color: var(--text-light); line-height: 1.5"
+      >
+        by <strong style="color: #111">{{ e.user.name }}</strong> · {{
+        e.created_at.strftime('%b %d') }}
+      </div>
+      {% if e.tags %}
+      <div style="display: flex; flex-wrap: wrap; gap: 0.35rem">
+        {% for t in e.tags.split(',') %}
+        <span
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.68rem;
+            border: 1.5px solid #111;
+            padding: 0.1rem 0.45rem;
+            background: #fbf9f5;
+          "
+          >{{ t.strip() }}</span
+        >
+        {% endfor %}
+      </div>
+      {% endif %}
+      <pre
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.75rem;
+          background: #f4f0ea;
+          border: 1.5px solid #111;
+          padding: 0.8rem;
+          max-height: 180px;
+          overflow: auto;
+          margin: 0;
+          white-space: pre;
+        "
+      >
+{{ e.code[:1200] }}{% if e.code|length > 1200 %}\n…{% endif %}</pre
+      >
+      <a
+        href="#code"
+        class="vault-toggle"
+        data-target="vault{{ e.id }}"
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #457b9d;
+          cursor: pointer;
+          text-decoration: none;
+        "
+        >expand code ↓</a
+      >
+      <div id="vault{{ e.id }}" style="display: none">
+        <pre
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.75rem;
+            background: #fffdf8;
+            border: 1.5px solid #111;
+            padding: 0.8rem;
+            max-height: 400px;
+            overflow: auto;
+            margin: 0;
+            white-space: pre;
+          "
+        >
+{{ e.code }}</pre
+        >
+      </div>
+      {% if e.explanation %}
+      <div
+        style="
+          font-size: 0.82rem;
+          color: var(--text-light);
+          line-height: 1.5;
+          border-left: 3px solid #457b9d;
+          padding-left: 0.6rem;
+        "
+      >
+        {{ e.explanation }}
+      </div>
+      {% endif %} {% if e.viva_questions %}
+      <div style="border-top: 2px dashed #111; padding-top: 0.7rem">
+        <div
+          style="
+            font-family: &quot;JetBrains Mono&quot;, monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #e63946;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+          "
+        >
+          Viva prep
+        </div>
+        {% for q in e.viva_questions|from_json %}
+        <p
+          style="
+            font-size: 0.8rem;
+            margin: 0 0 0.3rem;
+            line-height: 1.45;
+            color: #111;
+          "
+        >
+          • {{ q }}
+        </p>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <button
+        class="vault-upvote"
+        data-id="{{ e.id }}"
+        style="
+          margin-top: auto;
+          align-self: flex-start;
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.35rem 0.8rem;
+          border: 2px solid #111;
+          background: #fbf9f5;
+          color: #111;
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+        "
+      >
+        ▲ <span>{{ e.upvotes or 0 }}</span>
+      </button>
+    </article>
+    {% else %}
+    <div
+      class="paper-card"
+      style="grid-column: 1 / -1; padding: 2rem; text-align: center"
+    >
+      <p
+        style="
+          font-family: &quot;JetBrains Mono&quot;, monospace;
+          font-size: 0.85rem;
+          color: #8a857a;
+          margin-bottom: 0.8rem;
+        "
+      >
+        The vault is empty — be the first to publish a verified lab solution.
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var wrap = document.getElementById("vaultFormWrap");
+    var openBtn = document.getElementById("vaultUploadBtn");
+    var cancelBtn = document.getElementById("vaultCancelBtn");
+    if (openBtn && wrap) {
+      openBtn.addEventListener("click", function () {
+        wrap.style.display = "block";
+      });
+    }
+    if (cancelBtn && wrap) {
+      cancelBtn.addEventListener("click", function () {
+        wrap.style.display = "none";
+      });
+    }
+    document.querySelectorAll(".vault-toggle").forEach(function (a) {
+      a.addEventListener("click", function () {
+        var el = document.getElementById(a.getAttribute("data-target"));
+        if (el) {
+          var showing = el.style.display !== "none";
+          el.style.display = showing ? "none" : "block";
+          a.textContent = showing ? "expand code ↓" : "collapse code ↑";
+        }
+      });
+    });
+    document.querySelectorAll(".vault-upvote").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        var csrf = document.querySelector('meta[name="csrf-token"]');
+        fetch("/vault/" + id + "/upvote", {
+          method: "POST",
+          headers: { "X-CSRFToken": csrf ? csrf.getAttribute("content") : "" },
+          credentials: "same-origin",
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (d) {
+            var s = btn.querySelector("span");
+            if (s && d.upvotes != null) s.textContent = d.upvotes;
+            if (window.QuizSounds) QuizSounds.select();
+          })
+          .catch(function () {});
+      });
+    });
+  });
+</script>
+{% endblock %}

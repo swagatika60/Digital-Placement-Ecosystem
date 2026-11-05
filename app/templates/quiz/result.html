@@ -1,135 +1,94 @@
 {% extends "base.html" %}
 
-{% block title %}Quiz Result - Placement Preparation Portal{% endblock %}
+{% block title %}Quiz Result - Placement Portal{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="result-container">
-        <div class="result-card">
-            {% if percentage >= 70 %}
-                <div class="result-icon success">🏆</div>
-                <h2 class="result-title">Excellent Performance!</h2>
-                <p class="result-subtitle">Congratulations! You've done a great job!</p>
-            {% elif percentage >= 50 %}
-                <div class="result-icon average">👍</div>
-                <h2 class="result-title">Good Effort!</h2>
-                <p class="result-subtitle">You're on the right track. Keep practicing!</p>
-            {% else %}
-                <div class="result-icon fail">📚</div>
-                <h2 class="result-title">Keep Learning!</h2>
-                <p class="result-subtitle">Don't give up! Practice makes perfect.</p>
-            {% endif %}
+<div class="container result-container">
+    <div class="result-card">
+        {% if percentage >= 70 %}
+            <div class="result-icon success">🏆</div>
+            <h2 class="result-title">Excellent Performance!</h2>
+            <p class="result-subtitle">Congratulations! You've done a great job!</p>
+        {% elif percentage >= 50 %}
+            <div class="result-icon average">👍</div>
+            <h2 class="result-title">Good Effort!</h2>
+            <p class="result-subtitle">You're on the right track. Keep practicing!</p>
+        {% else %}
+            <div class="result-icon fail">📚</div>
+            <h2 class="result-title">Keep Learning!</h2>
+            <p class="result-subtitle">Don't give up! Practice makes perfect.</p>
+        {% endif %}
 
-            <div class="score-display">{{ score }}/{{ total_questions }}</div>
-            <div class="score-percentage">{{ percentage }}% Score</div>
+        <div class="score-circle" style="--percentage: {{ percentage }}">
+            <span class="score-value">{{ percentage|round(1) }}%</span>
+        </div>
 
-            <div class="result-stats">
-                <div class="result-stat correct">
-                    <div class="result-stat-value">{{ correct_answers }}</div>
-                    <div class="result-stat-label">Correct</div>
-                </div>
-                <div class="result-stat wrong">
-                    <div class="result-stat-value">{{ wrong_answers }}</div>
-                    <div class="result-stat-label">Wrong</div>
-                </div>
-                <div class="result-stat unanswered">
-                    <div class="result-stat-value">{{ unanswered }}</div>
-                    <div class="result-stat-label">Unanswered</div>
-                </div>
+        <div class="score-percentage">{{ score }} / {{ total_questions }} correct</div>
+
+        <div class="result-stats">
+            <div class="result-stat correct">
+                <div class="result-stat-value">{{ correct_answers }}</div>
+                <div class="result-stat-label">Correct</div>
             </div>
-
-            <!-- Quiz Details -->
-            <div style="background: var(--light-bg); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: left;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
-                    <div>
-                        <span style="color: var(--text-light); font-size: 0.9rem;">Category</span>
-                        <p style="font-weight: 600;">{{ category.title() }}</p>
-                    </div>
-                    <div>
-                        <span style="color: var(--text-light); font-size: 0.9rem;">Time Taken</span>
-                        <p style="font-weight: 600;">{{ time_taken }}</p>
-                    </div>
-                    <div>
-                        <span style="color: var(--text-light); font-size: 0.9rem;">Date</span>
-                        <p style="font-weight: 600;">{{ date }}</p>
-                    </div>
-                </div>
+            <div class="result-stat wrong">
+                <div class="result-stat-value">{{ wrong_answers }}</div>
+                <div class="result-stat-label">Wrong</div>
             </div>
-
-            <div class="result-actions">
-                <button class="btn btn-outline" onclick="toggleReview()">Review Answers</button>
-                <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-success">Try Again</a>
-                <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-primary">More Quizzes</a>
+            <div class="result-stat unanswered">
+                <div class="result-stat-value">{{ unanswered }}</div>
+                <div class="result-stat-label">Unanswered</div>
             </div>
         </div>
 
-        <!-- Review Section -->
-        <div id="reviewSection" class="card" style="margin-top: 2rem; display: none;">
-            <h3 style="margin-bottom: 1.5rem;">Answer Review</h3>
-            {% for item in review_data %}
-            <div class="quiz-card" style="margin-bottom: 1.5rem; border-left: 4px solid {{ 'var(--success-color)' if item.is_correct else 'var(--danger-color)' }};">
-                <span class="question-number">Question {{ loop.index }}</span>
-                <p class="question-text">{{ item.question.text }}</p>
+        <!-- Quiz Details -->
+        <div class="category-info">
+            <p>Category: <strong>{{ category.name if category else 'Unknown' }}</strong></p>
+            <p>Time Taken: <strong>{{ time_taken }}</strong> · Date: <strong>{{ date }}</strong></p>
+        </div>
 
-                <ul class="options-list">
-                    <li class="option-item">
-                        <div class="option-label" style="{% if item.question.correct_answer == 'A' %}background: rgba(40, 167, 69, 0.1); border-color: var(--success-color);{% endif %}{% if item.user_answer == 'A' and item.question.correct_answer != 'A' %}background: rgba(220, 53, 69, 0.1); border-color: var(--danger-color);{% endif %}">
-                            <span class="option-marker" style="{% if item.question.correct_answer == 'A' %}background: var(--success-color); color: white; border-color: var(--success-color);{% endif %}">A</span>
-                            <span class="option-text">{{ item.question.option_a }}</span>
-                            {% if item.question.correct_answer == 'A' %}
-                                <span style="margin-left: auto; color: var(--success-color);">✓ Correct</span>
-                            {% endif %}
-                            {% if item.user_answer == 'A' and item.question.correct_answer != 'A' %}
-                                <span style="margin-left: auto; color: var(--danger-color);">✗ Your Answer</span>
-                            {% endif %}
-                        </div>
-                    </li>
-                    <li class="option-item">
-                        <div class="option-label" style="{% if item.question.correct_answer == 'B' %}background: rgba(40, 167, 69, 0.1); border-color: var(--success-color);{% endif %}{% if item.user_answer == 'B' and item.question.correct_answer != 'B' %}background: rgba(220, 53, 69, 0.1); border-color: var(--danger-color);{% endif %}">
-                            <span class="option-marker" style="{% if item.question.correct_answer == 'B' %}background: var(--success-color); color: white; border-color: var(--success-color);{% endif %}">B</span>
-                            <span class="option-text">{{ item.question.option_b }}</span>
-                            {% if item.question.correct_answer == 'B' %}
-                                <span style="margin-left: auto; color: var(--success-color);">✓ Correct</span>
-                            {% endif %}
-                            {% if item.user_answer == 'B' and item.question.correct_answer != 'B' %}
-                                <span style="margin-left: auto; color: var(--danger-color);">✗ Your Answer</span>
-                            {% endif %}
-                        </div>
-                    </li>
-                    <li class="option-item">
-                        <div class="option-label" style="{% if item.question.correct_answer == 'C' %}background: rgba(40, 167, 69, 0.1); border-color: var(--success-color);{% endif %}{% if item.user_answer == 'C' and item.question.correct_answer != 'C' %}background: rgba(220, 53, 69, 0.1); border-color: var(--danger-color);{% endif %}">
-                            <span class="option-marker" style="{% if item.question.correct_answer == 'C' %}background: var(--success-color); color: white; border-color: var(--success-color);{% endif %}">C</span>
-                            <span class="option-text">{{ item.question.option_c }}</span>
-                            {% if item.question.correct_answer == 'C' %}
-                                <span style="margin-left: auto; color: var(--success-color);">✓ Correct</span>
-                            {% endif %}
-                            {% if item.user_answer == 'C' and item.question.correct_answer != 'C' %}
-                                <span style="margin-left: auto; color: var(--danger-color);">✗ Your Answer</span>
-                            {% endif %}
-                        </div>
-                    </li>
-                    <li class="option-item">
-                        <div class="option-label" style="{% if item.question.correct_answer == 'D' %}background: rgba(40, 167, 69, 0.1); border-color: var(--success-color);{% endif %}{% if item.user_answer == 'D' and item.question.correct_answer != 'D' %}background: rgba(220, 53, 69, 0.1); border-color: var(--danger-color);{% endif %}">
-                            <span class="option-marker" style="{% if item.question.correct_answer == 'D' %}background: var(--success-color); color: white; border-color: var(--success-color);{% endif %}">D</span>
-                            <span class="option-text">{{ item.question.option_d }}</span>
-                            {% if item.question.correct_answer == 'D' %}
-                                <span style="margin-left: auto; color: var(--success-color);">✓ Correct</span>
-                            {% endif %}
-                            {% if item.user_answer == 'D' and item.question.correct_answer != 'D' %}
-                                <span style="margin-left: auto; color: var(--danger-color);">✗ Your Answer</span>
-                            {% endif %}
-                        </div>
-                    </li>
-                </ul>
+        <div class="result-actions">
+            {% if category %}
+            <a href="{{ url_for('quiz.full_quiz', category_id=category.id) }}" class="btn btn-success">Try Again</a>
+            {% else %}
+            <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-success">Browse Quizzes</a>
+            {% endif %}
+            <button type="button" class="btn btn-outline" onclick="toggleReview()">Review Answers</button>
+            <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-primary">More Quizzes</a>
+        </div>
+    </div>
 
-                {% if item.question.explanation %}
-                <div style="background: var(--light-bg); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <strong>Explanation:</strong> {{ item.question.explanation }}
+    <!-- Answer Review -->
+    <div id="reviewSection" class="card" style="margin-top: 2rem; display: none; text-align: left;">
+        <h3 style="margin-bottom: 1.5rem;">Answer Review</h3>
+        {% for item in review_data %}
+        <div class="question-card" style="margin-bottom: 1.5rem; border-left: 4px solid {{ 'var(--success-color)' if item.is_correct else ('var(--danger-color)' if item.user_answer else 'var(--glass-border)') }};">
+            <span class="question-number">Question {{ loop.index }}</span>
+            <h3 class="question-text">{{ item.question.question_text }}</h3>
+
+            <div class="options-list">
+                {% for opt, val in [('A', item.question.option_a), ('B', item.question.option_b), ('C', item.question.option_c), ('D', item.question.option_d)] %}
+                {% if val %}
+                <div class="option-item {% if opt == item.question.correct_answer %}review-correct{% elif opt == item.user_answer %}review-wrong{% endif %}">
+                    <span class="option-label">{{ opt }}</span>
+                    <span class="option-text">{{ val }}</span>
+                    {% if opt == item.question.correct_answer %}
+                    <span class="review-tag">✓ Correct</span>
+                    {% elif opt == item.user_answer %}
+                    <span class="review-tag">✗ Your answer</span>
+                    {% endif %}
                 </div>
                 {% endif %}
+                {% endfor %}
             </div>
-            {% endfor %}
+
+            {% if item.question.explanation %}
+            <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">💡 {{ item.question.explanation }}</p>
+            {% endif %}
+            {% if not item.user_answer %}
+            <p style="font-size: 0.85rem; color: var(--warning-color); margin-top: 0.75rem;">⏳ You did not answer this question.</p>
+            {% endif %}
         </div>
+        {% endfor %}
     </div>
 </div>
 

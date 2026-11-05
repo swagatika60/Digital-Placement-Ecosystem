@@ -46,9 +46,121 @@
         </div>
 
         <div class="result-actions">
+            {% if category %}
             <a href="{{ url_for('quiz.view_category', category_id=category.id) }}" class="btn btn-primary">Try Again</a>
+            {% else %}
+            <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-primary">Browse Quizzes</a>
+            {% endif %}
             <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-secondary">More Quizzes</a>
+            <a href="{{ url_for('quiz.bookmarks') }}" class="btn btn-outline">🔖 My Bookmarks</a>
         </div>
     </div>
 </div>
+
+<div class="container result-container" style="margin-top: 2rem;">
+    <div class="result-card">
+        <h2 style="margin-bottom: 1rem;">📋 Review Questions</h2>
+        <p style="color: var(--text-light); margin-bottom: 1.5rem;">Save questions to 🔖 Bookmarks to revise them later.</p>
+        {% for question in questions %}
+        <div class="question-card" style="margin-bottom: 1rem;">
+            <div class="question-number">Question {{ loop.index }}</div>
+            <h3 class="question-text">{{ question.question_text }}</h3>
+            <div class="options-list">
+                {% for opt, val in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)] %}
+                {% if val %}
+                <div class="option-item review-reveal {% if opt == question.correct_answer %}review-correct{% endif %}" style="{% if opt == question.correct_answer %}border: 1px solid var(--success-color); color: var(--success-color);{% endif %}">
+                    <span class="option-label">{{ opt }}</span>
+                    <span class="option-text">{{ val }}</span>
+                    {% if opt == question.correct_answer %}<span class="review-tag" style="margin-left: auto;">✓ Correct</span>{% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% if question.explanation %}
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">💡 {{ question.explanation }}</p>
+            {% endif %}
+            <form action="{{ url_for('quiz.toggle_bookmark', question_id=question.id) }}" method="POST" style="margin-top: 0.75rem;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                {% if question.id in bookmarked_ids %}
+                <button type="submit" class="btn btn-success btn-small">✅ Saved</button>
+                {% else %}
+                <button type="submit" class="btn btn-outline btn-small">🔖 Save Question</button>
+                {% endif %}
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hasSounds = window.QuizSounds && !prefersReduced;
+
+    // --- Score circle fill animation + sound ---
+    var scoreCircle = document.querySelector('.score-circle');
+    if (scoreCircle) {
+        var pct = {{ result.percentage }};
+        scoreCircle.style.background = 'conic-gradient(var(--accent-2) 0%, rgba(255, 255, 255, 0.07) 0%)';
+        setTimeout(function() {
+            scoreCircle.style.transition = 'background 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            scoreCircle.style.background = 'conic-gradient(var(--accent-2) ' + pct + '%, rgba(255, 255, 255, 0.07) ' + pct + '%)';
+
+            // Animate the score number with tick-up sound
+            var scoreEl = document.querySelector('.score-value');
+            if (scoreEl) {
+                var startVal = 0;
+                var endVal = Math.round(pct * 10) / 10;
+                var dur = 1200;
+                var startTime = performance.now();
+                function step(now) {
+                    var elapsed = now - startTime;
+                    var progress = Math.min(elapsed / dur, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3);
+                    var current = Math.round(eased * endVal * 10) / 10;
+                    scoreEl.textContent = current + '%';
+                    // Play tick sound during count-up
+                    if (hasSounds && progress < 1 && Math.floor(eased * endVal) !== Math.floor((Math.max(0, elapsed - 16) / dur > 1 ? 1 : Math.max(0, elapsed - 16) / dur) * endVal)) {
+                        QuizSounds.scoreTick();
+                    }
+                    if (progress < 1) requestAnimationFrame(step);
+                    else scoreEl.textContent = endVal + '%';
+                }
+                requestAnimationFrame(step);
+            }
+
+            // Play score reveal sound after circle fills
+            setTimeout(function() {
+                if (hasSounds) QuizSounds.scoreReveal(pct);
+                // Fanfare for excellent scores
+                if (hasSounds && pct >= 80) setTimeout(function() { QuizSounds.fanfare(); }, 800);
+            }, 600);
+        }, 300);
+    }
+
+    // --- Play correct/wrong sounds as review options reveal ---
+    if (hasSounds) {
+        var reviewCards = document.querySelectorAll('.question-card');
+        reviewCards.forEach(function(card, idx) {
+            var correctOption = card.querySelector('.review-correct');
+            // Delay each card's sound based on its stagger position
+            var delay = 800 + idx * 350;
+            if (correctOption) {
+                setTimeout(function() { QuizSounds.correct(); }, delay);
+            } else {
+                setTimeout(function() { QuizSounds.wrong(); }, delay);
+            }
+        });
+    }
+
+    // --- Bookmark toggle sounds on results page ---
+    document.querySelectorAll('.question-card form[action*="toggle_bookmark"] button').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (window.QuizSounds) QuizSounds.bookmark();
+        });
+    });
+})();
+</script>
 {% endblock %}

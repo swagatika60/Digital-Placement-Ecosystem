@@ -48,7 +48,7 @@
                 </div>
 
                 <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-success btn-block">{% if resource %}Update Resource{% else %}Create Resource{% endif %}</button>
+                    <button type="submit" class="btn btn-primary btn-block">{% if resource %}Update Resource{% else %}Create Resource{% endif %}</button>
                     <a href="{{ url_for('admin.list_resources') }}" class="btn btn-outline" style="text-decoration: none; text-align: center;">Cancel</a>
                 </div>
             </form>

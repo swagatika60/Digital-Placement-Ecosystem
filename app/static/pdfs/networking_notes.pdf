@@ -1,0 +1,70 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 2610 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Computer Networking - Quick Interview Notes) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (OSI Model, TCP/IP, Protocols) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. OSI 7 Layers \(top to bottom\)) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- 7 Application, 6 Presentation, 5 Session, 4 Transport,) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- 3 Network, 2 Data Link, 1 Physical.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Mnemonic: All People Seem To Need Data Processing.) Tj
+/F6 14 Tf 1 0 0 1 54 607 Tm (2. TCP/IP Model \(4 layers\)) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- Application, Transport, Internet, Network Access.) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- HTTP, FTP, SMTP, DNS live at Application layer.) Tj
+/F6 14 Tf 1 0 0 1 54 547 Tm (3. TCP vs UDP) Tj
+/F5 11 Tf 1 0 0 1 54 532 Tm (- TCP: connection-oriented, reliable, ordered, flow control.) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- UDP: connectionless, fast, no guarantees \(video, DNS\).) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- 3-way handshake: SYN, SYN-ACK, ACK.) Tj
+/F6 14 Tf 1 0 0 1 54 472 Tm (4. Important Protocols) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- HTTP/HTTPS: web \(HTTPS = TLS encryption\).) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- DNS: resolves domain names to IP addresses \(port 53\).) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- DHCP: auto-assigns IP addresses \(port 67/68\).) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- SMTP: sending mail \(25/587\). IMAP/POP3: receiving mail.) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- FTP/SFTP: file transfer. SSH: secure remote shell \(22\).) Tj
+/F6 14 Tf 1 0 0 1 54 367 Tm (5. IP Addressing) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- IPv4: 32-bit, e.g. 192.168.1.1 \(private range\).) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- IPv6: 128-bit, solves address exhaustion.) Tj
+/F5 11 Tf 1 0 0 1 54 322 Tm (- Subnet mask divides network and host portions.) Tj
+/F5 11 Tf 1 0 0 1 54 307 Tm (- NAT: maps private IPs to one public IP.) Tj
+/F6 14 Tf 1 0 0 1 54 277 Tm (6. HTTP Basics) Tj
+/F5 11 Tf 1 0 0 1 54 262 Tm (- Status codes: 200 OK, 301/302 redirect, 401/403 auth,) Tj
+/F5 11 Tf 1 0 0 1 54 247 Tm (- 404 Not Found, 500 Internal Server Error.) Tj
+/F5 11 Tf 1 0 0 1 54 232 Tm (- GET vs POST: idempotent retrieval vs state-changing submit.) Tj
+/F5 11 Tf 1 0 0 1 54 217 Tm (- Cookies vs Sessions: client-side storage vs server-side state.) Tj
+/F6 14 Tf 1 0 0 1 54 187 Tm (7. Common Interview Questions) Tj
+/F5 11 Tf 1 0 0 1 54 172 Tm (- Difference between Hub, Switch, Router.) Tj
+/F5 11 Tf 1 0 0 1 54 157 Tm (- What happens when you type a URL? \(DNS -> TCP -> HTTP -> render\).) Tj
+/F5 11 Tf 1 0 0 1 54 142 Tm (- Load balancer: distributes traffic \(round robin, least connections\).) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002913 00000 n 
+0000002983 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3058
+%%EOF

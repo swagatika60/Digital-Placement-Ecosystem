@@ -1,0 +1,66 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1997 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Aptitude Formula Sheet) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Quick revision for placement tests) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Percentages) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- x% of y = y% of x.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Increase by r% then decrease by r% -> net change = -\(r^2/100\)%.) Tj
+/F6 14 Tf 1 0 0 1 54 622 Tm (2. Profit & Loss) Tj
+/F5 11 Tf 1 0 0 1 54 607 Tm (- Profit% = \(Profit / CP\) * 100.) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- SP = CP * \(1 + Profit%/100\) or CP * \(1 - Loss%/100\).) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Discount% = \(Discount / MP\) * 100.) Tj
+/F6 14 Tf 1 0 0 1 54 547 Tm (3. Simple & Compound Interest) Tj
+/F5 11 Tf 1 0 0 1 54 532 Tm (- SI = \(P * R * T\) / 100.) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- CI = P * \(1 + R/100\)^T - P.) Tj
+/F6 14 Tf 1 0 0 1 54 487 Tm (4. Time & Work) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- Work = Rate * Time. Combined rate = sum of individual rates.) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- If A is twice as good as B, A takes half the time.) Tj
+/F6 14 Tf 1 0 0 1 54 427 Tm (5. Time, Speed & Distance) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Speed = Distance / Time.) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- km/h to m/s: multiply by 5/18.) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- Downstream = \(boat + stream\), Upstream = \(boat - stream\).) Tj
+/F6 14 Tf 1 0 0 1 54 352 Tm (6. Averages) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Average = Sum of items / Number of items.) Tj
+/F5 11 Tf 1 0 0 1 54 322 Tm (- Weighted average for groups.) Tj
+/F6 14 Tf 1 0 0 1 54 292 Tm (7. Ratio & Proportion) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- a:b = c:d implies ad = bc.) Tj
+/F5 11 Tf 1 0 0 1 54 262 Tm (- Partnership: profit shared in ratio of \(capital * time\).) Tj
+/F6 14 Tf 1 0 0 1 54 232 Tm (8. Probability & Combinations) Tj
+/F5 11 Tf 1 0 0 1 54 217 Tm (- Probability = Favorable / Total.) Tj
+/F5 11 Tf 1 0 0 1 54 202 Tm (- nCr = n! / \(r! * \(n-r\)!\), nPr = n! / \(n-r\)!.) Tj
+/F5 11 Tf 1 0 0 1 54 187 Tm (- For 2 dice: total outcomes = 36.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002300 00000 n 
+0000002370 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2445
+%%EOF
