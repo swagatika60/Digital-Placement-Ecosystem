@@ -43,39 +43,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     {% block extra_css %}{% endblock %}
-<<<<<<< HEAD
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('main.home') }}" class="nav-logo">
-                <span class="logo-text">PP</span>
-                Placement Portal
-            </a>
-            <button class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="{{ url_for('main.home') }}" class="nav-link">Home</a></li>
-                <li><a href="{{ url_for('quiz.list_categories') }}" class="nav-link">Practice</a></li>
-                <li><a href="{{ url_for('main.resources') }}" class="nav-link">Resources</a></li>
-                
-                {% if current_user.is_authenticated %}
-                    <li>
-                        <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: var(--primary-color); font-weight: 700;">
-                            ⚙️ Admin Panel
-                        </a>
-                    </li>
-                    
-                    <li><a href="{{ url_for('main.dashboard') }}" class="nav-link">Dashboard</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}" class="nav-link nav-btn logout-btn">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('auth.login') }}" class="nav-link nav-btn">Login</a></li>
-                    <li><a href="{{ url_for('auth.register') }}" class="nav-link nav-btn register-btn">Register</a></li>
-                {% endif %}
-=======
   </head>
   <body
     class="dark-mode bg-[#fbf9f5] text-[#111111] min-h-screen flex flex-col justify-between selection:bg-[#e63946] selection:text-white"
@@ -115,9 +82,7 @@
     </button>
 
     <!-- ==================== NAVIGATION BAR ==================== -->
-    <nav
-      class="navbar border-b border-[#272733] bg-[#121216]/90 backdrop-blur-md sticky top-0 z-40"
-    >
+    <nav class="navbar fixed top-0 z-50 w-full" aria-label="Main navigation">
       <div class="nav-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
@@ -134,11 +99,11 @@
             <div class="logo-label hidden sm:block">
               <span
                 class="logo-text font-bold text-white text-base tracking-tight"
-                >Placement Portal</span
+                >Placement Preparation</span
               >
               <span
-                class="block text-[10px] text-[#9ca3af] font-medium -mt-0.5 tracking-wide"
-                >PREPARATION · AI</span
+                class="logo-sub block text-[10px] font-medium -mt-0.5 tracking-wide"
+                >PRACTICE · LEARN · SUCCEED</span
               >
             </div>
           </a>
@@ -521,7 +486,6 @@
                 </div>
               </li>
               {% endif %}
->>>>>>> afc4d80 (feat(ui): simplify navigation and feature names for better clarity)
             </ul>
 
             <!-- Divider -->
@@ -762,23 +726,6 @@
       </div>
     </footer>
 
-<<<<<<< HEAD
-   <button id="backToTop" onclick="scrollToTop()">↑ Top</button>
-    <script>
-// Added throttling :
-let scrollTimeout;
-window.onscroll = function() {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(function() {
-        const btn = document.getElementById("backToTop");
-        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-            btn.style.display = "block";
-        } else {
-            btn.style.display = "none";
-        }
-    }, 100);
-};
-=======
     <!-- Global Client Scripts -->
     <script>
       // ========== THEME TOGGLE ==========
@@ -790,7 +737,6 @@ window.onscroll = function() {
         ).matches;
         var theme = stored || (prefersDark ? "dark" : "light");
         applyTheme(theme);
->>>>>>> afc4d80 (feat(ui): simplify navigation and feature names for better clarity)
 
         function applyTheme(t) {
           html.setAttribute("data-theme", t);
@@ -2022,12 +1968,5 @@ window.onscroll = function() {
     <script src="{{ url_for('static', filename='js/quiz-engine.js') }}?v=1"></script>
 
     {% block extra_js %}{% endblock %}
-<<<<<<< HEAD
-
-
-    
-</body>
-=======
   </body>
->>>>>>> afc4d80 (feat(ui): simplify navigation and feature names for better clarity)
 </html>

@@ -8,7 +8,6 @@ Workspace blueprint — the "high-velocity developer platform" modules:
   * University Lab Code Vault(/vault)          — peer-sourced lab solutions
   * Peer Code-Duel Rooms     (/duel)           — 1v1 timed algorithm sprints
 """
-import io
 import json
 import logging
 import secrets
@@ -25,11 +24,6 @@ from app.models import LabVaultEntry, DuelRoom, ScopeSentryAudit
 from app.models.dsa import DSAQuestion, DSATopic
 from app.workspace.data import SYSTEM_DESIGN_VAULT, DSA_LABS
 
-try:  # pypdf is in requirements; guard so dev run still boots without it
-    from pypdf import PdfReader
-    _HAS_PYPdf = True
-except Exception:  # pragma: no cover
-    _HAS_PYPdf = False
 
 workspace = Blueprint("workspace", __name__)
 
@@ -110,58 +104,6 @@ def scope_sentry_analyze():
     db.session.commit()
 
     return jsonify({"score": score, "findings": findings})
-
-
-@workspace.route("/scope-sentry/upload", methods=["POST"])
-@login_required
-@student_required
-def scope_sentry_upload():
-    """Accept a resume file (PDF / TXT / MD), extract text, run the audit.
-
-    Text is extracted server-side (pypdf for PDFs, utf-8 for plain text) and
-    the same heuristic scan runs, persisting a ScopeSentryAudit. The raw file
-    is never stored — only the score + findings.
-    """
-    uploaded = request.files.get("resume")
-    if not uploaded or not uploaded.filename:
-        return jsonify({"error": "No file uploaded."}), 400
-
-    filename = uploaded.filename.lower()
-    try:
-        if filename.endswith(".pdf"):
-            if not _HAS_PYPdf:
-                return jsonify({
-                    "error": "PDF support is not installed (pip install pypdf)."
-                }), 500
-            reader = PdfReader(io.BytesIO(uploaded.read()))
-            text = "\n".join(
-                (page.extract_text() or "") for page in reader.pages
-            )
-        else:
-            if not (filename.endswith(".txt") or filename.endswith(".md")):
-                return jsonify({
-                    "error": "Supported formats: PDF, TXT, Markdown."
-                }), 400
-            text = uploaded.read().decode("utf-8", errors="replace")
-    except Exception as exc:
-        _log.error("[sentry] file parse failed for %s: %s", filename, exc)
-        return jsonify({
-            "error": "Could not read that file. Is it a valid PDF or text file?"
-        }), 400
-
-    text = (text or "").strip()
-    if len(text) < 10:
-        return jsonify({"error": "No readable text found in the file."}), 400
-
-    findings, score = _analyze_scope(text, "resume")
-    audit = ScopeSentryAudit(
-        user_id=current_user.id, source="resume_upload", score=score,
-        findings=json.dumps(findings),
-    )
-    db.session.add(audit)
-    db.session.commit()
-
-    return jsonify({"score": score, "findings": findings, "source": "resume_upload"})
 
 
 def _analyze_scope(text, source):

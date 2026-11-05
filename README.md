@@ -353,20 +353,9 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ## Acknowledgements
 
-<<<<<<< HEAD
-- [Flask](https://flask.palletsprojects.com/) - Web framework
-- [SQLAlchemy](https://www.sqlalchemy.org/) - ORM
-- [Flask-Login](https://flask-login.readthedocs.io/) - Authentication
-- [WTForms](https://wtforms.readthedocs.io/) - Form validation
-- [Google Fonts](https://fonts.google.com/) - Inter font
----
-
-Made with for engineering students preparing for placements
-=======
 - [Flask](https://flask.palletsprojects.com/) — Web framework
 - [SQLAlchemy](https://www.sqlalchemy.org/) — ORM
 - [Flask-Login](https://flask-login.readthedocs.io/) — Authentication
 - [WTForms](https://wtforms.readthedocs.io/) — Form validation
 - [Google Gemini](https://ai.google.dev/) — AI summaries, roadmaps, and chat tutor
 - [Google Fonts](https://fonts.google.com/) — Fraunces, Space Grotesk, JetBrains Mono
->>>>>>> afc4d80 (feat(ui): simplify navigation and feature names for better clarity)
