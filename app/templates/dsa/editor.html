@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block title %}{{ question.title }} - DSA Practice{% endblock %}
+{% block content %}
+<div class="container" style="padding: 1.5rem 0 3rem;">
+    <nav style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-light);">
+        <a href="{{ url_for('dsa.topics') }}" style="color: var(--primary-color); text-decoration: none;">DSA</a>
+        <span style="margin: 0 0.4rem;">›</span>
+        <a href="{{ url_for('dsa.topic_practice', slug=topic.slug) }}" style="color: var(--primary-color); text-decoration: none;">{{ topic.name }}</a>
+        <span style="margin: 0 0.4rem;">›</span>
+        <span>{{ question.title }}</span>
+    </nav>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; min-height: 70vh;">
+        <!-- Left: Problem Description -->
+        <div class="card" style="padding: 1.5rem; overflow-y: auto; max-height: 80vh;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <h2 style="margin: 0; font-size: 1.3rem;">{{ question.title }}</h2>
+                <span style="padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+                    {% if question.difficulty == 'easy' %}background: rgba(0,230,118,0.12); color: var(--success-color);
+                    {% elif question.difficulty == 'medium' %}background: rgba(255,145,0,0.12); color: var(--warning-color);
+                    {% else %}background: rgba(255,23,68,0.12); color: var(--danger-color);{% endif %}">
+                    {{ question.difficulty | capitalize }}
+                </span>
+            </div>
+            <div style="color: var(--text-light); line-height: 1.7; font-size: 0.9rem; margin-bottom: 1.5rem; white-space: pre-wrap;">{{ question.description }}</div>
+
+            {% if examples %}
+            <h4 style="margin-bottom: 0.5rem;">📝 Examples</h4>
+            {% for ex in examples %}
+            <div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 0.75rem; font-family: 'Fira Code', monospace; font-size: 0.82rem;">
+                <div style="margin-bottom: 0.3rem;"><strong style="color: var(--primary-color);">Input:</strong> <code>{{ ex.input }}</code></div>
+                <div style="margin-bottom: 0.3rem;"><strong style="color: var(--success-color);">Output:</strong> <code>{{ ex.output }}</code></div>
+                {% if ex.explanation %}<div style="color: var(--text-light); font-size: 0.8rem;">💡 {{ ex.explanation }}</div>{% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% if question.constraints %}
+            <h4 style="margin: 1rem 0 0.5rem;">⚠️ Constraints</h4>
+            <div style="color: var(--text-light); font-size: 0.85rem; white-space: pre-wrap;">{{ question.constraints }}</div>
+            {% endif %}
+
+            <h4 style="margin: 1.25rem 0 0.5rem;">🧪 Test Results</h4>
+            <div id="testResults" style="min-height: 60px;">
+                <p style="color: var(--text-light); font-size: 0.85rem;">Submit your code to see results here.</p>
+            </div>
+        </div>
+
+        <!-- Right: Code Editor + Actions -->
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Editor Toolbar -->
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <!-- Language Selector -->
+                    <select id="langSelect" onchange="switchLanguage(this.value)"
+                        style="padding: 0.35rem 0.7rem; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: var(--text-main); font-size: 0.8rem; font-weight: 600; cursor: pointer; outline: none;">
+                        <option value="python">🐍 Python</option>
+                        <option value="java">☕ Java</option>
+                        <option value="cpp">⚡ C++</option>
+                        <option value="c">🔧 C</option>
+                        <option value="javascript">📜 JavaScript</option>
+                    </select>
+                    <span id="lineCount" style="font-size: 0.75rem; color: var(--text-light);">Ln 1, Col 1</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="resetCode()" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">↺ Reset</button>
+                    <button onclick="runTests()" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" id="runBtn">▶ Run Tests</button>
+                    <button onclick="submitCode()" class="btn btn-success" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" id="submitBtn">🚀 Submit</button>
+                </div>
+            </div>
+
+            <!-- Code Editor -->
+            <div style="flex: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border);">
+                <div style="background: rgba(255,255,255,0.05); padding: 0.5rem 1rem; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f57;"></div>
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: #febc2e;"></div>
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: #28c840;"></div>
+                    <span id="fileName" style="margin-left: 0.5rem; font-size: 0.75rem; color: var(--text-light);">solution.py</span>
+                </div>
+                <textarea id="codeEditor" spellcheck="false"
+                    style="width: 100%; min-height: 400px; padding: 1rem; background: #0d1117; color: #e6edf3; border: none; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace; font-size: 0.9rem; line-height: 1.6; resize: vertical; outline: none; tab-size: 4;">{{ prev_code }}</textarea>
+            </div>
+
+            <!-- Status Bar -->
+            <div id="statusBar" style="display: none; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem;"></div>
+
+            <!-- Visualizer Link -->
+            <a href="{{ url_for('dsa.visualizer') }}" class="card" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; text-decoration: none; color: var(--text-main); transition: all 0.2s;">
+                <span style="font-size: 1.2rem;">▶</span>
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Algorithm Visualizer</div>
+                    <div style="font-size: 0.75rem; color: var(--text-light);">Watch sorting & searching algorithms step by step</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var editor = document.getElementById('codeEditor');
+    var starterCode = {{ starter_code | tojson }};
+    var starters = typeof starterCode === 'string' ? {} : starterCode;
+    var currentLang = 'python';
+
+    // Get file extensions
+    var exts = { python: '.py', java: '.java', cpp: '.cpp', c: '.c', javascript: '.js' };
+    var tabSizes = { python: 4, java: 4, cpp: 4, c: 4, javascript: 2 };
+
+    // Tab support
+    editor.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            var tab = ' '.repeat(tabSizes[currentLang] || 4);
+            var start = this.selectionStart;
+            var end = this.selectionEnd;
+            this.value = this.value.substring(0, start) + tab + this.value.substring(end);
+            this.selectionStart = this.selectionEnd = start + tab.length;
+        }
+    });
+
+    // Line/col counter
+    editor.addEventListener('input', updateLineCount);
+    editor.addEventListener('click', updateLineCount);
+    function updateLineCount() {
+        var lines = editor.value.substring(0, editor.selectionStart).split('\n');
+        document.getElementById('lineCount').textContent = 'Ln ' + lines.length + ', Col ' + lines[lines.length - 1].length;
+    }
+
+    // Switch language
+    window.switchLanguage = function(lang) {
+        // Save current code
+        starters[currentLang] = editor.value;
+        currentLang = lang;
+        // Load saved or starter code
+        editor.value = starters[lang] || starters.python || '';
+        document.getElementById('fileName').textContent = 'solution' + (exts[lang] || '.py');
+        updateLineCount();
+    };
+
+    // Reset to current language's starter
+    window.resetCode = function() {
+        // Reload starters from server
+        var original = {{ starter_code | tojson }};
+        if (typeof original === 'object') {
+            starters = original;
+        }
+        editor.value = starters[currentLang] || '';
+        document.getElementById('statusBar').style.display = 'none';
+        document.getElementById('testResults').innerHTML = '<p style="color: var(--text-light); font-size: 0.85rem;">Submit your code to see results here.</p>';
+    };
+
+    function showStatus(type, msg) {
+        var bar = document.getElementById('statusBar');
+        bar.style.display = 'block';
+        bar.textContent = msg;
+        bar.style.background = type === 'pass' ? 'rgba(0,230,118,0.1)' : type === 'fail' ? 'rgba(255,145,0,0.1)' : 'rgba(255,23,68,0.1)';
+        bar.style.color = type === 'pass' ? 'var(--success-color)' : type === 'fail' ? 'var(--warning-color)' : 'var(--danger-color)';
+        bar.style.border = '1px solid ' + (type === 'pass' ? 'rgba(0,230,118,0.3)' : type === 'fail' ? 'rgba(255,145,0,0.3)' : 'rgba(255,23,68,0.3)');
+    }
+
+    async function executeCode(submit) {
+        var btn = submit ? document.getElementById('submitBtn') : document.getElementById('runBtn');
+        var origText = btn.textContent;
+        btn.textContent = '⏳ Running...';
+        btn.disabled = true;
+
+        try {
+            var resp = await fetch('{{ url_for("dsa.submit_code", qid=question.id) }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}' },
+                body: JSON.stringify({ code: editor.value, language: currentLang })
+            });
+            var data = await resp.json();
+
+            if (data.status === 'passed') {
+                showStatus('pass', '✅ ' + data.output);
+                if (window.QuizSounds) QuizSounds.correct();
+            } else {
+                showStatus('fail', '⚠️ ' + data.output);
+                if (window.QuizSounds) QuizSounds.wrong();
+            }
+
+            // Render test results
+            var html = '';
+            (data.results || []).forEach(function(r, i) {
+                var icon = r.passed ? '✅' : '❌';
+                var color = r.passed ? 'var(--success-color)' : 'var(--danger-color)';
+                html += '<div style="padding: 0.5rem; margin-bottom: 0.4rem; border-radius: 6px; background: rgba(0,0,0,0.2); font-size: 0.82rem; border-left: 3px solid ' + color + ';">';
+                html += '<div style="display: flex; justify-content: space-between;"><span>' + icon + ' Test ' + (i + 1) + '</span></div>';
+                html += '<div style="font-family: monospace; color: var(--text-light); margin-top: 0.3rem;">Input: <code>' + r.input + '</code></div>';
+                html += '<div style="font-family: monospace; color: var(--text-light);">Expected: <code>' + r.expected + '</code></div>';
+                html += '<div style="font-family: monospace; color: ' + color + ';">Got: <code>' + r.got + '</code></div>';
+                html += '</div>';
+            });
+            document.getElementById('testResults').innerHTML = html || '<p style="color: var(--text-light);">No test results.</p>';
+        } catch (err) {
+            showStatus('error', '❌ Error: ' + err.message);
+        } finally {
+            btn.textContent = origText;
+            btn.disabled = false;
+        }
+    }
+
+    window.runTests = function() { executeCode(false); };
+    window.submitCode = function() { executeCode(true); };
+
+    // Initialize starters map from server data
+    if (typeof starterCode === 'object') {
+        starters = starterCode;
+        editor.value = starters.python || '';
+    }
+})();
+</script>
+{% endblock %}

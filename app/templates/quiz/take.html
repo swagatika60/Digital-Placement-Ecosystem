@@ -1,49 +1,208 @@
-{% extends "base.html" %}
-
-{% block title %}{{ category.name }} Quiz{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}{{ category.name }} - Timed Mock
+Test{% endblock %} {% block content %}
 <div class="container quiz-container">
-    <div class="quiz-header">
-        <h1>{{ category.name }} Quiz</h1>
-        <p>Answer all questions and submit when done</p>
+  <div class="quiz-header">
+    <h1>{{ category.name }} — Timed Mock Test</h1>
+    <p>
+      Answer all {{ questions|length }} questions. The test auto-submits when
+      the timer reaches 0:00.
+    </p>
+  </div>
+
+  <form
+    action="{{ url_for('quiz.take_quiz', category_id=category.id) }}"
+    method="POST"
+    id="quizForm"
+    data-quiz-key="{{ category.id }}"
+    onsubmit="return confirmSubmit();"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    {% for question in questions %}
+    <div class="question-card" id="q{{ loop.index }}">
+      <div class="question-number">Question {{ loop.index }}</div>
+      <h3 class="question-text">{{ question.question_text }}</h3>
+
+      <div class="options-list">
+        <label class="option-item">
+          <input type="radio" name="question_{{ question.id }}" value="A" />
+          <span class="option-label">A</span>
+          <span class="option-text">{{ question.option_a }}</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="question_{{ question.id }}" value="B" />
+          <span class="option-label">B</span>
+          <span class="option-text">{{ question.option_b }}</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="question_{{ question.id }}" value="C" />
+          <span class="option-label">C</span>
+          <span class="option-text">{{ question.option_c }}</span>
+        </label>
+        <label class="option-item">
+          <input type="radio" name="question_{{ question.id }}" value="D" />
+          <span class="option-label">D</span>
+          <span class="option-text">{{ question.option_d }}</span>
+        </label>
+      </div>
     </div>
+    {% endfor %}
 
-    <form action="{{ url_for('quiz.take_quiz', category_id=category.id) }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        {% for question in questions %}
-        <div class="question-card" id="q{{ loop.index }}">
-            <div class="question-number">Question {{ loop.index }}</div>
-            <h3 class="question-text">{{ question.question_text }}</h3>
-
-            <div class="options-list">
-                <label class="option-item">
-                    <input type="radio" name="question_{{ question.id }}" value="A" required>
-                    <span class="option-label">A</span>
-                    <span class="option-text">{{ question.option_a }}</span>
-                </label>
-                <label class="option-item">
-                    <input type="radio" name="question_{{ question.id }}" value="B">
-                    <span class="option-label">B</span>
-                    <span class="option-text">{{ question.option_b }}</span>
-                </label>
-                <label class="option-item">
-                    <input type="radio" name="question_{{ question.id }}" value="C">
-                    <span class="option-label">C</span>
-                    <span class="option-text">{{ question.option_c }}</span>
-                </label>
-                <label class="option-item">
-                    <input type="radio" name="question_{{ question.id }}" value="D">
-                    <span class="option-label">D</span>
-                    <span class="option-text">{{ question.option_d }}</span>
-                </label>
-            </div>
-        </div>
-        {% endfor %}
-
-        <div class="submit-section">
-            <button type="submit" class="btn btn-primary btn-large">Submit Quiz</button>
-        </div>
-    </form>
+    <!-- Sticky action bar: timer + progress + submit always visible -->
+    <div class="mock-test-bar">
+      <div class="quiz-timer" id="quizTimer">⏱ Time left: --:--</div>
+      <div class="mock-progress" id="answerCount">
+        Answered 0 / {{ questions|length }}
+      </div>
+      <button type="submit" class="btn btn-success">Submit Quiz</button>
+    </div>
+  </form>
 </div>
+
+<script>
+  // ====== QUIZ OPTION MICRO-INTERACTIONS ======
+  (function() {
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+
+      // --- Ripple effect on option click ---
+      document.querySelectorAll('.option-item').forEach(function(item) {
+          item.addEventListener('click', function(e) {
+              item.querySelectorAll('.option-ripple').forEach(function(r) { r.remove(); });
+
+              var ripple = document.createElement('span');
+              ripple.classList.add('option-ripple');
+              var rect = item.getBoundingClientRect();
+              var size = Math.max(rect.width, rect.height);
+              ripple.style.width = ripple.style.height = size + 'px';
+              ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+              ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+              item.appendChild(ripple);
+              ripple.addEventListener('animationend', function() { ripple.remove(); });
+
+              // Confetti burst
+              spawnConfetti(e.clientX - rect.left, e.clientY - rect.top, item);
+
+              // Sound effect
+              if (window.QuizSounds) QuizSounds.select();
+
+              // Haptic feedback
+              if (navigator.vibrate) navigator.vibrate(10);
+          });
+      });
+
+      // Button click sound on submit
+      var submitBtn = document.querySelector('.mock-test-bar .btn-success');
+      if (submitBtn) {
+          submitBtn.addEventListener('click', function() {
+              if (window.QuizSounds) QuizSounds.click();
+          });
+      }
+
+      // Bookmark toggle sound
+      var bookmarkBtn = document.querySelector('form[action*="toggle_bookmark"] button');
+      if (bookmarkBtn) {
+          bookmarkBtn.addEventListener('click', function() {
+              if (window.QuizSounds) QuizSounds.bookmark();
+          });
+      }
+
+      function spawnConfetti(x, y, container) {
+          var colors = ['#a855f7', '#06b6d4', '#00e676', '#ff9100', '#ff1744', '#ffd700'];
+          for (var i = 0; i < 8; i++) {
+              var p = document.createElement('span');
+              p.classList.add('confetti-particle');
+              var angle = (Math.PI * 2 / 8) * i + (Math.random() - 0.5) * 0.5;
+              var dist = 30 + Math.random() * 40;
+              p.style.left = x + 'px';
+              p.style.top = y + 'px';
+              p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+              p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+              p.style.background = colors[Math.floor(Math.random() * colors.length)];
+              container.appendChild(p);
+              p.addEventListener('animationend', function() { p.remove(); });
+          }
+      }
+  })();
+
+  // ====== TIMER + ANSWER COUNT ======
+  (function () {
+      var total = {{ time_left | default(0) }};
+      var timerEl = document.getElementById('quizTimer');
+      var form = document.getElementById('quizForm');
+      if (!timerEl || !form || total <= 0) return;
+
+      var endTime = Date.now() + total * 1000;
+      var prevCount = 0;
+
+      function fmt(secs) {
+          var m = String(Math.floor(secs / 60)).padStart(2, '0');
+          var s = String(secs % 60).padStart(2, '0');
+          return m + ':' + s;
+      }
+
+      function updateCount() {
+          var checked = document.querySelectorAll('#quizForm input[type="radio"]:checked').length;
+          var el = document.getElementById('answerCount');
+          if (el) {
+              el.innerHTML = 'Answered <span class="answer-count-badge">' + checked + '</span> / {{ questions|length }}';
+              // Pop animation on increase
+              if (checked > prevCount) {
+                  var badge = el.querySelector('.answer-count-badge');
+                  if (badge) {
+                      badge.classList.remove('pop');
+                      void badge.offsetWidth;
+                      badge.classList.add('pop');
+                  }
+              }
+          }
+          prevCount = checked;
+
+          // Glow submit button when all answered
+          var submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) {
+              submitBtn.classList.toggle('all-answered', checked === {{ questions|length }});
+          }
+      }
+
+      function tick() {
+          var remaining = Math.max(0, Math.round((endTime - Date.now()) / 1000));
+          timerEl.textContent = '⏱ Time left: ' + fmt(remaining);
+          var wasWarning = timerEl.classList.contains('timer-warning');
+          timerEl.classList.toggle('timer-warning', remaining <= 30);
+
+          // Play tick sound every second
+          if (window.QuizSounds) QuizSounds.timerTick();
+          // Urgent warning sound when entering warning zone
+          if (remaining <= 30 && remaining % 10 === 0 && window.QuizSounds) {
+              setTimeout(function() { QuizSounds.timerWarning(); }, 50);
+          }
+
+          if (remaining <= 0) {
+              if (window.QuizSounds) QuizSounds.timerWarning();
+              form.submit();
+              return;
+          }
+          setTimeout(tick, 500);
+      }
+
+      updateCount();
+      document.querySelectorAll('#quizForm input[type="radio"]').forEach(function (r) {
+          r.addEventListener('change', updateCount);
+      });
+      tick();
+  })();
+
+  function confirmSubmit() {
+      var total = {{ questions|length }};
+      var checked = document.querySelectorAll('#quizForm input[type="radio"]:checked').length;
+      var unanswered = total - checked;
+      if (unanswered > 0) {
+          var msg = unanswered === 1
+              ? '1 question is unanswered. Submit anyway?'
+              : unanswered + ' questions are unanswered. Submit anyway?';
+          return confirm(msg);
+      }
+      return true;
+  }
+</script>
 {% endblock %}

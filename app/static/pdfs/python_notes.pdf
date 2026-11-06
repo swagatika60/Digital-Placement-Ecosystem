@@ -1,0 +1,68 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 2490 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Python Interview Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Fundamentals, Data Structures, OOP, Tricky Questions) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Core Concepts) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Python is dynamically typed and interpreted \(bytecode via CPython\).) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- GIL \(Global Interpreter Lock\) limits true multi-threading for CPU work.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Lists vs Tuples: mutable vs immutable.) Tj
+/F5 11 Tf 1 0 0 1 54 622 Tm (- Sets: unordered, unique. Dicts: key-value, insertion-ordered \(3.7+\).) Tj
+/F6 14 Tf 1 0 0 1 54 592 Tm (2. Common Built-ins) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- len\(\), range\(\), enumerate\(\), zip\(\), map\(\), filter\(\), sorted\(\).) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Lambda: anonymous single-expression function.) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- List comprehension: [x*2 for x in range\(10\) if x % 2 == 0].) Tj
+/F6 14 Tf 1 0 0 1 54 517 Tm (3. OOP in Python) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Class vs Instance vs Static methods \(@classmethod, @staticmethod\).) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- __init__ constructor, __str__ / __repr__ for display.) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- Inheritance, Method Resolution Order \(MRO\), super\(\).) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- Multiple inheritance supported \(unlike Java\).) Tj
+/F6 14 Tf 1 0 0 1 54 427 Tm (4. Decorators & Generators) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Decorator: function that wraps another function.) Tj
+/F5 11 Tf 1 0 0 1 54 397 Tm (- Generator: yields values lazily using yield; memory efficient.) Tj
+/F6 14 Tf 1 0 0 1 54 367 Tm (5. Error Handling) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- try / except / else / finally blocks.) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Custom exceptions subclass Exception.) Tj
+/F6 14 Tf 1 0 0 1 54 307 Tm (6. Memory & Performance) Tj
+/F5 11 Tf 1 0 0 1 54 292 Tm (- Shallow vs deep copy \(copy.copy vs copy.deepcopy\).) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- == compares values, is compares identity.) Tj
+/F5 11 Tf 1 0 0 1 54 262 Tm (- String immutability: joining with join\(\) is faster than +=.) Tj
+/F6 14 Tf 1 0 0 1 54 232 Tm (7. Tricky Interview Questions) Tj
+/F5 11 Tf 1 0 0 1 54 217 Tm (- Output of [1,2,3]*2 -> [1,2,3,1,2,3].) Tj
+/F5 11 Tf 1 0 0 1 54 202 Tm (- Default mutable argument pitfall \(use None instead of []\).) Tj
+/F5 11 Tf 1 0 0 1 54 187 Tm (- Difference between remove, pop, and del on lists.) Tj
+/F5 11 Tf 1 0 0 1 54 172 Tm (- Global vs nonlocal keyword.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002793 00000 n 
+0000002863 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2938
+%%EOF

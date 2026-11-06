@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Algorithm Visualizer - Placement Portal{% endblock %}
+{% block content %}
+<div class="container" style="padding: 2rem 0 3rem;">
+    <nav style="margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-light);">
+        <a href="{{ url_for('dsa.topics') }}" style="color: var(--primary-color); text-decoration: none;">DSA Practice</a>
+        <span style="margin: 0 0.5rem;">›</span>
+        <span>Algorithm Visualizer</span>
+    </nav>
+    <div class="section-title reveal">
+        <h2>▶ Algorithm Visualizer</h2>
+        <p>Watch algorithms execute step by step with play, pause, and step controls</p>
+    </div>
+    {% for cat, items in grouped.items() %}
+    <div style="margin-bottom: 2.5rem;">
+        <h3 style="text-transform: capitalize; margin-bottom: 1rem; color: var(--primary-color); font-size: 1.1rem;">
+            {% if cat == 'sorting' %}📊 Sorting{% elif cat == 'searching' %}🔍 Searching{% elif cat == 'graph' %}🕸️ Graph{% elif cat == 'dp' %}🧠 Dynamic Programming{% else %}📁 {{ cat }}{% endif %}
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+            {% for algo in items %}
+            <a href="{{ url_for('dsa.visualizer_detail', slug=algo.slug) }}" class="magnetic-card"
+               style="display: block; padding: 1.25rem; text-decoration: none; color: var(--text-main); border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); transition: all 0.3s;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="font-size: 1.2rem;">▶</span>
+                    <h4 style="margin: 0; font-size: 1rem;">{{ algo.name }}</h4>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-light); margin-bottom: 0.75rem; line-height: 1.5;">{{ algo.description }}</p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <span style="padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.65rem; background: rgba(0,230,118,0.1); color: var(--success-color); font-family: monospace;">Best: {{ algo.best_time }}</span>
+                    <span style="padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.65rem; background: rgba(255,145,0,0.1); color: var(--warning-color); font-family: monospace;">Worst: {{ algo.worst_time }}</span>
+                    <span style="padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.65rem; background: rgba(168,85,247,0.1); color: var(--primary-color); font-family: monospace;">Space: {{ algo.space }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

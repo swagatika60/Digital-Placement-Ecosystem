@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookmarks - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- ============ SKELETON SCREEN ============ -->
+    <div class="skeleton-screen" id="skeletonBookmarks">
+        <div class="skeleton skeleton-heading" style="width: 220px; height: 32px; margin: 2rem 0 0.5rem;"></div>
+        <div class="skeleton skeleton-text medium" style="width: 300px; margin-bottom: 1.5rem;"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            {% for _ in range(4) %}
+            <div class="skeleton-card" style="padding: 1.25rem 1.4rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <div class="skeleton skeleton-text" style="width: 80%; height: 16px;"></div>
+                        <div class="skeleton skeleton-text short" style="height: 12px;"></div>
+                        <div class="skeleton skeleton-text medium" style="height: 12px; margin-top: 0.3rem;"></div>
+                        <div class="skeleton skeleton-text short" style="height: 12px; margin-top: 0.3rem;"></div>
+                    </div>
+                    <div class="skeleton skeleton-rect" style="width: 80px; height: 32px; flex-shrink: 0;"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ============ REAL CONTENT ============ -->
+    <div class="real-content" id="realBookmarks">
+        <h1>🔖 My Bookmarks</h1>
+        <p class="subtitle">Questions you saved for later review</p>
+
+        {% if saved %}
+        <div class="history-list">
+            {% for b in saved %}
+            <div class="history-card">
+                <div class="history-info">
+                    <h3>{{ b.question.question_text }}</h3>
+                    <p class="history-date">
+                        {{ b.question.category.name if b.question.category else 'General' }}
+                        · saved {{ b.created_at.strftime('%Y-%m-%d') }}
+                    </p>
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.4rem;">
+                        Correct answer: <strong>{{ b.question.correct_answer }}. {{ {
+                            'A': b.question.option_a, 'B': b.question.option_b,
+                            'C': b.question.option_c, 'D': b.question.option_d
+                        }.get(b.question.correct_answer, '') }}</strong>
+                    </p>
+                    {% if b.question.explanation %}
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.3rem;">
+                        💡 {{ b.question.explanation }}
+                    </p>
+                    {% endif %}
+                </div>
+                <form action="{{ url_for('quiz.toggle_bookmark', question_id=b.question_id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-outline btn-small">Remove</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">🔖</div>
+            <h2>No Bookmarks Yet</h2>
+            <p>Click "Save Question for Later" while taking a quiz to build your revision list.</p>
+            <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-primary">Take a Quiz</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+(function() {
+    var skeleton = document.getElementById('skeletonBookmarks');
+    var real = document.getElementById('realBookmarks');
+    if (!skeleton || !real) return;
+
+    var startTime = Date.now();
+    var minDelay = 400;
+
+    function reveal() {
+        skeleton.classList.add('hidden');
+        real.classList.add('visible');
+    }
+
+    if (document.readyState === 'complete') {
+        var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+        setTimeout(reveal, remaining);
+    } else {
+        window.addEventListener('load', function() {
+            var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+            setTimeout(reveal, remaining);
+        });
+    }
+})();
+</script>
+{% endblock %}

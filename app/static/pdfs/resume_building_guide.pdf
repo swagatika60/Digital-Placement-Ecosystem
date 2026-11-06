@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1872 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Resume Building Guide) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Format, Keywords, and Common Mistakes) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Structure) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Contact info, summary, education, skills, projects,) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- internships, achievements, certifications.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- One page for freshers, two pages max for experienced.) Tj
+/F6 14 Tf 1 0 0 1 54 607 Tm (2. Write Impactful Bullets) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- Start with action verbs: Built, Optimized, Designed, Led.) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Add metrics: improved X% faster, reduced cost by Y, served Z users.) Tj
+/F5 11 Tf 1 0 0 1 54 562 Tm (- Format: Action + What + Result.) Tj
+/F6 14 Tf 1 0 0 1 54 532 Tm (3. ATS-Friendly Formatting) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- No tables, images, or fancy graphics \(ATS bots misread them\).) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Use standard section headings.) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- Match keywords from the job description.) Tj
+/F6 14 Tf 1 0 0 1 54 457 Tm (4. Skills Section) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- Group into Languages, Frameworks, Tools, Soft skills.) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Rate honestly - be ready to answer on anything listed.) Tj
+/F6 14 Tf 1 0 0 1 54 397 Tm (5. Projects) Tj
+/F5 11 Tf 1 0 0 1 54 382 Tm (- 2-3 strong projects beat 10 weak ones.) Tj
+/F5 11 Tf 1 0 0 1 54 367 Tm (- Include tech stack, your role, and measurable outcome.) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- Link to live demo or GitHub repo.) Tj
+/F6 14 Tf 1 0 0 1 54 322 Tm (6. Common Mistakes to Avoid) Tj
+/F5 11 Tf 1 0 0 1 54 307 Tm (- Typos and inconsistent formatting.) Tj
+/F5 11 Tf 1 0 0 1 54 292 Tm (- Generic objectives instead of a tailored summary.) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- Lying about skills or dates - it is caught in interviews.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002175 00000 n 
+0000002245 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2320
+%%EOF

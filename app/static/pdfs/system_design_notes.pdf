@@ -1,0 +1,62 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1934 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (System Design Primer) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Scalability, Caching, Databases, Load Balancing) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Scalability Basics) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Vertical scaling: bigger machine \(limited, single point of failure\).) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Horizontal scaling: more machines behind a load balancer.) Tj
+/F6 14 Tf 1 0 0 1 54 622 Tm (2. Load Balancing) Tj
+/F5 11 Tf 1 0 0 1 54 607 Tm (- Algorithms: Round Robin, Least Connections, IP Hash.) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- L4 \(transport\) vs L7 \(application\) load balancers.) Tj
+/F6 14 Tf 1 0 0 1 54 562 Tm (3. Caching) Tj
+/F5 11 Tf 1 0 0 1 54 547 Tm (- Cache-aside, Write-through, Write-back strategies.) Tj
+/F5 11 Tf 1 0 0 1 54 532 Tm (- Redis/Memcached for in-memory caching.) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- Cache eviction: LRU \(least recently used\), TTL.) Tj
+/F6 14 Tf 1 0 0 1 54 487 Tm (4. Databases) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- SQL vs NoSQL: structured/ACID vs flexible/schema-less.) Tj
+/F5 11 Tf 1 0 0 1 54 457 Tm (- Indexes speed up reads, slow down writes.) Tj
+/F5 11 Tf 1 0 0 1 54 442 Tm (- Sharding: horizontal partition of data by key.) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Replication: master-slave, leaderless.) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- CAP theorem: pick 2 of Consistency, Availability, Partition tolerance.) Tj
+/F6 14 Tf 1 0 0 1 54 382 Tm (5. Messaging & Async) Tj
+/F5 11 Tf 1 0 0 1 54 367 Tm (- Queues decouple services \(RabbitMQ, Kafka, SQS\).) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- Event-driven vs request-response architecture.) Tj
+/F6 14 Tf 1 0 0 1 54 322 Tm (6. Key Interview Flow) Tj
+/F5 11 Tf 1 0 0 1 54 307 Tm (- Clarify requirements -> estimate scale -> high-level design) Tj
+/F5 11 Tf 1 0 0 1 54 292 Tm (- -> dive into components -> discuss trade-offs.) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- Always consider: caching, load, DB choice, failure modes.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000002237 00000 n 
+0000002307 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2382
+%%EOF

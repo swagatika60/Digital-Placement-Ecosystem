@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Import Questions — Admin Panel{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 2rem;">
+
+    <!-- Header -->
+    <div style="margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <a href="{{ url_for('admin.list_questions') }}" style="color: var(--text-light); text-decoration: none; font-size: 0.9rem;">← Back to Questions</a>
+        </div>
+        <h1 style="font-size: 1.8rem; margin-bottom: 0.3rem;">Bulk Import Questions</h1>
+        <p style="color: var(--text-light);">Upload a CSV, JSON, or TXT file to add multiple questions at once</p>
+    </div>
+
+    <!-- Upload Form -->
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
+        <form action="{{ url_for('admin.import_questions') }}" method="POST" enctype="multipart/form-data" id="importForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <!-- Category + Difficulty -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="category_id" style="display: block; margin-bottom: 0.4rem; font-weight: 600; color: var(--text-light); font-size: 0.85rem;">Assign to Category *</label>
+                    <select id="category_id" name="category_id" class="form-control" required>
+                        <option value="">Select a category</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }} ({{ cat.type }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label for="difficulty" style="display: block; margin-bottom: 0.4rem; font-weight: 600; color: var(--text-light); font-size: 0.85rem;">Default Difficulty</label>
+                    <select id="difficulty" name="difficulty" class="form-control">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Drag & Drop Zone -->
+            <div class="import-dropzone" id="dropzone" style="
+                border: 2px dashed rgba(168, 85, 247, 0.3);
+                border-radius: 16px;
+                padding: 3rem 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: rgba(168, 85, 247, 0.03);
+                position: relative;
+            ">
+                <input type="file" id="fileInput" name="file" accept=".csv,.json,.txt" style="display: none;" required>
+                <div id="dropzoneContent">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">Drop your file here</p>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem;">or click to browse</p>
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                        <span style="padding: 0.25rem 0.75rem; border-radius: 6px; background: rgba(6, 182, 212, 0.1); color: #67e8f9; font-size: 0.75rem; font-weight: 600;">.CSV</span>
+                        <span style="padding: 0.25rem 0.75rem; border-radius: 6px; background: rgba(168, 85, 247, 0.1); color: #c084fc; font-size: 0.75rem; font-weight: 600;">.JSON</span>
+                        <span style="padding: 0.25rem 0.75rem; border-radius: 6px; background: rgba(0, 230, 118, 0.1); color: #4ade80; font-size: 0.75rem; font-weight: 600;">.TXT</span>
+                    </div>
+                </div>
+                <div id="filePreview" style="display: none;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">✅</div>
+                    <p style="font-weight: 600; margin-bottom: 0.25rem;" id="fileName"></p>
+                    <p style="color: var(--text-light); font-size: 0.85rem;" id="fileSize"></p>
+                    <button type="button" onclick="clearFile()" style="margin-top: 0.75rem; padding: 0.3rem 1rem; border-radius: 8px; background: rgba(255, 23, 68, 0.15); color: #f87171; border: 1px solid rgba(255, 23, 68, 0.3); cursor: pointer; font-size: 0.8rem;">Remove</button>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="importBtn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" disabled>
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                Import Questions
+            </button>
+        </form>
+    </div>
+
+    <!-- Format Guide -->
+    <div class="card" style="padding: 2rem; margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">
+            <svg class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            File Format Guide
+        </h3>
+
+        <!-- CSV Format -->
+        <div style="margin-bottom: 1.5rem;">
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: #67e8f9;">CSV Format</h4>
+            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; overflow-x: auto; border: 1px solid var(--glass-border);">
+                <div style="color: #c084fc; margin-bottom: 0.5rem;">question_text,option_a,option_b,option_c,option_d,correct_answer,explanation,difficulty</div>
+                <div style="color: var(--text-light);">"What is 2+2?","3","4","5","6","B","Basic addition","easy"</div>
+                <div style="color: var(--text-light);">"Capital of France?","London","Paris","Berlin","Madrid","B","","easy"</div>
+            </div>
+        </div>
+
+        <!-- JSON Format -->
+        <div style="margin-bottom: 1.5rem;">
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: #c084fc;">JSON Format</h4>
+            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; overflow-x: auto; border: 1px solid var(--glass-border);">
+                <pre style="margin: 0; color: var(--text-light);">[
+  {
+    "question_text": "What is 2+2?",
+    "option_a": "3",
+    "option_b": "4",
+    "option_c": "5",
+    "option_d": "6",
+    "correct_answer": "B",
+    "explanation": "Basic addition",
+    "difficulty": "easy"
+  }
+]</pre>
+            </div>
+        </div>
+
+        <!-- TXT Format -->
+        <div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: #4ade80;">TXT Format (one question per block, separated by blank lines)</h4>
+            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.8rem; overflow-x: auto; border: 1px solid var(--glass-border);">
+                <div style="color: var(--text-light);">What is 2+2?</div>
+                <div style="color: var(--text-light);">A) 3</div>
+                <div style="color: var(--text-light);">B) 4</div>
+                <div style="color: var(--text-light);">C) 5</div>
+                <div style="color: var(--text-light);">D) 6</div>
+                <div style="color: #67e8f9;">B</div>
+                <div style="color: var(--text-light);">Basic addition</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card" style="padding: 2rem;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Quick Actions</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <a href="{{ url_for('admin.export_questions', format='csv') }}" class="btn btn-secondary" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export All as CSV
+            </a>
+            <a href="{{ url_for('admin.export_questions', format='json') }}" class="btn btn-secondary" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export All as JSON
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// Drag & drop + click to upload
+var dropzone = document.getElementById('dropzone');
+var fileInput = document.getElementById('fileInput');
+var dropzoneContent = document.getElementById('dropzoneContent');
+var filePreview = document.getElementById('filePreview');
+var importBtn = document.getElementById('importBtn');
+
+dropzone.addEventListener('click', function() { fileInput.click(); });
+
+dropzone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropzone.style.borderColor = '#a855f7';
+    dropzone.style.background = 'rgba(168, 85, 247, 0.08)';
+});
+
+dropzone.addEventListener('dragleave', function() {
+    dropzone.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+    dropzone.style.background = 'rgba(168, 85, 247, 0.03)';
+});
+
+dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropzone.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+    dropzone.style.background = 'rgba(168, 85, 247, 0.03)';
+    if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        showFilePreview(e.dataTransfer.files[0]);
+    }
+});
+
+fileInput.addEventListener('change', function() {
+    if (fileInput.files.length) showFilePreview(fileInput.files[0]);
+});
+
+function showFilePreview(file) {
+    document.getElementById('fileName').textContent = file.name;
+    var size = file.size < 1024 ? file.size + ' B' :
+               file.size < 1048576 ? (file.size / 1024).toFixed(1) + ' KB' :
+               (file.size / 1048576).toFixed(1) + ' MB';
+    document.getElementById('fileSize').textContent = size;
+    dropzoneContent.style.display = 'none';
+    filePreview.style.display = 'block';
+    dropzone.style.borderColor = 'rgba(0, 230, 118, 0.4)';
+    dropzone.style.background = 'rgba(0, 230, 118, 0.03)';
+    importBtn.disabled = false;
+}
+
+function clearFile() {
+    fileInput.value = '';
+    dropzoneContent.style.display = 'block';
+    filePreview.style.display = 'none';
+    dropzone.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+    dropzone.style.background = 'rgba(168, 85, 247, 0.03)';
+    importBtn.disabled = true;
+}
+</script>
+{% endblock %}

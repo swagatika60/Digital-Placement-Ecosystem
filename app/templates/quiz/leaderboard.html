@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- ============ SKELETON SCREEN ============ -->
+    <div class="skeleton-screen" id="skeletonLeaderboard">
+        <div class="skeleton skeleton-heading" style="width: 260px; height: 32px; margin: 2rem 0 0.5rem;"></div>
+        <div class="skeleton skeleton-text medium" style="width: 340px; margin-bottom: 1.5rem;"></div>
+
+        <!-- My rank skeleton -->
+        <div class="skeleton skeleton-rect" style="height: 52px; margin-bottom: 1.5rem;"></div>
+
+        <!-- Table skeleton -->
+        <div class="skeleton-card" style="padding: 0; overflow: hidden;">
+            <table class="skeleton-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Rank</th>
+                        <th>Student</th>
+                        <th>College</th>
+                        <th>Best Score</th>
+                        <th>Attempts</th>
+                        <th>Last Attempt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for _ in range(8) %}
+                    <tr>
+                        <td><div class="skeleton skeleton-text" style="width: 30px; height: 18px; margin: 0;"></div></td>
+                        <td><div class="skeleton skeleton-text" style="width: 120px; height: 14px; margin: 0;"></div></td>
+                        <td><div class="skeleton skeleton-text" style="width: 100px; height: 14px; margin: 0;"></div></td>
+                        <td><div class="skeleton skeleton-text" style="width: 50px; height: 16px; margin: 0;"></div></td>
+                        <td><div class="skeleton skeleton-text" style="width: 30px; height: 14px; margin: 0;"></div></td>
+                        <td><div class="skeleton skeleton-text" style="width: 80px; height: 14px; margin: 0;"></div></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ============ REAL CONTENT ============ -->
+    <div class="real-content" id="realLeaderboard">
+        <h1>🏆 Leaderboard</h1>
+        <p class="subtitle">Top students ranked by best quiz score</p>
+
+        {% if user_rank is not none %}
+        <div class="leaderboard-my-rank">
+            <strong>Your Rank:</strong> #{{ user_rank }} &nbsp;|&nbsp;
+            <strong>Best Score:</strong> {{ user_best|round(1) }}%
+        </div>
+        {% endif %}
+
+        {% if rows %}
+        <div style="overflow-x: auto;">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student</th>
+                        <th>College</th>
+                        <th>Best Score</th>
+                        <th>Attempts</th>
+                        <th>Last Attempt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr class="{{ 'my-row' if row.id == current_user.id }}">
+                        <td class="rank-cell">
+                            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}#{{ loop.index }}{% endif %}
+                        </td>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.college or '-' }}</td>
+                        <td class="score-cell">{{ row.best|round(1) }}%</td>
+                        <td>{{ row.attempts }}</td>
+                        <td>{{ row.last_taken.strftime('%Y-%m-%d') if row.last_taken else '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">🏆</div>
+            <h2>No Scores Yet</h2>
+            <p>Take a quiz to appear on the leaderboard!</p>
+            <a href="{{ url_for('quiz.list_categories') }}" class="btn btn-primary">Take a Quiz</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+(function() {
+    var skeleton = document.getElementById('skeletonLeaderboard');
+    var real = document.getElementById('realLeaderboard');
+    if (!skeleton || !real) return;
+
+    var startTime = Date.now();
+    var minDelay = 500;
+
+    function reveal() {
+        skeleton.classList.add('hidden');
+        real.classList.add('visible');
+    }
+
+    if (document.readyState === 'complete') {
+        var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+        setTimeout(reveal, remaining);
+    } else {
+        window.addEventListener('load', function() {
+            var remaining = Math.max(0, minDelay - (Date.now() - startTime));
+            setTimeout(reveal, remaining);
+        });
+    }
+})();
+</script>
+{% endblock %}

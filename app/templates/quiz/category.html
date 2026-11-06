@@ -38,6 +38,17 @@
         <a href="{{ url_for('quiz.start_quiz', category_id=category.id) }}" class="btn btn-primary btn-large">
             Start Quiz
         </a>
+        <a href="{{ url_for('quiz.take_quiz', category_id=category.id) }}" class="btn btn-outline btn-large">
+            ⏱ Timed Mock Test
+        </a>
+        <a href="{{ url_for('quiz.full_quiz', category_id=category.id) }}" class="btn btn-outline btn-large">
+            📋 Full Length Test
+        </a>
+        {% if questions_count > 0 %}
+        <p class="action-note">
+            Mock tests: all {{ questions_count }} questions · 60 seconds each · auto-submit at 0:00 · review answers after.
+        </p>
+        {% endif %}
     </div>
 
     {% if previous_attempts %}

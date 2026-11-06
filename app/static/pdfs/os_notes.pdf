@@ -1,0 +1,70 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F5 5 0 R /F6 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 2827 >>
+stream
+BT
+/F6 14 Tf 1 0 0 1 54 727 Tm (Operating Systems - Quick Interview Notes) Tj
+/F5 11 Tf 1 0 0 1 54 712 Tm (Processes, Threads, Memory, Scheduling) Tj
+/F6 14 Tf 1 0 0 1 54 682 Tm (1. Process vs Thread) Tj
+/F5 11 Tf 1 0 0 1 54 667 Tm (- Process: independent program in execution with its own memory space.) Tj
+/F5 11 Tf 1 0 0 1 54 652 Tm (- Thread: lightweight unit of execution inside a process, shares memory.) Tj
+/F5 11 Tf 1 0 0 1 54 637 Tm (- Context switch between threads is cheaper than between processes.) Tj
+/F6 14 Tf 1 0 0 1 54 607 Tm (2. Process States) Tj
+/F5 11 Tf 1 0 0 1 54 592 Tm (- New -> Ready -> Running -> Blocked/Waiting -> Terminated.) Tj
+/F5 11 Tf 1 0 0 1 54 577 Tm (- Only one process runs on a single CPU core at a time.) Tj
+/F6 14 Tf 1 0 0 1 54 547 Tm (3. CPU Scheduling Algorithms) Tj
+/F5 11 Tf 1 0 0 1 54 532 Tm (- FCFS: First Come First Served \(simple, convoy effect\).) Tj
+/F5 11 Tf 1 0 0 1 54 517 Tm (- SJF: Shortest Job First \(min avg waiting, needs burst time\).) Tj
+/F5 11 Tf 1 0 0 1 54 502 Tm (- Round Robin: time slices, good for interactive systems.) Tj
+/F5 11 Tf 1 0 0 1 54 487 Tm (- Priority Scheduling: can starve low-priority processes.) Tj
+/F5 11 Tf 1 0 0 1 54 472 Tm (- MLFQ: Multiple Level Feedback Queues \(used in modern OS\).) Tj
+/F6 14 Tf 1 0 0 1 54 442 Tm (4. Deadlock - 4 Necessary Conditions) Tj
+/F5 11 Tf 1 0 0 1 54 427 Tm (- Mutual Exclusion, Hold and Wait, No Preemption, Circular Wait.) Tj
+/F5 11 Tf 1 0 0 1 54 412 Tm (- Avoid via Banker Algorithm \(safe state\), prevent by breaking one condition.) Tj
+/F6 14 Tf 1 0 0 1 54 382 Tm (5. Memory Management) Tj
+/F5 11 Tf 1 0 0 1 54 367 Tm (- Paging: fixed-size pages/frames, no external fragmentation.) Tj
+/F5 11 Tf 1 0 0 1 54 352 Tm (- Segmentation: variable-size segments, external fragmentation possible.) Tj
+/F5 11 Tf 1 0 0 1 54 337 Tm (- Page replacement: FIFO, LRU, Optimal, Clock \(Second Chance\).) Tj
+/F5 11 Tf 1 0 0 1 54 322 Tm (- Thrashing: excessive paging due to too many active pages.) Tj
+/F6 14 Tf 1 0 0 1 54 292 Tm (6. Virtual Memory) Tj
+/F5 11 Tf 1 0 0 1 54 277 Tm (- Allows programs larger than physical RAM using demand paging.) Tj
+/F5 11 Tf 1 0 0 1 54 262 Tm (- TLB \(Translation Lookaside Buffer\) caches page-table entries.) Tj
+/F6 14 Tf 1 0 0 1 54 232 Tm (7. Inter-Process Communication \(IPC\)) Tj
+/F5 11 Tf 1 0 0 1 54 217 Tm (- Shared Memory and Message Passing.) Tj
+/F5 11 Tf 1 0 0 1 54 202 Tm (- Pipes \(unidirectional\), message queues, semaphores, sockets.) Tj
+/F6 14 Tf 1 0 0 1 54 172 Tm (8. Common Interview Topics) Tj
+/F5 11 Tf 1 0 0 1 54 157 Tm (- Semaphores vs Mutex: counting vs binary lock.) Tj
+/F5 11 Tf 1 0 0 1 54 142 Tm (- Starvation, Race condition, Critical Section problem.) Tj
+/F5 11 Tf 1 0 0 1 54 127 Tm (- Zombie \(child done, not reaped\) vs Orphan \(parent died\) process.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000003130 00000 n 
+0000003200 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3275
+%%EOF
